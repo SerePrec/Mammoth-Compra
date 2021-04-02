@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,700;0,800;1,500;1,700;1,800&family=Roboto+Condensed:wght@300;400;700&display=swap');
+
+/*************** Asignacion general de fuentes ****************/
+html {
+	font-size: 16px;
+	h1,h2,h3,h4 {
+		font-family: $fuente-principal;
+	}
+	p, nav, label {
+		font-family: $fuente-secundaria;
+	}
+	@include responsive(1300px) {
+		font-size: 14px;
+	}
+	@include responsive(xs) {
+		font-size: 12px;
+	}  
+}
+
+/************** Propiedades generales de textos ****************/
+main {
+	h2 {
+		font-size: 2rem;
+		text-transform: uppercase;
+		letter-spacing: 0.2em;
+		font-weight: 800;
+	}
+	h3 {
+		font-size: 1.5rem;
+	}
+	h4 {
+		font-size: 1.2rem;
+	}
+}
+
+// para pisar a Bootstrap
+p {margin-bottom: 0;} 

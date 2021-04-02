@@ -1,0 +1,229 @@
+/*************************************************************/
+/*************** Tarjetas giratorias - Inicio ****************/
+
+// compartidas para pisar Bootstrap
+main.noticias {
+	.card, .card-footer {
+		background-color: transparent;
+		border-top-color: transparent;
+		border-radius: unset;
+	}
+}
+
+//Tarjetas Eventos
+.eventos {
+	.dosCaras {
+		-webkit-perspective: 150rem;
+		perspective: 150rem;
+		-moz-perspective: 150rem;
+		.card-body {
+			@include borde(todo, .5rem, $rojoMarca);
+			position: relative;
+			background: rgb(179,4,4);
+			background-image: linear-gradient(135deg, rgba(179,4,4,1) 0%, rgba(84,84,84,1) 100%);
+
+			&.cara {
+				height: 250px;
+				-webkit-transition: all 0.8s ease;
+				transition: all 0.8s ease;
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				-webkit-backface-visibility: hidden;
+				backface-visibility: hidden;
+				overflow: hidden;
+				&.caraTrasera {
+					-webkit-transform: rotateY(180deg);
+					background-image: linear-gradient(135deg, rgba(84,84,84,1) 0%, rgba(179,4,4,1) 100%);
+					transform: rotateY(180deg);
+					.btn {
+						margin-top: 50px;
+						padding: 8px 16px;
+						font-size: 20px;
+					}
+					b {
+						font-size: 1.5rem;
+					}
+				}
+			}
+
+			h4 {
+				font-size: 1.5rem;
+				font-weight: 700;
+			}
+
+			b {
+				position: absolute;
+				bottom: 1rem;
+				right: 1rem;
+			}
+		}
+
+		.card-footer {
+			margin-top: 250px;
+		}
+
+		&:hover {
+			.card-body.cara {
+				&.caraFrontal {
+					-webkit-transform: rotateY(-180deg);
+					transform: rotateY(-180deg);
+				}
+
+				&.caraTrasera {
+					-webkit-transform: rotateY(0);
+					transform: rotateY(0);
+				}
+			}
+		}
+	}
+
+	@include responsive(xs) {
+		.dosCaras {
+			.card-body {
+				&.cara {
+					height: 210px;
+					&.caraTrasera {
+						.btn {
+							margin-top: 40px;
+							font-size: 16px;
+						}
+					}
+				}
+			}
+			.card-footer {
+				margin-top: 210px;
+			}
+		}
+	}
+}
+
+//Tarjetas Competencias 
+.competencias {	
+	.dosCaras {
+		-webkit-perspective: 150rem;
+		perspective: 150rem;
+		-moz-perspective: 150rem;
+		.cara {
+			height: 470px;
+			-webkit-transition: all 0.8s ease;
+			transition: all 0.8s ease;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			-webkit-backface-visibility: hidden;
+			backface-visibility: hidden;
+			overflow: hidden;
+			&.caraFrontal {
+				.card-header {
+					@extend %imagenCover;
+					height: 40%;
+					&.ruta {
+						background-image: url("../img/competencias_tarjeta_ruta.jpg");
+					}
+
+					&.mtb {
+						background-image: url("../img/competencias_tarjeta_mtb.jpg");
+					}
+
+					&.bmx {
+						background-image: url("../img/competencias_tarjeta_bmx.jpg");
+					}
+				}
+				.card-body {
+					height: 60%;
+					background-image: linear-gradient(135deg, rgba(179,4,4,1) 0%, rgba(84,84,84,1) 100%);
+					color: white;
+				}
+			}
+			b {
+				position: absolute;
+				bottom: 1rem;
+				right: 1rem;
+			}
+			&.caraTrasera {
+				-webkit-transform: rotateY(180deg);
+				transform: rotateY(180deg);
+				.card-body {
+					height: 100%;
+					color: white;
+					letter-spacing: 0.1rem;
+
+					&.ruta {
+						@include cover(competencias_tarjeta_ruta);
+					}
+
+					&.mtb {
+						@include cover(competencias_tarjeta_mtb);
+					}
+
+					&.bmx {
+						@include cover(competencias_tarjeta_bmx);
+					}
+					h4 {
+						font-size: 1.5rem;
+						font-weight: 900;
+						@include sombraTextoTotal($rojoMarca, 1.5px, 1.5px, 1px);
+					}
+					.btn {
+						margin-top: 180px;
+						background-color: $rojoMarca;
+						border-color: $rojoMarca;
+						padding: 8px 16px;
+						font-size: 20px;
+						text-shadow: none;
+						&:hover {
+							background-color: darken($rojoMarca, 10%);
+							border-color: darken($rojoMarca, 10%);
+						}
+					}
+					b {
+						font-size: 1.5rem;
+						@include sombraTextoTotal($rojoMarca, 1px, 1px, 0);
+					}
+				}
+
+			}
+		}
+		.card-footer {
+			margin-top: 470px;
+		}
+
+		&:hover {
+			.cara {
+				&.caraFrontal {
+					-webkit-transform: rotateY(-180deg);
+					transform: rotateY(-180deg);
+				}
+
+				&.caraTrasera {
+					-webkit-transform: rotateY(0);
+					transform: rotateY(0);
+				}
+			}
+		}
+	}
+
+	@include responsive(xs) {
+		.dosCaras {
+			.cara {
+				height: 400px;
+				&.caraTrasera {
+					.card-body {
+						.btn {
+							margin-top: 130px;
+							font-size: 16px;
+						}
+					}
+				}
+			}
+			.card-footer {
+				margin-top: 400px;
+			}
+		}
+	}
+}
+/**************** Tarjetas giratorias - Fin ******************/
+/*************************************************************/

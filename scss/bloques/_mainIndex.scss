@@ -1,0 +1,89 @@
+/***************************************************************/
+/***************** Main del index.html - Inicio ****************/
+main.inicio {
+	@extend %mainComun;
+	.destacados {
+		/********** Seccion destacados ***********/
+		@extend %fondoOscuro;
+		padding-bottom: 5rem;
+		/*********** Titulo destacados ***********/
+		h2 {
+			font-size: 4rem;
+			font-weight: 800;
+			padding: 5rem 0 2rem 0;
+			background-color: $tonoMedio;
+			color: white;
+			font-style: italic;
+			text-align: center;
+			letter-spacing: 0.2em;
+			span {
+				font-weight: 500;
+				font-style: normal;
+				white-space: nowrap;
+			}
+		}
+		.animate__fadeInRightBig {
+			animation-delay: 0.3s;
+		}
+	}
+	.imagenSecundaria {
+		@extend %imagenTodoAncho;
+		@include cover(secundaria, top);
+	}
+	.difusion {
+		@include flex($wrap: wrap, $justificado: between);
+		padding: 3rem 5vw;
+	}
+	@include responsive(md) {
+		.destacados h2 {
+			font-size: 3.3rem;
+		}
+		.imagenSecundaria {
+			background-position: 70% top;
+			height: 550px;
+		}
+		.difusion {
+			flex-direction: column;
+			align-items: center;
+		}
+	}
+	@include responsive(sm) {
+		.destacados {
+			.col-md-7,
+			.col-md-5 { // para pisar en este punto Bootstrap
+				padding: 0 5vw;
+			}
+			h2 {
+				font-size: 3.2rem;
+			}
+			.animate__fadeInRightBig {
+				animation: fadeInLeftBig; 
+				animation-delay: 0s; 
+			}
+			.tarjeta {
+				margin: 2rem 0; 
+				height: auto;
+				min-height: initial;
+			}
+		}
+	}
+	@include responsive(xs) {
+		.destacados h2 {
+			font-size: 3.2rem;
+			padding: 3rem 0 1rem 0;
+		}
+		.imagenSecundaria {
+			height: 300px;
+		}
+	}
+	@include responsive(500px) {
+		.destacados h2 {
+			font-size: 2.6rem;
+		}
+		.imagenSecundaria {
+			height: 250px;
+		}
+	}
+}
+/******************** Main del index.html - Fin ****************/
+/***************************************************************/

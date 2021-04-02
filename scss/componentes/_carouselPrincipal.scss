@@ -1,0 +1,74 @@
+/***************************************************************/
+/************* Carousel Principal Bootstrap - Inicio  **********/
+#carouselPrincipal {
+	min-height: 48vw;
+	background-color: $tonoMedio;
+	ol.carousel-indicators {
+		margin-bottom: 3.75vw;
+		li {
+			width: .6rem;
+			height: .6rem;
+			border-radius: 50%;
+			margin: 0 .5rem;
+			opacity: .5;
+			background-color: transparent;
+			@include borde(todo, .3rem, white);
+			&.active {
+				background-color: $rojoMarca;
+				border-color: $rojoMarca;
+			}
+		}
+	}
+	.carousel-caption {
+		width: 25%;
+		height: 25%;
+		right: 2%;
+		top: 8%;
+		left: auto;
+		font-size: 2rem;
+		@include sombraTextoTotal($tonoOscuro);
+	}
+	.carousel-control-next-icon, .carousel-control-prev-icon {
+		width: 3rem;
+		height: 3rem;
+		background-color: white;
+		border-radius: 50%;
+	}
+	.carousel-control-prev-icon {
+		background-image: url("../img/chevron-izq.svg");
+	}
+	.carousel-control-next-icon {
+		background-image: url("../img/chevron-der.svg");
+	}
+	@include responsive(xl) {
+		ol.carousel-indicators {
+			margin-bottom: 2vw;
+		}	
+	}
+	@include responsive(md) {
+		ol.carousel-indicators {
+			li {
+				width: .4rem;
+				height: .4rem;
+			}
+		}
+		.carousel-control-next-icon, .carousel-control-prev-icon {
+			width: 2rem;
+			height: 2rem;
+		}
+	}
+	@include responsive(xs) {
+		img {
+			height: 290px;
+			object-fit: cover;
+		}	
+	}
+	@include responsive(500px) {
+		img {
+			height: 250px;
+			object-fit: cover;
+		}	
+	}
+}
+/************** Carousel Principal Bootstrap - Fin *************/
+/***************************************************************/

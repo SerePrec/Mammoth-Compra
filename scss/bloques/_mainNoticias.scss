@@ -1,0 +1,167 @@
+/**************************************************************/
+/*************** Main de noticias.html - Inicio ***************/
+/******************* Se uso grid y flexbox ********************/
+main.noticias {
+	@extend %mainComun;
+	overflow: hidden;
+	padding: 0 5vw;
+	h2 {
+		font: {
+			size: 4rem;
+			weight: 800;
+			style: italic;
+		}
+		@include sombraTexto(#F0F0F0, .15rem, .15rem, 2px);
+		margin-top: 2rem;
+		@include borde(abajo, 3px, $rojoMarca);
+	}
+	//Sección Videos tutoriales
+	.videos {
+		h4 {
+			font-size: 1.5rem;
+			font-weight: 800;
+		}
+		a.btn {
+			background-color: $rojoMarca;
+			border-color: $rojoMarca;
+		}
+	} 
+	//Sección Eventos, competencias y otros compartidos
+	#eventos, #app { 
+		margin: 0 -5vw 0 -5vw;
+		padding: 3vw 5vw 4vw 5vw;
+		@extend %fondoOscuro;
+		&>div {
+			overflow: hidden;
+			h2 {
+				@include sombraTexto($tonoOscuro, .15rem, .15rem, 2px);
+			}
+		}
+	}
+	.eventos, .competencias, .app {
+		p {
+			margin: 1rem 0 1rem auto;
+			text-align: justify;
+			span img {
+				margin-right: .3rem;
+				vertical-align: bottom;
+			}
+		}
+	}
+	.eventos {
+		& > p {
+			width: 50%;
+		}
+
+		h3 {
+			@extend %tituloBoxClaro;
+			padding: .5rem 1rem;
+			border-radius: .35rem;
+			font-weight: 500;
+			text-align: center;
+			text-transform: uppercase;
+			@include sombraTexto($tonoMedio, .05rem, .05rem, 3px);
+		}
+	}
+
+	//Sección App
+	.app {
+		img {
+			width: 100%;
+			object-fit: cover;
+		}
+	}
+
+	//Aside del tiempo
+	aside {
+		h2, h3 {
+			text-align: center;
+			border: none;
+		}
+		div {
+			margin:auto;
+			&.dias7 {
+				display: block;
+			}
+			&.dias4, &.dias2 {
+				display: none;
+			}
+		}
+	}
+
+	//Sección Premio
+	.premio {
+		text-align: center;
+		margin-bottom: 3rem;
+		h2 {
+			border: none; 
+			span {
+				font-weight: 500;
+				font-size: 0.75em;
+				font-style: normal;
+				text-transform: lowercase;
+				@include sombraTexto(White, .1rem, .1rem, 2px);
+			}
+		}
+		div img {
+			width: 100%;
+			object-fit: cover;
+		}
+	}
+
+	@include responsive(md) {
+		h2 {
+			font-size: 3.5rem;
+		}
+		.eventos {
+			& > p {
+				width: 100%;
+			}
+		}
+		.premio {
+			p {
+				text-align: justify;
+			}
+		}
+		aside {
+			div {
+				&.dias4 { 
+					display: block;
+				}
+				&.dias7, &.dias2 {
+					display: none;
+				}
+			}
+		}
+	}
+
+	@include responsive(sm) {
+		h2 {
+			font-size: 2.5rem;
+		}
+	}
+
+	@include responsive(xs) {
+		h2 {
+			font-size: 2rem;
+		}
+		h4 {
+			font-size: 1.2rem;
+		}
+	}
+
+	@include responsive(500px) {
+		aside {
+			div {
+				&.dias2 { 
+					display: block;
+				}
+				&.dias7, &.dias4 {
+					display: none;
+				}
+			}
+		}
+	}
+}
+/*************** Main de noticias.html - Fin ******************/
+/**************************************************************/

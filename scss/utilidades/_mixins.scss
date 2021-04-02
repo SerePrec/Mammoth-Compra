@@ -1,0 +1,71 @@
+// *************************************************************
+// ************************  Mixins  ***************************
+
+// Sombras de Caja
+@mixin sombraCaja($color, $x: 2px, $y: 2px, $enfoque: 20px, $expansion: 10px) {
+	box-shadow: $x $y $enfoque $expansion $color;
+}
+
+// Sombras Texto
+@mixin sombraTexto($color, $x, $y, $enfoque) {
+	text-shadow: $x $y $enfoque $color;
+}
+
+@mixin sombraTextoTotal($color, $x: 1px, $y: 1px, $enfoque: 7px) {
+	text-shadow: $x $y $enfoque $color, $x (-1*$y) $enfoque $color, (-1*$x) $y $enfoque $color, (-1*$x) (-1*$y) $enfoque $color;
+}
+
+// Bordes
+@mixin borde($zona, $espesor, $color) {
+	@if map-has-key($bordeZona, $zona) {
+		border#{map-get($bordeZona, $zona)}: $espesor solid $color;
+	} @else {
+		@error "No se ha encontrado un valor para zona de borde, por favor asegúrate que está definido en el mapa '$bordeZona'";
+	}
+}
+
+// Imagen Cover
+@mixin cover($nombre: ninguno, $posicion: center) {
+	@if $nombre==ninguno {
+	} @else {
+		background-image: url("../img/#{$nombre}.jpg");
+	}
+	@extend %imagenCover;
+	background-position: $posicion;
+}
+
+// Display Flex
+@mixin flex($direccion: row, $wrap: nowrap, $justificado: ninguno) {
+	display: flex;
+	flex-direction: $direccion;
+	flex-wrap: $wrap;
+	@if map-has-key($flexJustificados, $justificado) {
+		justify-content: map-get($flexJustificados, $justificado);
+	} @else if $justificado==ninguno {
+	} @else {
+		@error "No se ha encontrado un valor para justificado de flex, por favor asegúrate que está definido en el mapa '$flexJustificados'";
+	}
+}
+
+// Media queries
+@mixin responsive($breakpoint) {
+	@if type-of($breakpoint)==number {
+		@media only screen and (max-width: $breakpoint){
+			@content;
+		}
+	} @else if map-has-key($mediaBreakpoints, $breakpoint) {
+		@media only screen and #{map-get($mediaBreakpoints, $breakpoint)}{
+			@content;
+		}
+	} @else {
+		@error "No es valido el breakpoint ingresado, por favor asegúrate que está definido en el mapa '$mediaBreakpoints' o es un valor válido";
+	}
+}
+
+// ************************  Mixins  ***************************
+// *************************************************************
+
+
+
+	
+

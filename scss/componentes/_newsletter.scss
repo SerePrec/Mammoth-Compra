@@ -1,0 +1,54 @@
+/************************ Newsletter ***************************/
+/*************** Incluye Formulario Bootstrap ******************/
+.newsletter {
+	width: 50%;
+	.newsletter__titulo {
+		@extend %fondoOscuro;
+		@extend %tituloFooter;
+	}
+	form {
+		padding-top: 0.9rem;
+		.input-group {
+			width: 70%;
+			margin: auto;
+			margin-bottom: 1rem;
+			input {
+				&[type="email"] {
+					height: 2rem;
+				}
+				&[type="submit"] {
+					@extend %botonFormulario;
+				}
+			}
+		}
+	}
+	@include responsive(md) {
+		order:-1;
+		width: 100%;
+		padding-bottom: 2vh;
+		.newsletter__titulo {
+			font-size: 1rem;
+		}
+		form {
+			.input-group {
+				width: 55%;
+			}
+		}
+	}
+	@include responsive(xs) {
+		form {
+			.input-group {
+				width: 80%;
+			}
+		}
+	}
+	@include responsive(500px) {
+		form {
+			.custom-control-label {
+				width: 85%;
+			}
+		}
+	}
+}
+/********************** Newsletter - Fin ***********************/
+/***************************************************************/

@@ -1,0 +1,195 @@
+/**************************************************************/
+/************** Grid articulos servicios - Inicio *************/
+article {
+	.servicios__imagen {
+		width: 100%;
+		position: relative;
+		overflow: hidden;
+
+		img {
+			width: 100%;
+			object-fit: cover;
+			transition: transform 2s ease;
+		}
+
+		.servicios__link {
+			position: absolute;
+			overflow: hidden;
+			max-width: 1rem;
+			height: 100%;
+			top: 0;
+			@include flex($justificado: centro);
+			align-items: center;
+			transition: max-width 1.5s ease;
+			z-index: 5;
+
+			.btn {
+				display: inline-block;
+				margin: 0 6.5vw;
+				opacity: 0;
+				background-color: $rojoMarca;
+				border-color: $rojoMarca;
+				@include sombraCaja(rgba(white, 0.25), $x:0, $y:0, $enfoque: 5px);
+				transition: all 1s ease;
+
+				&:hover {
+					background-color: darken($rojoMarca, 10%);
+					border-color: darken($rojoMarca, 10%);
+				}
+			}
+		}
+	}
+
+	.servicios__info {
+		p {
+			padding: 0.3rem 0;
+
+			b {
+				display: inline-block;
+				padding: .15rem .25rem;
+				@include borde(todo, 1px, black);
+				border-radius: .3rem;
+			}
+		}
+
+	}
+
+	&.reparaciones,
+	&.cursos { /*grids de 2 columnas 2/3 1/3*/
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		align-items: center;
+
+		.servicios__imagen {
+			padding-right: 1rem;
+
+			.servicios__link {
+				right: 0;
+				@include borde(izquierda, 1rem, $rojoMarca);
+				background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)); 
+			}
+		}
+
+		.servicios__info {
+			padding-left: 0.625rem;
+		}
+	}
+	
+	&.bodyGeometry { /*grids de 2 columnas 1/3 2/3*/
+		display: grid;
+		grid-template-columns: 1fr 2fr;
+		align-items: center;
+		margin: 0 -5vw 0 -5vw;
+		padding: 3vw 5vw 3vw 5vw;
+
+		.servicios__imagen {
+			order: 1; /*para que aparezca después del texto sin cambiar orden html*/
+			padding-left: 1rem;
+			.servicios__link {
+				left: 0;
+				@include borde(derecha, 1rem, $rojoMarca);
+				background-image: linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.95)); 
+			}
+		}
+
+		.servicios__info {
+			padding: 0 0.625rem;
+			p {
+				b {
+					border-color: white;
+				}
+			}
+		}
+	}
+
+	&:hover {
+		.servicios__imagen {
+			img {
+				transform: scale(1.1,1.1);
+			}
+
+			.servicios__link {
+				max-width: 100%;
+
+				.btn {
+					opacity: 1;
+				}
+			}
+		}
+	}
+
+	@include responsive(md) {
+		&.reparaciones,
+		&.cursos,
+		&.bodyGeometry { /*grids de 2 filas*/
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr auto;
+			text-align: center;
+			grid-row-gap: 1rem;
+
+			.servicios__imagen {
+				padding: 0;
+				padding-bottom: 1rem;
+
+				.servicios__link {
+					max-width: none;
+					width: 100%;
+					height: auto;
+					max-height: 1rem;
+					top: auto;
+					bottom: 0;
+					border: none;
+					@include borde(arriba, 1rem, $rojoMarca);
+					background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, .95));
+					transition: max-height 1.5s ease;
+
+					.btn {
+						margin: 5vw 0;
+					} 
+				}
+			}
+		}
+
+		&.bodyGeometry {
+			.servicios__imagen {
+				order: 0; 
+			}
+		}
+
+		&:hover {
+			.servicios__imagen {
+				.servicios__link {
+					max-height: 100%;
+				}
+			}
+		} 
+	}
+
+	@include responsive(xs) {
+		&.reparaciones,
+		&.cursos,
+		&.bodyGeometry { 
+			.servicios__imagen {
+				padding-bottom: .5rem;
+				.servicios__link {
+					max-height: .5rem;
+					@include borde(arriba, .5rem, $rojoMarca);
+					
+					.btn {
+						@include sombraCaja(rgba(white, 0.25), $x:0, $y:0, $enfoque: 5px, $expansion: 3px);
+					} 
+				}
+			}
+		}
+		
+		&:hover {
+			.servicios__imagen {
+				.servicios__link {
+					max-height: 100%;
+				}
+			}
+		} 
+	}
+}
+/*************** Grid articulos servicios - Fin ***************/
+/**************************************************************/

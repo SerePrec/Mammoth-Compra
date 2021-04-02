@@ -1,0 +1,327 @@
+// Declaración de variables y constantes globales ***************
+//***************************************************************
+
+//Generales
+let usuario = "";
+let nombre, email;
+let acumulado = 0;
+let cuotas, importeCuota;
+let carritoUsuario = {};
+
+const interes3Cuotas = 8;
+const interes6Cuotas = 12;
+const interes12Cuotas = 20;
+const interes18Cuotas = 30;
+
+//DOM
+const $inputUsuario = $("#inputUsuario");
+const $contenedorResumenCompra = $("#contenedorResumenCompra");
+const $importe = $(".importe p");
+let $inputRadios; // debo esperar a que cargue la parte de las cuotas para definir esta variable de consulta
+$(document).ready(function () {
+    $inputRadios = $("[name='numCuotas']");
+});
+const $contenedorCuotas = $("#contenedorCuotas");
+const $btnAceptaCompra = $("#btnAceptaCompra");
+const $formularioCompra = $("#formularioCompra");
+
+// Definición de clases ****************************************
+//**************************************************************
+// Defino esta clase para poder incorporar métodos a los objetos de productos que vienen en formato JSON
+// ya que en este formato no se pueden guardar funciones
+
+class Producto {
+    constructor(objeto) { // el constructor toma como parámetro un objeto, que va a ser el proveniente del array tomado del storage
+        this.id = objeto.id;
+        this.codigo = objeto.codigo;
+        this.marca = objeto.marca;
+        this.descripcion = objeto.descripcion;
+        this.precioLista = objeto.precioLista;
+        this.stock = objeto.stock;
+        this.ptoRepedido = objeto.ptoRepedido;
+        this.vendible = (objeto.stock > 0); // si el stock al cargar es menor a cero se setea false
+        this.imagen = objeto.imagen;
+    }
+
+    precioVF() { // devuelve precio de venta final
+        return this.precioLista * 1.21;
+    }
+
+    precioVFDescuento(descuento) { // devuelve pvf con algún posible descuento (%)
+        return (this.precioLista * (1 - (descuento / 100)) * 1.21);
+    }
+
+    consultaVenta(cant) { // consulta si la cantidad demandada se puede vender
+        return (this.stock >= cant);
+    }
+
+    vender(cant) { // ejecuta cambios de stock al hacer la venta
+        if (cant >= 0 && this.consultaVenta(cant)) {
+            this.stock = this.stock - cant;
+            this.vendible = (this.stock > 0);
+            return true;
+        }
+        return false;
+    }
+
+    ingresar(cant) { // ejecuta cambios de stock al hacer un ingreso / compra a proveedor
+        if (cant >= 0) {
+            this.stock = this.stock + cant;
+            this.vendible = (this.stock > 0);
+            return true;
+        }
+        return false;
+    }
+
+    repedir() { // consulta si se llegó al punto de repedido
+        return (this.ptoRepedido >= this.stock);
+    }
+
+}
+
+// Simulo obtener los productos de un servidor (sessionStorage) en formato JSON
+//*****************************************************************************
+let productosJSON = sessionStorage.getItem("productos");
+let productosServidor;
+let productos = [];
+
+if (productosJSON) { // Esta verificación evita dar error si la pagina se abre independiente de la sesion. SOLO es útil proviniendo de productos.html
+    productosServidor = JSON.parse(productosJSON);
+
+    // Ahora tengo un listado de objetos y al instanciarlos con la clase Productos, obtengo
+    // un nuevo listado con objetos que tienen los métodos que el JSON no se pueden guardar, y puedo usarlos
+    for (const objeto of productosServidor) {
+        productos.push(new Producto(objeto)); //construyo mi objeto Producto (con métodos) en base a los objetos del storage (sin métodos)
+    }
+}
+
+
+
+// Definiciones de funciones ************************************
+//***************************************************************
+const inicioCompra = () => { // Inicializa la página
+    validarUsuario(); // recoje el valor del usuario
+    if (!cargarCarrito(usuario) || carritoUsuario.length == 0 || !productosJSON) { // recoje el carrito actual
+        // si no hay carrito por algún motivo, o no se puede obtener la lista de productos del sessionStorage,
+        // redirige a la página anterior del proceso. Ej: Esto puede pasar al recargar la página una vez terminada
+        // la compra o si la pagina se abre independiente de la sesion.
+
+        console.log("No hay carrito que procesar, se redirige a productos.html"); // para control interno
+        location.assign("productos.html");
+        return;
+    }
+
+    mostrarResumenCompra(); // carga el contenido HTML relativo a la selección de productos previa
+    
+};
+
+
+function validarUsuario() { // si hay  un usuario cargado, lo setea en el input (que en este caso no tiene habilitado el boton de logueo).
+    // Si no se trata de una compra sin un usuario cargado. Es posible porque igualmente se piden todos los datos para la venta
+    let user = localStorage.getItem("usuario");
+    if (user) {
+        $inputUsuario.val(user);
+        usuario = user;
+    }
+    $inputUsuario.attr("disabled", true);
+}
+
+function cargarCarrito(user) { // se carga el carrito actual del localStorage
+    let carritoGuardado = localStorage.getItem("carritoUsuario");
+    carritoGuardado = JSON.parse(carritoGuardado);
+
+    if (carritoGuardado && carritoGuardado.usuario == user && carritoGuardado.miSeleccion.length != 0) {
+        carritoUsuario = carritoGuardado;
+        console.log(carritoUsuario); // Información de control interno
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+function mostrarResumenCompra() { //genera el HTML para la zona de resumen de compra
+
+    let arrayFilas = []; // trabajo con un array para evitar múltiples regeneraciones del DOM
+    let total = 0;
+
+    for (const item of carritoUsuario.miSeleccion) { //generación del HTML de las filas de la tabla del resumen de compra
+        let productoItem = productos.find(prod => prod.id == item.id);
+        let fila = `
+            <tr>
+                <td><img src="img/${productoItem.imagen}" class="card-img-top" alt=""></td>
+                <td>${productoItem.descripcion}</td>
+                <td class="text-center">${item.cant}x</td>
+                <td class="text-right font-weight-bold">$${productoItem.precioVF().toFixed(2)}</td>
+            </tr>`;
+
+        arrayFilas.push(fila);
+        total += (productoItem.precioVF() * item.cant);
+    }
+
+    $contenedorResumenCompra.append(arrayFilas); // inserto el HTML de la tabla en el contenedor por medio de un array
+    acumulado = total
+    $importe.html("Total de compra $" + total.toFixed(2)); // inserto el HTML del total en el elemento predefinido correspondiente
+
+    // finalmente calculo el importe de cada cuota según su interés y genero dinámicamente el HTML
+    // del interior del contenedor de cuotas
+    let importeC3 = (acumulado * (1 + interes3Cuotas / 100) / 3);
+    let importeC6 = (acumulado * (1 + interes6Cuotas / 100) / 6);
+    let importeC12 = (acumulado * (1 + interes12Cuotas / 100) / 12);
+    let importeC18 = (acumulado * (1 + interes18Cuotas / 100) / 18);
+
+    $contenedorCuotas.html(`
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio1"
+                    value="1" checked>
+                <label class="form-check-label" for="inputRadio1">
+                    <span>1 Cuota de $${acumulado.toFixed(2)}</span>
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio2"
+                    value="3">
+                <label class="form-check-label" for="inputRadio2">
+                <span>3 Cuotas de $${importeC3.toFixed(2)}</span> (Int.: ${interes3Cuotas}%) Total: $${(importeC3*3).toFixed(2)}
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio3"
+                    value="6">
+                <label class="form-check-label" for="inputRadio3">
+                <span>6 Cuotas de $${importeC6.toFixed(2)}</span> (Int.: ${interes6Cuotas}%) Total: $${(importeC6*6).toFixed(2)}
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio4"
+                    value="12">
+                <label class="form-check-label" for="inputRadio4">
+                <span>12 Cuotas de $${importeC12.toFixed(2)}</span> (Int.: ${interes12Cuotas}%) Total: $${(importeC12*12).toFixed(2)}
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio5"
+                    value="18">
+                <label class="form-check-label" for="inputRadio5">
+                <span>18 Cuotas de $${importeC18.toFixed(2)}</span> (Int.: ${interes18Cuotas}%) Total: $${(importeC18*18).toFixed(2)}
+                </label>
+            </div>`);
+}
+
+
+function cargarDetalleCompra(vectorComprado) { // carga el detalle final de la compra en la página
+    const $checkOutCompra = $("#checkOutCompra");
+    const $padre = $checkOutCompra.parent();
+    $checkOutCompra.remove(); // remueve de la página toda la parte que ya no voy a usar en esta fase
+
+    //Creo un div que va a contener todo el HTML que voy a generar por partes de 
+    //manera dinámica en base a los datos de vectorComprando y de los valores relativos a las cuotas seleccionadas
+    //y algunos datos introducidos por el usuario
+    let productoItem;
+    let codigoHTML = `
+        <div id="detalleCompra">
+            <h2 class="text-center mt-5">Muchas Gracias Por Su Compra!</h2>
+            <p class="text-center font-weight-bold font-italic mb-3">${nombre}, en unos minutos recibirás en tu casilla de e-mail 
+                ${email} los detalles para coordinar la entrega</p>
+            <h4>Detalle de compra</h4>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col" colspan="2">PRODUCTO</th>
+                        <th class="text-center" scope="col">CANTIDAD</th>
+                        <th class="text-right" scope="col">SUBTOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+    for (let item of vectorComprado) {
+        productoItem = productos.find(producto => producto.id == item.id);
+        codigoHTML += `
+                    <tr>
+                        <th scope="row">${vectorComprado.indexOf(item)+1}</th>
+                        <td><img src="img/${productoItem.imagen}" class="card-img-top" alt=""></td>
+                        <td>${productoItem.descripcion}</td>
+                        <td class="text-center">${item.cant}</td>
+                        <td class="text-right font-weight-bold">$${(productoItem.precioVF() * item.cant).toFixed(2)}</td>
+                    </tr>`;
+    }
+
+    codigoHTML += `
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center font-weight-bold" >TOTAL</td>
+                        <td class="text-right font-weight-bold" >$${acumulado.toFixed(2)}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="formaPago">
+                <h4>Forma De Pago</h4>
+                <p>${cuotas} Cuota/s de: $${importeCuota.toFixed(2)}</p>
+                <p>Total a pagar (*): $${(cuotas*importeCuota).toFixed(2)}</p>
+            </div>
+            <p class="leyenda">(*)Incluye impuestos y financiación</p>`;
+
+    $padre.append(codigoHTML);
+    window.scrollTo(0, 0); // Hago scroll hasta el inicio de la página para asegurar que se visualice bien desde el inicio el contenido
+}
+
+function verificarReposicion() { // verifica si es necesario reponer productos al finalizar la compra
+    for (let producto of productos) {
+        if (producto.repedir()) { //si es necesario repedir, lo muestra por consola a modo de simular un control interno
+            console.log(
+                "Es necesario reponer el stock de:\n" +
+                "- " + producto.descripcion + "\n" +
+                "Se encuentra " + (producto.ptoRepedido - producto.stock) + " unidades por debajo del punto de repedido"
+            );
+        }
+    }
+}
+
+
+// Eventos ********************************************************************
+//*****************************************************************************
+
+$formularioCompra.submit(function (e) { // Evento "submit" del formulario de compra
+    e.preventDefault(); // freno su acción por defecto
+
+    // Capturo que input del tipo radio esta seleccionado
+    cuotas = parseInt($inputRadios.filter(":checked").val());
+
+    switch (cuotas) { // en base al valor del input, asigno las variables de cuotas e importeCuota que utilizo en el detalle de compra
+        case 1:
+            importeCuota = acumulado;
+            break;
+        case 3:
+            importeCuota = (acumulado * (1 + interes3Cuotas / 100) / 3);
+            break;
+        case 6:
+            importeCuota = (acumulado * (1 + interes6Cuotas / 100) / 6);
+            break;
+        case 12:
+            importeCuota = (acumulado * (1 + interes12Cuotas / 100) / 12);
+            break;
+        case 18:
+            importeCuota = (acumulado * (1 + interes18Cuotas / 100) / 18);
+            break;
+        default:
+            break;
+    }
+
+    nombre = $("#inputNombre").val(); // capturo el nombre del usuario
+    email = $("#inputEmail").val(); // capturo el nombre del usuario
+
+    cargarDetalleCompra(carritoUsuario.miSeleccion); // llamo a la funcion para cargar el HTML del detalle de compra
+    console.log("Mi Carrito:", carritoUsuario); // info de control interno
+    verificarReposicion(); // llamo a verificar si hay productos que reponer (por debajo o en el punto de repedido)
+
+    carritoUsuario.miSeleccion = []; //Se pone a cero el carrito una vez concretada la compra
+    localStorage.setItem("carritoUsuario", JSON.stringify(carritoUsuario)); // actualizo el carritoUsuario actual en el localStorage
+});
+
+
+//Ejecución *********************** 
+
+inicioCompra();

@@ -1,0 +1,91 @@
+/***************************************************************/
+/********************* Botón fijo - Inicio  ********************/
+.botonMenu {
+  position: fixed;
+  bottom: 1rem;
+  right: 1.5rem;
+  z-index: 1030;
+  .botonMenu__link {
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: .75rem;
+    background-color: $rojoMarca;
+    @include sombraCaja($color: rgba($tonoMuyOscuro, 0.4), $x: 0, $y: 0, $enfoque: 5px, $expansion: 5px);
+    color: white;
+    text-align: center;
+    line-height: 2.7rem;
+    cursor: pointer;
+    outline: 0;
+    i {
+      font-size: 1.3em;
+      transition: transform .2s;  
+    }
+    &:active {
+      @include sombraCaja($color: rgba($tonoMuyOscuro, .6), $x: 0, $y: 0, $enfoque: 5px, $expansion: 5px);
+    }
+  }
+  .botonMenu__desplegable {
+    padding: 0;
+    margin: 0;
+    .botonMenu__item {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: -1;
+      display: block;
+      text-decoration: none;
+      color: hsl(0, 0%, 100%);
+      font-size: 1em;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: .75rem;
+      text-align: center;
+      line-height: 2.2rem;
+      background-color: rgba($tonoMuyOscuro, .2);
+      transition: transform .3s ease, background .2s ease;
+      &:hover {
+        background-color: rgba($tonoMuyOscuro, .3);
+      }
+    }
+  }
+  &.active {
+    .botonMenu__link {
+      box-shadow: none;
+      i {
+        transform: rotate(-45deg);
+      }
+    } 
+    .botonMenu__item {
+      transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      &:nth-child(1) {
+        transform: translate(0,-7rem);
+      }
+
+      &:nth-child(2) {
+        transform: translate(0,-3.5rem);
+      }
+    }
+    &:after {
+      height: 9.5rem;
+      transition-timing-function: cubic-bezier(.68, 1.55, .265, 1);
+      @include sombraCaja($color: rgba($tonoMuyOscuro, .4), $x: 0, $y: 0, $enfoque: 5px, $expansion: 5px);
+
+    }
+  }
+  &:after {
+    display: block;
+    content: ' ';
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: .75rem;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: -2;
+    background-color: rgba($rojoMarca,.4);
+    transition: all .3s ease;
+  }
+}
+/*********************** Botón fijo - Fin **********************/
+/***************************************************************/

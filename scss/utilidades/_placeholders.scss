@@ -1,0 +1,77 @@
+/***************************************************************/
+/******************** Place Holders - Inicio  ******************/
+%fondoOscuro {
+	background-color: $tonoMedio;
+	color: white; 
+}
+
+%tituloBoxClaro {
+	background-color: $tonoClaro;
+	color: white;
+	font-weight: 700;
+	@include responsive(md) {
+		font-size: 1.3rem;
+	}
+}
+
+%tituloFooter {
+	font: {
+		family: 'Roboto Condensed', Helvetica, sans-serif;
+		size: 1.2rem;
+		weight: 500;
+	}
+	letter-spacing: .25rem;
+	width: 90%;
+	height: auto;
+	text-transform: uppercase;
+	border-radius: .25rem;
+	margin: 0 auto 1rem auto;
+}
+
+%botonFormulario {
+	width: 8vw;
+	min-width: 7rem;
+	height: 2rem;
+	background-color: $rojoMarca;
+	color: white;
+	border: none;
+	border-radius: .25rem;
+	font: {
+		weight: 500;
+		style: normal;
+		size: 1rem;
+	}
+	letter-spacing: .07rem;
+}
+
+%imagenTodoAncho {
+	width: 100%;
+	height: 52vw;
+}
+
+%imagenCover {
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+// propiedades comunes a todos los mains
+%mainComun {
+	// Color general del MAIN 
+	background-color: $tonoClaro;
+	background: linear-gradient(180deg, rgba($tonoClaro, 1) 0%, rgba($tonoMedio, .75) 100%);
+	// Títulos general 
+	h2 {
+		font-size: 2rem;
+		text-transform: uppercase;
+		letter-spacing: 0.2em;
+		font-weight: 800;
+	}
+	h3 {
+		font-size: 1.5rem;
+	}
+	h4 {
+		font-size: 1.2rem;
+	}
+}
+/********************* Place Holders - Fin  ********************/
+/***************************************************************/

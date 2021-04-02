@@ -1,0 +1,31 @@
+/***************************************************************/
+/******************** Banner marcas - Inicio  ******************/
+.marcas {
+	@include flex($wrap: wrap, $justificado: around);
+	background-color: white;
+	min-height: 7vw;
+	align-items: center;
+	a {
+		width: 10%;
+		text-align: center;
+	}
+	img {
+		width: 100%;
+		max-width: 160px;
+	}
+	@include responsive(md) {
+		a {
+			flex: 25%;
+		}
+		img {
+			max-width:110px;
+		}
+	}
+	@include responsive(xs) {
+		img {
+			max-width:70%;
+		}
+	}
+}
+/********************* Banner marcas - Fin  ********************/
+/***************************************************************/

@@ -1,0 +1,123 @@
+/**************************************************************/
+/***************** Acordeon Productos - Inicio  ***************/
+.productos__accordion {
+	width: 89.95vw; //Algo menos de 90 por redondeos distintos anchos provocan linea blanca
+	margin: auto;
+	.card-header {
+		background: {
+			image: url("../img/carretera.jpg");
+			repeat: no-repeat;
+			size: 90vw 160vw;
+		}
+		height: 32vw;
+		align-items: center;
+		h2 {
+			width: 100%;
+			.btn {
+				background-color: rgba($rojoMarca, .3);
+				width: 40rem;
+				color: white;
+				text-align: center;
+				padding: 1rem 3rem;
+				transition: all 1s;
+				font: {
+					size: 4rem;
+					weight: 700;
+					style: italic;
+				}
+				
+				&:hover {
+					background-color: rgba($rojoMarca, 1);
+				}
+
+				&:focus {
+					box-shadow: none;
+				}
+			}
+		}
+
+		&.elegido {
+			h2 {
+				.btn {
+					@include sombraCaja(rgba(white, .5), 0, 0, 0, 0.2rem);
+					background-color: rgba($rojoMarca, 1);
+					width: 100%;
+				}
+			}
+		}
+	}
+
+	.card:nth-child(1),
+	.card:nth-child(3),
+	.card:nth-child(5) {
+		.card-header h2 .btn {
+			margin: 0 auto 0 0;
+		}
+	}
+
+	.card:nth-child(2),
+	.card:nth-child(4) {
+		.card-header h2 .btn {
+			margin: 0 0 0 auto;
+		}
+	}
+
+	.card:nth-child(1) .card-header {
+		background-position: 0 0;
+	}
+
+	.card:nth-child(2) .card-header {
+		background-position: 0 -32vw;
+	}
+
+	.card:nth-child(3) .card-header {
+		background-position: 0 -64vw;
+	}
+
+	.card:nth-child(4) .card-header {
+		background-position: 0 -96vw;
+	}
+
+	.card:nth-child(5) .card-header {
+		background-position: 0 -128vw;
+	}
+	
+	.card-body {
+		@include borde(abajo, .5rem, $rojoMarca);
+	}
+	
+	@include responsive(lg) {
+		.card-header {
+			h2 {
+				.btn {
+					width: 35rem;
+					font-size: 3rem;
+				}
+			}
+		}
+	}
+	@include responsive(md) {
+		.card-header {
+			h2 {
+				.btn {
+					width: 28rem;
+					font-size: 2.5rem;
+					padding: 1rem 2rem; 
+				}
+			}
+		}
+	}
+	@include responsive(500px) {
+		.card-header {
+			h2 {
+				.btn {
+					width: 18rem;
+					font-size: 1.6rem;
+					padding: .8rem 1rem; 
+				}
+			}
+		}
+	}    
+}
+/****************** Acordeon Productos - Fin  *****************/
+/**************************************************************/

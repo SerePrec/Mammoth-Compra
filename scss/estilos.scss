@@ -1,0 +1,38 @@
+// importación de utilidades
+@import "utilidades/variables.scss";
+@import "utilidades/mixins.scss";
+@import "utilidades/placeholders.scss";
+
+// importación de bases
+@import "base/reset.scss";
+@import "base/fuentes.scss";
+
+// importación de bloques
+@import "bloques/header.scss";
+@import "bloques/mainIndex.scss";
+@import "bloques/mainProductos.scss";
+@import "bloques/showRoom.scss";
+@import "bloques/mainCompra.scss";
+@import "bloques/mainServicios.scss";
+@import "bloques/mainNoticias.scss";
+@import "bloques/mainContacto.scss";
+@import "bloques/formulariocontacto.scss";
+@import "bloques/footer.scss";
+
+// importación de componentes
+@import "componentes/navbar.scss";
+@import "componentes/carouselPrincipal.scss";
+@import "componentes/carouselSucursales.scss";
+@import "componentes/bannerMarcas.scss";
+@import "componentes/tarjetasVerticales.scss";
+@import "componentes/tarjetasGiratorias.scss";
+@import "componentes/acordeonProductos.scss";
+@import "componentes/acordeonMapaSitio.scss";
+@import "componentes/gridsAcordeonProductos.scss";
+@import "componentes/gridArticulosServicios.scss";
+@import "componentes/imagenPremio.scss";
+@import "componentes/newsletter.scss";
+@import "componentes/social.scss";
+@import "componentes/mapaSitio.scss";
+@import "componentes/botonFijo.scss";
+@import "componentes/modales.scss";

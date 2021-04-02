@@ -1,0 +1,171 @@
+/***************************************************************/
+/************************* Modal - Inicio **********************/
+
+// Modal para Términos y condiciones
+#modalTerminos {
+	.modal-content {
+		background-color: $tonoClaro;
+
+		.modal-header {
+			h2 {
+				color: white;
+				font-weight: 700;
+				font-size: 1.5rem;
+			}
+		}
+
+		.modal-body {
+			padding: 0;
+
+			.imagenTerminos {
+				@include cover(terminos, top);
+				height: 35vw;
+			}
+
+			article.terminos {
+				width: 75%;
+				margin: auto;
+				background-color: $tonoMedio;
+				text-align: center;
+				padding: 1.5vh 3vw;
+				color: white;
+
+				ol {
+					padding: 0 3rem;
+				}
+
+				p {
+					padding: 1rem;
+					text-align: justify;
+				}
+			}
+		}
+	}
+
+	@include responsive(md) {
+		.modal-content {
+			.modal-body {
+				article.terminos {
+					width: 100%;
+					padding: 0.5vh 1vw;
+				}
+			}
+		}
+	}
+}
+
+//Modal para Destacados 1 y 2
+#modalDestacado1,
+#modalDestacado2 {
+	.modal-content {
+		background-color: $tonoClaro;
+
+		.modal-header {
+			h3 {
+				font-size: 1.25rem;
+				font-weight: 700;
+			}
+		}
+
+		.modal-body {
+			background-color: $tonoMedio;
+			text-align: justify;
+			padding: 1.5rem 3rem;
+			color: white;
+
+			h5 {
+				font-size: 1.1rem;
+			}
+
+			p {
+				padding-bottom: 1rem;
+			}
+
+			li {
+				text-align: left;
+				padding-bottom: .5rem;
+			}
+		}
+	}
+}
+
+// Modal carrito de Compra
+#modalCarrito {
+	.table td {
+		padding: .5rem;
+
+		&:nth-child(1) {
+			width: 18%;
+		}
+
+		&:nth-child(2) {
+			width: 42%;
+		}
+
+		&:nth-child(3) {
+			width: 8%;
+		}
+
+		&:nth-child(4) {
+			width: 18%;
+		}
+
+		&:nth-child(5) {
+			width: 14%;
+
+			button {
+				background-color: rgb(66, 63, 63);
+				border: none;
+				border-radius: 8px;
+				color: white;
+				padding: 5px;
+				margin-left: 5px;
+
+				&:focus {
+					outline: none;
+				}
+
+				&:active {
+					background-color: black;
+				}
+			}
+		}
+
+	}
+
+	#totalCarrito {
+		font-size: 2rem;
+	}
+}
+
+// Modal parar mensajes info y confirm
+#modalMensajes {
+	padding-right: 17px;
+	display: block;
+	transition: opacity 1S;
+	opacity: 0;
+	z-index: -1000;
+
+	.modal-content.info {
+		background-color: #70806fd1;
+		color: white;
+		text-shadow: 1px 1px #212121;
+
+	}
+
+	&.show {
+		opacity: 1;
+		z-index: 1050;
+	}
+}
+
+#modalMensajesFondo {
+	display: none;
+
+	&.show {
+		display: block;
+	}
+}
+
+/************************* Modal - Fin *************************/
+/***************************************************************/

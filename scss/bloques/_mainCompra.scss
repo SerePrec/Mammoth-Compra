@@ -1,0 +1,170 @@
+/***************************************************************/
+/****************** Main de compra.html - Inicio ***************/
+main.compra {
+    overflow: hidden;
+    background-color: #b9b8b8;
+    background: linear-gradient(180deg, #b9b8b8 0%, rgba(84, 84, 84, 0.75) 100%);
+
+    .breadcrumb {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+
+    }
+
+    #checkOutCompra {
+
+        .resumenCompra {
+            background-color: #e9ecef;
+            border-radius: .25rem;
+
+            h3 {
+                padding-top: 1.5rem;
+                padding-bottom: 1.5rem;
+            }
+
+            .table td {
+                background-color: white;
+                padding: .25rem;
+                vertical-align: middle;
+
+                &:nth-child(1) {
+                    width: 22%;
+                }
+
+                &:nth-child(2) {
+                    width: 50%;
+                }
+
+                &:nth-child(3) {
+                    width: 10%;
+                }
+
+                &:nth-child(4) {
+                    width: 18%;
+                }
+            }
+
+            .importe {
+                padding: 1rem;
+                font-weight: 700;
+
+                p {
+                    text-align: right;
+                    font-size: 1.4rem;
+                    margin-top: 1rem;
+                }
+            }
+        }
+
+        form {
+            div.col-sm-12 {
+                margin-bottom: 5px;
+            }
+
+            label {
+                font-weight: bold;
+            }
+
+            fieldset legend {
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+
+            #contenedorCuotas label span {
+                font-weight: bold;
+                padding-right: 1rem;
+            }
+        }
+    }
+
+    #detalleCompra {
+        &>h2 {
+            color: white;
+            text-shadow: 2px 2px #545454;
+        }
+
+        .table {
+            tbody {
+                background-color: white;
+
+                th,
+                td {
+                    vertical-align: middle;
+                }
+
+                th {
+                    width: 5%;
+                }
+
+                td:nth-child(2) {
+                    width: 10%;
+                }
+
+                td:nth-child(3) {
+                    width: 55%;
+                }
+
+                td:nth-child(4) {
+                    width: 10%;
+                }
+
+                td:nth-child(5) {
+                    width: 20%;
+                }
+
+                tr:last-child td:first-child {
+                    border-bottom-left-radius: 10px;
+                }
+
+                tr:last-child td:last-child {
+                    border-bottom-right-radius: .75rem;
+                }
+
+
+            }
+
+            thead {
+                th {
+                    border: none;
+                }
+
+                th:first-child {
+                    border-top-left-radius: 10px;
+                }
+
+                th:last-child {
+                    border-top-right-radius: 10px;
+                }
+            }
+        }
+
+        .formaPago {
+            width: 50%;
+            margin-right: 0;
+            margin-left: auto;
+            background-color: white;
+            padding: 1rem;
+            border-radius: .75rem;
+            font-weight: 700;
+
+            p {
+                text-align: right;
+                font-size: 1.2rem;
+
+                &:last-child {
+                    font-size: 1.4rem;
+                    margin-top: 1rem;
+                }
+            }
+        }
+
+        .leyenda {
+            text-align: right;
+            padding: .5rem 1rem;
+            margin-bottom: 2rem;
+        }
+    }
+}
+
+/******************** Main de compra.html - Fin ****************/
+/***************************************************************/

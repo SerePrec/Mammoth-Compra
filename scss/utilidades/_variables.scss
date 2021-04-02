@@ -1,0 +1,24 @@
+// Variables
+
+// Colores
+$rojoMarca: #b30404;
+$tonoClaro: #b9b8b8;
+$tonoMedio: #545454;
+$tonoOscuro: #212121;
+$tonoMuyOscuro: #060606;
+
+// Fuentes
+$fuente-principal: 'Montserrat', Helvetica, sans-serif;
+$fuente-secundaria:'Roboto Condensed', Helvetica, sans-serif;
+
+// Varios
+ $tarjeta__imagen-height: 20vw;
+
+// Mapas
+$bordeZona: (todo:"", arriba: "-top", abajo: "-bottom", derecha: "-right", izquierda:"-left");
+
+$grillaSocial: (1: "1 / 1 / 2 / 5", 2: "2 / 1 / 3 / 2", 3: "2 / 2 / 3 / 3", 4: "2 / 3 / 3 / 4", 5: "2 / 4 / 3 / 5");
+
+$flexJustificados: (centro: center, around: space-around, between: space-between);
+
+$mediaBreakpoints: (xs: (max-width: 575px), sm: (max-width: 767px), md: (max-width: 991px), lg: (max-width: 1220px), xl: (max-width: 1399px));

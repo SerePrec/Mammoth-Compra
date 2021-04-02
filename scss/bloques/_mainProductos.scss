@@ -1,0 +1,27 @@
+/***************************************************************/
+/***************** Main de productos.html - Inicio *************/
+main.productos {
+	@extend %mainComun;
+	overflow: hidden;
+
+	.breadcrumb {
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+
+	}
+
+	.filtros {
+		background-color: #e9ecef;
+		border-radius: .25rem;
+		padding: 1rem;
+	}
+}
+
+
+.ocultar {
+	display: none;
+}
+
+/******************* Main de productos.html - Fin **************/
+/***************************************************************/
+

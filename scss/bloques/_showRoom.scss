@@ -1,0 +1,55 @@
+/***************************************************************/
+/************************ ShowRoom - Inicio ********************/
+
+.showRoom .errorResultadoBuscar {
+    background-color: #e9ecef;
+    border-radius: .25rem;
+    width: 100%;
+    margin: 1.5rem 0;
+    padding: 2rem;
+    text-align: center;
+
+    p {
+        color: red;
+        font-size: 1.5rem;
+    }
+}
+
+
+#contenedorProductos {
+    max-height: 75vh;
+    overflow-y: scroll;
+    background-color: #e9ecef;
+    margin: 1rem 0 1.5rem 0;
+    padding-top: .5rem;
+    border: 3px solid #e9ecef;
+    border-radius: .25rem;
+
+    .card {
+        .card-img-top {
+            width: 70%;
+            margin: auto;
+        }
+
+        .btn {
+            background-color: #b30404;
+            color: white;
+            font-weight: 500;
+            transition: all .3s;
+
+            &:hover:not([disabled]) {
+                background-color: #d11212;
+                transform: scale(1.04, 1.04);
+            }
+
+        }
+
+        .inputCantidad {
+            width: 40%;
+            max-width: 4.5rem;
+        }
+    }
+}
+
+/************************** ShowRoom - Fin **********************/
+/***************************************************************/
