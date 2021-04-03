@@ -5,9 +5,18 @@ main.productos {
 	overflow: hidden;
 
 	.breadcrumb {
-		margin-top: 2rem;
-		margin-bottom: 2rem;
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+		font-weight: 600;
 
+		li {
+			color: #545454;
+
+			a {
+				color: #b30404;
+				font-weight: 500;
+			}
+		}
 	}
 
 	.filtros {
@@ -24,4 +33,3 @@ main.productos {
 
 /******************* Main de productos.html - Fin **************/
 /***************************************************************/
-

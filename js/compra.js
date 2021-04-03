@@ -14,6 +14,7 @@ const interes12Cuotas = 20;
 const interes18Cuotas = 30;
 
 //DOM
+const $numItems = $("#numItems");
 const $inputUsuario = $("#inputUsuario");
 const $contenedorResumenCompra = $("#contenedorResumenCompra");
 const $importe = $(".importe p");
@@ -112,7 +113,7 @@ const inicioCompra = () => { // Inicializa la página
     }
 
     mostrarResumenCompra(); // carga el contenido HTML relativo a la selección de productos previa
-    
+    actualizarIconoCarrito();
 };
 
 
@@ -278,6 +279,14 @@ function verificarReposicion() { // verifica si es necesario reponer productos a
             );
         }
     }
+}
+
+function actualizarIconoCarrito() { //refresca el contador del ícono carrito
+    let contador = 0;
+    for (const producto of carritoUsuario.miSeleccion) {
+        contador += producto.cant;
+    }
+    $numItems.text(contador);
 }
 
 

@@ -9,20 +9,16 @@ header {
 	background: linear-gradient(90deg, rgba(33, 33, 33, 1) 0%, rgba(84, 84, 84, 1) 75%, rgba(185, 184, 184, 1) 100%);
 	font-size: 1.4rem;
 
-	.carritoIcon {
-		padding: 1rem 2rem .5rem 1rem;
-		text-align: right;
-		background-color: #b9b8b8;
+	.usuario {
+		padding: .5rem 1rem .5rem .5rem;
+		background-color: #212121;
 		display: flex;
 		flex-wrap: nowrap;
-		justify-content: flex-end;
 		position: relative;
 
 		&>div {
 			flex: 0 1 22rem;
 			margin-right: 3rem;
-			padding-bottom: .5rem;
-
 		}
 
 		.logUsuario {
@@ -42,30 +38,14 @@ header {
 			}
 
 			#errorInputUsuario {
-				color: red;
+				color: #c93737;
 				padding-top: 0.2rem;
+				margin-bottom: -.5rem;
 				font-size: .85rem;
 				text-align: left;
 			}
 		}
-
-		a {
-			position: relative;
-
-			#numItems {
-				position: absolute;
-				top: -10px;
-				left: 20px;
-				background-color: red;
-				width: 2rem;
-				height: 1.5rem;
-				border-radius: 50%;
-				text-align: center;
-				color: white;
-				font-size: 1rem;
-			}
-		}
-
+		
 		.mensajesEmergentes {
 			position: absolute;
 			display: none;
@@ -74,7 +54,7 @@ header {
 			min-height: 7rem;
 			background-color: #435541c0;
 			right: 0;
-			top: 100%;
+			top: 0%;
 			margin-right: 1rem;
 			padding: 1rem;
 			border-radius: .5rem;
@@ -85,6 +65,7 @@ header {
 			justify-content: center;
 			align-items: center;
 			opacity: 0;
+			z-index: 1000;
 
 			&.show {
 				opacity: 1;
@@ -113,12 +94,12 @@ header {
 /*** Fotogramas de animación emerge ***/
 @keyframes emerge {
 	0% {
-		top: 0;
+		top: -150%;
 		opacity: 0;
 	}
 
 	50% {
-		top: 100%;
+		top: 0%;
 		opacity: 0.5;
 	}
 

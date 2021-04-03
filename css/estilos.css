@@ -107,44 +107,29 @@ header {
   box-shadow: 2px 2px 20px 10px rgba(6, 6, 6, 0.4);
   background: linear-gradient(90deg, #212121 0%, #545454 75%, #b9b8b8 100%);
   font-size: 1.4rem; }
-  header .carritoIcon {
-    padding: 1rem 2rem .5rem 1rem;
-    text-align: right;
-    background-color: #b9b8b8;
+  header .usuario {
+    padding: .5rem 1rem .5rem .5rem;
+    background-color: #212121;
     display: flex;
     flex-wrap: nowrap;
-    justify-content: flex-end;
     position: relative; }
-    header .carritoIcon > div {
+    header .usuario > div {
       flex: 0 1 22rem;
-      margin-right: 3rem;
-      padding-bottom: .5rem; }
-    header .carritoIcon .logUsuario .input-group .btn {
+      margin-right: 3rem; }
+    header .usuario .logUsuario .input-group .btn {
       background-color: #b30404;
       color: white; }
-    header .carritoIcon .logUsuario .input-group input[disabled] {
+    header .usuario .logUsuario .input-group input[disabled] {
       background-color: white;
       font-weight: 700;
       font-style: italic; }
-    header .carritoIcon .logUsuario #errorInputUsuario {
-      color: red;
+    header .usuario .logUsuario #errorInputUsuario {
+      color: #c93737;
       padding-top: 0.2rem;
+      margin-bottom: -.5rem;
       font-size: .85rem;
       text-align: left; }
-    header .carritoIcon a {
-      position: relative; }
-      header .carritoIcon a #numItems {
-        position: absolute;
-        top: -10px;
-        left: 20px;
-        background-color: red;
-        width: 2rem;
-        height: 1.5rem;
-        border-radius: 50%;
-        text-align: center;
-        color: white;
-        font-size: 1rem; }
-    header .carritoIcon .mensajesEmergentes {
+    header .usuario .mensajesEmergentes {
       position: absolute;
       display: none;
       width: 50%;
@@ -152,7 +137,7 @@ header {
       min-height: 7rem;
       background-color: #435541c0;
       right: 0;
-      top: 100%;
+      top: 0%;
       margin-right: 1rem;
       padding: 1rem;
       border-radius: .5rem;
@@ -162,16 +147,17 @@ header {
       text-align: center;
       justify-content: center;
       align-items: center;
-      opacity: 0; }
-      header .carritoIcon .mensajesEmergentes.show {
+      opacity: 0;
+      z-index: 1000; }
+      header .usuario .mensajesEmergentes.show {
         opacity: 1;
         display: flex;
         animation-name: emerge;
         animation-duration: 1s;
         animation-timing-function: ease-out; }
-        header .carritoIcon .mensajesEmergentes.show.destacado {
+        header .usuario .mensajesEmergentes.show.destacado {
           background-color: #b30404b0; }
-      header .carritoIcon .mensajesEmergentes button.close {
+      header .usuario .mensajesEmergentes button.close {
         position: absolute;
         top: 0;
         right: .5rem;
@@ -182,10 +168,10 @@ header {
 /*** Fotogramas de animación emerge ***/
 @keyframes emerge {
   0% {
-    top: 0;
+    top: -150%;
     opacity: 0; }
   50% {
-    top: 100%;
+    top: 0%;
     opacity: 0.5; }
   100% {
     opacity: 1; } }
@@ -269,8 +255,14 @@ main.inicio .difusion {
 main.productos {
   overflow: hidden; }
   main.productos .breadcrumb {
-    margin-top: 2rem;
-    margin-bottom: 2rem; }
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600; }
+    main.productos .breadcrumb li {
+      color: #545454; }
+      main.productos .breadcrumb li a {
+        color: #b30404;
+        font-weight: 500; }
   main.productos .filtros {
     background-color: #e9ecef;
     border-radius: .25rem;
@@ -326,8 +318,13 @@ main.compra {
   background-color: #b9b8b8;
   background: linear-gradient(180deg, #b9b8b8 0%, rgba(84, 84, 84, 0.75) 100%); }
   main.compra .breadcrumb {
-    margin-top: 2rem;
-    margin-bottom: 2rem; }
+    margin-top: 1rem;
+    margin-bottom: 1rem; }
+    main.compra .breadcrumb li {
+      color: #545454; }
+      main.compra .breadcrumb li a {
+        color: #b30404;
+        font-weight: 500; }
   main.compra #checkOutCompra .resumenCompra {
     background-color: #e9ecef;
     border-radius: .25rem; }
@@ -784,26 +781,55 @@ nav.navbar {
       height: 3px;
       background-image: linear-gradient(90deg, #b30404, rgba(179, 4, 4, 0));
       transition: all .4s ease; }
+  nav.navbar .carritoIcon {
+    position: relative;
+    margin-right: 1rem; }
+    nav.navbar .carritoIcon #numItems {
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      background-color: red;
+      width: 2rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      text-align: center;
+      color: white;
+      font-size: 1rem; }
   @media only screen and (max-width: 1220px) {
     nav.navbar .navbar-nav .nav-item {
-      padding-right: 1rem; } }
+      padding-right: 1rem; }
+    nav.navbar .navbar-brand img {
+      height: 70px; } }
   @media only screen and (max-width: 991px) {
     nav.navbar .navbar-nav .nav-item {
       padding-right: 0; }
     nav.navbar .navbar-brand img {
       height: 58px; } }
+  @media only screen and (max-width: 850px) {
+    nav.navbar .navbar-nav .nav-item {
+      font-size: 1.2rem; } }
   @media only screen and (max-width: 767px) {
-    nav.navbar .navbar-nav .nav-item .dropdown-menu {
-      width: 100%; }
-    nav.navbar .navbar-nav .nav-item:after {
-      background-image: linear-gradient(90deg, #b30404, #b30404);
-      width: 3px;
-      transition: all 0.25s; }
-    nav.navbar .navbar-nav .nav-item.activo:after {
-      width: 7px; }
-    nav.navbar .navbar-nav .nav-item:hover:after {
-      background-image: linear-gradient(90deg, #b30404, rgba(179, 4, 4, 0));
-      width: 15rem; } }
+    nav.navbar .navbar-brand {
+      order: 2; }
+    nav.navbar .navbar-toggler {
+      order: 1; }
+    nav.navbar .navbar-collapse {
+      order: 4; }
+    nav.navbar .carritoIcon {
+      order: 3; }
+    nav.navbar .navbar-nav .nav-item {
+      font-size: 1.4rem; }
+      nav.navbar .navbar-nav .nav-item .dropdown-menu {
+        width: 100%; }
+      nav.navbar .navbar-nav .nav-item:after {
+        background-image: linear-gradient(90deg, #b30404, #b30404);
+        width: 3px;
+        transition: all 0.25s; }
+      nav.navbar .navbar-nav .nav-item.activo:after {
+        width: 7px; }
+      nav.navbar .navbar-nav .nav-item:hover:after {
+        background-image: linear-gradient(90deg, #b30404, rgba(179, 4, 4, 0));
+        width: 15rem; } }
 
 @media only screen and (max-width: 700px) and (orientation: landscape) {
   nav.navbar .navbar-brand {
@@ -1967,6 +1993,9 @@ article:hover .servicios__imagen .servicios__link {
         outline: none; }
       #modalCarrito .table td:nth-child(5) button:active {
         background-color: black; }
+
+#modalCarrito #btnConfirmarCompra {
+  background-color: #b30404; }
 
 #modalCarrito #totalCarrito {
   font-size: 2rem; }

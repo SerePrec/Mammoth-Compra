@@ -6,10 +6,18 @@ main.compra {
     background: linear-gradient(180deg, #b9b8b8 0%, rgba(84, 84, 84, 0.75) 100%);
 
     .breadcrumb {
-        margin-top: 2rem;
-        margin-bottom: 2rem;
+		margin-top: 1rem;
+		margin-bottom: 1rem;
 
-    }
+		li {
+			color: #545454;
+
+			a {
+				color: #b30404;
+				font-weight: 500;
+			}
+		}
+	}
 
     #checkOutCompra {
 

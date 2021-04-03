@@ -63,9 +63,9 @@ const $btnConfirmarCompra = $("#btnConfirmarCompra");
 const $btnLogInOut = $("#btnLogInOut");
 const $inputUsuario = $("#inputUsuario");
 const $divLogUsuario = $(".logUsuario");
-const $divMensajesEmergentes = $(".carritoIcon .mensajesEmergentes");
-const $pMensajeEmergente = $(".carritoIcon .mensajesEmergentes p");
-const $btnCerrarMensajeEmergente = $(".carritoIcon .mensajesEmergentes button");
+const $divMensajesEmergentes = $(".usuario .mensajesEmergentes");
+const $pMensajeEmergente = $(".usuario .mensajesEmergentes p");
+const $btnCerrarMensajeEmergente = $(".usuario .mensajesEmergentes button");
 const $divModalMensajes = $("#modalMensajes");
 const $divModalMensajesFondo = $("#modalMensajesFondo");
 const $btnCerrarModalMensaje = $("#modalMensajes .modal-header button");
@@ -427,7 +427,7 @@ function mostrarProductos(vectorProductos) { // Carga los productos en la págin
 
     if (vectorProductos.length == 0) { // Si no hay productos que mostrar lo avisa
         $nuevoContenedorProductos.html(`
-            <div class="errorModalBuscar">
+            <div class="errorResultadoBuscar">
                 <h3>No se encontraron productos con las características elegidas.</h3>
                 <h3>Descripción:</h3>
                 <p><b>${$inputBuscar.val()}</b></p>
