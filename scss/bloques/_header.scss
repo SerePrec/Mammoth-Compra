@@ -14,11 +14,11 @@ header {
 		background-color: #212121;
 		display: flex;
 		flex-wrap: nowrap;
+		justify-content: flex-end;
 		position: relative;
 
 		&>div {
 			flex: 0 1 22rem;
-			margin-right: 3rem;
 		}
 
 		.logUsuario {
@@ -54,7 +54,7 @@ header {
 			min-height: 7rem;
 			background-color: #435541c0;
 			right: 0;
-			top: 0%;
+			top: 100%;
 			margin-right: 1rem;
 			padding: 1rem;
 			border-radius: .5rem;
@@ -99,7 +99,7 @@ header {
 	}
 
 	50% {
-		top: 0%;
+		top: 100%;
 		opacity: 0.5;
 	}
 

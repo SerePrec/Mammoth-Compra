@@ -960,3 +960,7 @@ $divModalMensajes.find(".modal-footer").click(function (e) { // Evento general d
 //Ejecución *********************** 
 
 iniciar();
+
+function actualizarInfoProductos(params) {
+    
+}
