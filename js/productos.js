@@ -1,37 +1,13 @@
 /* 
-Desafío 12
+Desafío TODO:
 
 Consigna:
-Sumar al proyecto integrador los conceptos de jQuery que vimos en las últimas dos clases:
--Utilizar métodos jQuery para incorporar elementos al DOM.
--Utilizar métodos jQuery para determinar respuesta a ciertos eventos.
+TODO:
+
 
 
 Planteo:
-
-Para esta entrega lo que hice fue tomar como base el código de la entrega anterior con
-pequeñas modificaciones y cambiar a la sintaxis de jQuery todo lo relacionado a manejo 
-del DOM y eventos, que son básicamente las herramientas de jQuery que vimos hasta ahora.
-
-A modo de resumen, cito alguno de las herramientas y métodos utilizados:
-
-* Manejo de elementos DOM:
-    - Uso de distintos tipos de selectores, incluyendo algunos propios de formularios como
-      el ":checked" para econtrar el input radio seleccionado.
-      También se utilizaron $(this), $(e.target), etc.
-    - Creación de elementos con jQuery mediante $("<etiq>..contenido..</etiq>")
-    - Manipulación de elementos mediante append(), remove(), replaceWidth(), html(), text(),
-      empty(), val(), data(), attr(), hasClass(), addClass(), removeClass(), next(), parent(),
-      find(), scrollTop(), lenght, etc.
-      En append() utilicé como parámetros htmlString, elementos individuales y también array
-      de htmlString 
-
-* Eventos: click, keyup, keypress, change, ready, etc. 
-  Utilicé su sintaxis resumida y para practicar, algunos de ellos son con el sistema de delegación
-  de eventos. En lugar de asignarlos a cada elemento dentro de un contenedor.
-
-Para organizar el códgo generé variables para guardar las consultas de jQuery y según leí
-es buena práctica empezar su nombre con "$" para diferenciarlas del resto.
+TODO:
 
 */
 
@@ -301,7 +277,7 @@ function siCargarCarritoGuardado() { // Se llama cuando el usuario decide cargar
     // Se procede a la carga del carrito guardado y todas las actualizaciones necesarias 
     validarCarritoGuardado(usuario, auxCarritoGuardado);
     actualizarIconoCarrito();
-    mostrarProductos(productosFiltradosCliente);
+    actualizarInfoTarjetas();
     actualizarCarritoEnStorage();
     removerCarritoGuardado(auxCarritoGuardado, auxCarritosGuardados);
 }
@@ -423,10 +399,9 @@ function buscarProductos(e) { //procesa el valor de búsqueda que el usario intr
 
 function mostrarProductos(vectorProductos) { // Carga los productos en la página en formato de tarjetas, a partir del array que toma como parámetro
     const $contenedorProductos = $("#contenedorProductos");
-    let $nuevoContenedorProductos = $('<div id="contenedorProductos"></div>');
 
     if (vectorProductos.length == 0) { // Si no hay productos que mostrar lo avisa
-        $nuevoContenedorProductos.html(`
+        $contenedorProductos.html(`
             <div class="errorResultadoBuscar">
                 <h3>No se encontraron productos con las características elegidas.</h3>
                 <h3>Descripción:</h3>
@@ -434,9 +409,8 @@ function mostrarProductos(vectorProductos) { // Carga los productos en la págin
             </div>`);
 
     } else { // si ha productos genera el HTML norrespondiente a las tarjetas de los mismos
-        $nuevoContenedorProductos.addClass("row row-cols-1 row-cols-md-2 row-cols-lg-3");
 
-
+        const arrayTarjetas = [];
         for (let producto of vectorProductos) { // recorre el array de productos a mostrar generando dinámicamente el HTML
             const $contenedorTarjeta = $(`<div class="col mb-4"></div>`);
             let codigoHTML = `
@@ -459,16 +433,17 @@ function mostrarProductos(vectorProductos) { // Carga los productos en la págin
                             <input type="number" class="form-control ml-2 inputCantidad" value="1" min="1" max="${producto.stock}">
                         </div>`;
             } else { // Si el producto no tiene stock genera una tarjeta con un boton "disbled" que notifica "Agotado"
-                codigoHTML += `<button type="button" class="btn btn-danger w-100" disabled>Agotado</button>`;
+                codigoHTML += `<button type="button" class="btn btn-danger w-100" data-producto-id="${producto.id}" disabled>Agotado</button>`;
             }
-
             codigoHTML += `</div></div>`;
-            $contenedorTarjeta.append(codigoHTML);
 
-            $nuevoContenedorProductos.append($contenedorTarjeta);
+            $contenedorTarjeta.html(codigoHTML);
+            arrayTarjetas.push($contenedorTarjeta);
         }
+
+        $contenedorProductos.empty();
+        $contenedorProductos.append(arrayTarjetas);
     }
-    $contenedorProductos.replaceWith($nuevoContenedorProductos);
 
     $("#contenedorProductos .btnAgregar").click(function (e) { // genero los eventos para todos los botones agregar
         // para luego pasar los valores del producto correspondiente a la funcion de agregar al carrito,
@@ -482,6 +457,46 @@ function mostrarProductos(vectorProductos) { // Carga los productos en la págin
             agregarCarrito(id, cant);
         }
         $inputCantidad.val(1); // devuelve el valor del input a 1
+    });
+}
+
+
+function actualizarInfoTarjetas() { // en lugar de cambiar la cantidad de la tarjeta asociada al evento agregar, eliminar prodcuto, etc, se
+    // actualiza el conjuto de información mostrada en ese momento por si a futuro desde un servidor vienen los datos actualizados y hay otros
+    //productos distintos al que interactuamos que cambiaron su disponibilidad por acciones de otros usuarios
+
+    let $botonesTarjetas = $("#contenedorProductos .card-body button");
+
+    $botonesTarjetas.each(function () {
+        let prodId = $(this).data("productoId");
+        let producto = productos.find(prod => prod.id == prodId);
+        let prodStock = producto.stock;
+        let $bodyTarjeta =  $(this).closest(".card-body");
+        $bodyTarjeta.find("p:nth-of-type(3)").html(`Disponible: ${prodStock}u`);
+        if (prodStock < 1 && $(this).parent(".form-inline").length) {
+            $(this).parent(".form-inline").remove();
+            $bodyTarjeta.append(`<button type="button" class="btn btn-danger w-100" data-producto-id="${producto.id}" disabled>Agotado</button>`);
+        }
+        if (prodStock >= 1 && $(this).parent(".form-inline").length == 0) {
+            $(this).remove();
+            $bodyTarjeta.append(`
+                    <div class="form-inline">
+                        <button type="button" class="btn btn-danger w-50 btnAgregar" data-producto-id="${producto.id}">Agregar</button>
+                        <input type="number" class="form-control ml-2 inputCantidad" value="1" min="1" max="${producto.stock}">
+                     </div>`).find(".btnAgregar").click(function (e) { // genero los eventos para todos los botones agregar
+                        // para luego pasar los valores del producto correspondiente a la funcion de agregar al carrito,
+                        // tomo esos valores del atributo "data-" mediante el metodo data()
+                        let id = $(this).data("productoId");
+                        let $inputCantidad = $(this).next();
+                        let cant = parseInt($inputCantidad.val());
+                        // primero verifico si la cantidad es valida entes de agregar al carrito. Si bien setee el
+                        // atributo "max" en el input, puede que el usuario manualmente fuerce un valor no admisible 
+                        if (validarCantidad(id, cant)) {
+                            agregarCarrito(id, cant);
+                        }
+                        $inputCantidad.val(1); // devuelve el valor del input a 1
+                    });
+        }
     });
 }
 
@@ -527,9 +542,7 @@ function agregarCarrito(prodId, cant) { //agrega los productos al carrito y los 
     // hago las actualizaciones correspondientes
     actualizarIconoCarrito();
     actualizarCarritoEnStorage();
-    scrollContenedorProductos = $("#contenedorProductos").scrollTop();
-    mostrarProductos(productosFiltradosCliente);
-    $("#contenedorProductos").scrollTop(scrollContenedorProductos);
+    actualizarInfoTarjetas(productosFiltradosCliente);
 }
 
 
@@ -599,9 +612,7 @@ function vaciarCarrito() { // vacía el carrito activo del usuario
     mostrarCarrito();
     actualizarIconoCarrito();
     actualizarCarritoEnStorage();
-    scrollContenedorProductos = $("#contenedorProductos").scrollTop();
-    mostrarProductos(productosFiltradosCliente);
-    $("#contenedorProductos").scrollTop(scrollContenedorProductos);
+    actualizarInfoTarjetas();
 
     console.log("%c----- Carrito vaciado -----",
         "color:white; background-color: red; padding: 3px"); // Infomación de control interno
@@ -624,9 +635,7 @@ function eliminarProductoCarrito(prodId) { // elimina un item completo del carri
     mostrarCarrito();
     actualizarIconoCarrito();
     actualizarCarritoEnStorage();
-    scrollContenedorProductos = $("#contenedorProductos").scrollTop();
-    mostrarProductos(productosFiltradosCliente);
-    $("#contenedorProductos").scrollTop(scrollContenedorProductos);
+    actualizarInfoTarjetas();
 }
 
 
@@ -650,9 +659,7 @@ function restarUnidadCarrito(prodId) { // resta una unidad del ítem del carrito
     mostrarCarrito();
     actualizarIconoCarrito();
     actualizarCarritoEnStorage();
-    scrollContenedorProductos = $("#contenedorProductos").scrollTop();
-    mostrarProductos(productosFiltradosCliente);
-    $("#contenedorProductos").scrollTop(scrollContenedorProductos);
+    actualizarInfoTarjetas();
 }
 
 
@@ -961,6 +968,7 @@ $divModalMensajes.find(".modal-footer").click(function (e) { // Evento general d
 
 iniciar();
 
-function actualizarInfoProductos(params) {
-    
-}
+
+
+
+
