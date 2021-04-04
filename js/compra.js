@@ -34,14 +34,17 @@ const $formularioCompra = $("#formularioCompra");
 class Producto {
     constructor(objeto) { // el constructor toma como parámetro un objeto, que va a ser el proveniente del array tomado del storage
         this.id = objeto.id;
+        this.categoria = objeto.categoria;
         this.codigo = objeto.codigo;
         this.marca = objeto.marca;
         this.descripcion = objeto.descripcion;
         this.precioLista = objeto.precioLista;
+        this.descuento = objeto.descuento;
         this.stock = objeto.stock;
         this.ptoRepedido = objeto.ptoRepedido;
         this.vendible = (objeto.stock > 0); // si el stock al cargar es menor a cero se setea false
         this.imagen = objeto.imagen;
+        this.destacado = objeto.destacado;
     }
 
     precioLF() { // devuelve precio de venta final

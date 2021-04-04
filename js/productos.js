@@ -12,7 +12,7 @@ TODO:
 */
 
 // Declaración de variables y constantes globales *****************************
-// Ver archivo clases.js ******************************************************
+// ****************************************************************************
 
 //Generales
 let usuario = "";
@@ -45,183 +45,20 @@ const $btnCerrarMensajeEmergente = $(".usuario .mensajesEmergentes button");
 const $divModalMensajes = $("#modalMensajes");
 const $divModalMensajesFondo = $("#modalMensajesFondo");
 const $btnCerrarModalMensaje = $("#modalMensajes .modal-header button");
-/*
+
 // Definición de clases *******************************************************
-//*****************************************************************************
-
-class Producto {
-    constructor(id, cate, codigo, marca, descrip, precio, desc, stock, repedido, imagen, destacado) {
-        this.id = id;
-        this.categoria = cate.toLowerCase();
-        this.codigo = codigo;
-        this.marca = marca.toUpperCase(); // transforma a mayúsculas
-        this.descripcion = capitalizar(descrip);
-        this.precioLista = precio;
-        this.descuento = desc;
-        this.stock = stock;
-        this.ptoRepedido = repedido;
-        this.vendible = (stock > 0); // si el stock al cargar es menor a cero se setea false
-        this.imagen = imagen;
-        this.destacado = destacado;
-    }
-
-    precioLF() { // devuelve precio de venta final
-        return this.precioLista * 1.21;
-    }
-
-    precioVF() { // devuelve precio de venta final
-        return (this.precioLista * (1 - (this.descuento / 100)) * 1.21);
-    }
-
-    consultaVenta(cant) { // consulta si la cantidad demandada se puede vender
-        return (this.stock >= cant);
-    }
-
-    vender(cant) { // ejecuta cambios de stock al hacer la venta
-        if (cant >= 0 && this.consultaVenta(cant)) {
-            this.stock = this.stock - cant;
-            this.vendible = (this.stock > 0);
-            return true;
-        }
-        return false;
-    }
-
-    ingresar(cant) { // ejecuta cambios de stock al hacer un ingreso / compra a proveedor
-        if (cant >= 0) {
-            this.stock = this.stock + cant;
-            this.vendible = (this.stock > 0);
-            return true;
-        }
-        return false;
-    }
-
-    repedir() { // consulta si se llegó al punto de repedido
-        return (this.ptoRepedido >= this.stock);
-    }
-}
-
-class ItemCarrito {
-    constructor(objetoProducto, cantidad) {
-        this.id = objetoProducto.id;
-        this.prod = objetoProducto.descripcion;
-        this.cant = cantidad;
-    }
-}
-
-class CarritoUsuario {
-    constructor(usu, carr) {
-        this.usuario = usu;
-        this.miSeleccion = carr;
-    }
-}
+// Ver archivo clases.js ******************************************************
 
 
-// Generación de los productos con que voy a trabajar en mi proyecto **********
-//*****************************************************************************
+// Generación del array "productos" con que voy a trabajar en mi proyecto *****
+// Ver objetosProducto.js *****************************************************
 
-// Decalaración del Array de productos, instanciando los respectivos objetos
-
-const productos = [];
-
-productos.push(new Producto(
-    "1",
-    "accesorios",
-    "00001-B3",
-    "podium",
-    "Caramagnola plástica Podium 0.5L. versión eco. Color a granel.",
-    450,
-    0,
-    50,
-    10,
-    "producto1.jpg",
-    false
-));
-productos.push(new Producto(
-    "2",
-    "componentes",
-    "M-MTB-0345",
-    "maxxis",
-    "Cubierta de kevlar Maxxis race king 29 x 2,15.",
-    4750,
-    0,
-    15,
-    5,
-    "producto2.jpg",
-    true
-));
-productos.push(new Producto(
-    "3",
-    "equipamiento",
-    "N-CA-CI-50",
-    "nutrisport",
-    "Gel energizante Nutrisport con cafeína 50g. Express.",
-    125,
-    5,
-    200,
-    25,
-    "producto3.jpg",
-    false
-));
-productos.push(new Producto(
-    "4",
-    "equipamiento",
-    "S-H-PREV.075-BC/RED/SM",
-    "specialized",
-    "Casco Specialized echelon II ruta. Verde FL / small.",
-    15480,
-    17,
-    5,
-    1,
-    "producto4.jpg",
-    true
-));
-productos.push(new Producto(
-    "5",
-    "accesorios",
-    "Velo.St.12",
-    "cateye",
-    "Velocimetro Cateye inalámbrico ST-12.",
-    3560,
-    0,
-    0,
-    4,
-    "producto5.jpg",
-    true
-));
-productos.push(new Producto(
-    "6",
-    "componentes",
-    "TUBOLITO.C.29/1.75-SP",
-    "tubolito",
-    "Cámara tubolito MTB 29 x 1.75.",
-    450,
-    0,
-    18,
-    10,
-    "producto6.jpg",
-    false
-));
-productos.push(new Producto(
-    "7",
-    "indumentaria",
-    "S-S-SWOR.018-WT/42",
-    "specialized",
-    "Zapatillas Specialized S-Works de ruta. Blanco. Talle: 42.",
-    14910,
-    7,
-    3,
-    1,
-    "producto7.jpg",
-    false
-));
 
 // Guardo los productos en formato JSON y los almaceno en el sessionStorage.
 // Como para simular que vienen de un servidor en la página de compra.
 
 let productosJSON = JSON.stringify(productos);
 sessionStorage.setItem("productos", productosJSON);
-
-*/
 
 
 // Definiciones de funciones **************************************************
@@ -748,24 +585,6 @@ function restarUnidadCarrito(prodId) { // resta una unidad del ítem del carrito
     actualizarCarritoEnStorage();
     actualizarInfoTarjetas();
 }
-
-/*
-function capitalizar(frase) { // Es una funcion auxiliar que uso internamente en el constructor del los objetos Producto. Capitaliza la primer letra de cada palabra del string ingresado
-    frase = frase.toString(); // convierto el valor ingresado a string para asegurarme 
-
-    const texto = frase.split(" "); // convierto el string ingresado a un array separando palabras
-
-    const capitalizado = texto.map(x => { // genero un nuevo array con map, capitalizando las palabras
-        let primerLetra = x.charAt(0);
-        let primerLetraCapital = primerLetra.toUpperCase();
-        return x.replace(primerLetra, primerLetraCapital);
-    });
-
-    frase = capitalizado.join(" "); // devuelvo string con palabras espaciadas
-
-    return frase;
-}
-*/
 
 
 function loguearUsuario() { // Se ejecuta al tocar en el boton I/O de logueo

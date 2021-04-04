@@ -1,5 +1,5 @@
 
-// Generación de los productos con que voy a trabajar en mi proyecto **********
+// Generación del array "productos" con que voy a trabajar en mi proyecto *****
 //*****************************************************************************
 
 // Decalaración del Array de productos, instanciando los respectivos objetos
@@ -98,8 +98,3 @@ productos.push(new Producto(
     false
 ));
 
-// Guardo los productos en formato JSON y los almaceno en el sessionStorage.
-// Como para simular que vienen de un servidor en la página de compra.
-
-let productosJSON = JSON.stringify(productos);
-sessionStorage.setItem("productos", productosJSON);
