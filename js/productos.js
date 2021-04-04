@@ -12,7 +12,7 @@ TODO:
 */
 
 // Declaración de variables y constantes globales *****************************
-//*****************************************************************************
+// Ver archivo clases.js ******************************************************
 
 //Generales
 let usuario = "";
@@ -45,29 +45,32 @@ const $btnCerrarMensajeEmergente = $(".usuario .mensajesEmergentes button");
 const $divModalMensajes = $("#modalMensajes");
 const $divModalMensajesFondo = $("#modalMensajesFondo");
 const $btnCerrarModalMensaje = $("#modalMensajes .modal-header button");
-
+/*
 // Definición de clases *******************************************************
 //*****************************************************************************
 
 class Producto {
-    constructor(id, codigo, marca, descrip, precio, stock, repedido, imagen) {
+    constructor(id, cate, codigo, marca, descrip, precio, desc, stock, repedido, imagen, destacado) {
         this.id = id;
+        this.categoria = cate.toLowerCase();
         this.codigo = codigo;
         this.marca = marca.toUpperCase(); // transforma a mayúsculas
         this.descripcion = capitalizar(descrip);
         this.precioLista = precio;
+        this.descuento = desc;
         this.stock = stock;
         this.ptoRepedido = repedido;
         this.vendible = (stock > 0); // si el stock al cargar es menor a cero se setea false
         this.imagen = imagen;
+        this.destacado = destacado;
     }
 
-    precioVF() { // devuelve precio de venta final
+    precioLF() { // devuelve precio de venta final
         return this.precioLista * 1.21;
     }
 
-    precioVFDescuento(descuento) { // devuelve pvf con algún posible descuento (%)
-        return (this.precioLista * (1 - (descuento / 100)) * 1.21);
+    precioVF() { // devuelve precio de venta final
+        return (this.precioLista * (1 - (this.descuento / 100)) * 1.21);
     }
 
     consultaVenta(cant) { // consulta si la cantidad demandada se puede vender
@@ -122,73 +125,94 @@ const productos = [];
 
 productos.push(new Producto(
     "1",
+    "accesorios",
     "00001-B3",
     "podium",
     "Caramagnola plástica Podium 0.5L. versión eco. Color a granel.",
     450,
+    0,
     50,
     10,
-    "producto1.jpg"
+    "producto1.jpg",
+    false
 ));
 productos.push(new Producto(
     "2",
+    "componentes",
     "M-MTB-0345",
     "maxxis",
     "Cubierta de kevlar Maxxis race king 29 x 2,15.",
     4750,
+    0,
     15,
     5,
-    "producto2.jpg"
+    "producto2.jpg",
+    true
 ));
 productos.push(new Producto(
     "3",
+    "equipamiento",
     "N-CA-CI-50",
     "nutrisport",
     "Gel energizante Nutrisport con cafeína 50g. Express.",
     125,
+    5,
     200,
     25,
-    "producto3.jpg"
+    "producto3.jpg",
+    false
 ));
 productos.push(new Producto(
     "4",
+    "equipamiento",
     "S-H-PREV.075-BC/RED/SM",
     "specialized",
     "Casco Specialized echelon II ruta. Verde FL / small.",
     15480,
+    17,
     5,
     1,
-    "producto4.jpg"
+    "producto4.jpg",
+    true
 ));
 productos.push(new Producto(
     "5",
+    "accesorios",
     "Velo.St.12",
     "cateye",
     "Velocimetro Cateye inalámbrico ST-12.",
     3560,
     0,
+    0,
     4,
-    "producto5.jpg"
+    "producto5.jpg",
+    true
 ));
 productos.push(new Producto(
     "6",
+    "componentes",
     "TUBOLITO.C.29/1.75-SP",
     "tubolito",
     "Cámara tubolito MTB 29 x 1.75.",
     450,
+    0,
     18,
     10,
-    "producto6.jpg"
+    "producto6.jpg",
+    false
 ));
 productos.push(new Producto(
     "7",
+    "indumentaria",
     "S-S-SWOR.018-WT/42",
     "specialized",
     "Zapatillas Specialized S-Works de ruta. Blanco. Talle: 42.",
     14910,
+    7,
     3,
     1,
-    "producto7.jpg"
+    "producto7.jpg",
+    false
 ));
 
 // Guardo los productos en formato JSON y los almaceno en el sessionStorage.
@@ -196,6 +220,8 @@ productos.push(new Producto(
 
 let productosJSON = JSON.stringify(productos);
 sessionStorage.setItem("productos", productosJSON);
+
+*/
 
 
 // Definiciones de funciones **************************************************
@@ -205,7 +231,7 @@ const iniciar = () => { // Ejecuta el inicio del simulador
     productosFiltradosCliente = productos;
 
     // Carga inicial de productos en la página
-    mostrarProductos(productosFiltradosCliente);
+    ordenarProductos();
 
     validarUsuario();
     load = true;
@@ -243,7 +269,7 @@ function asignarCarrito(user) { // Si esta logueado, carga el carrito de compra 
             if (carritoGuardado && carritoGuardado.usuario == user && carritoGuardado.miSeleccion.length != 0) {
                 validarCarritoGuardado(user, carritoGuardado);
                 actualizarIconoCarrito();
-                mostrarProductos(productosFiltradosCliente);
+                ordenarProductos();
                 actualizarCarritoEnStorage();
                 return
             }
@@ -325,6 +351,10 @@ function ordenarProductos(e) { //procesa la opción seleccionada de orden en el 
     let tipoOrden = $selectOrdenar.val().toLowerCase();
     let funcion;
     switch (tipoOrden) {
+        case "p":
+            funcion = ordenarDestacado;
+            break;
+
         case "a":
             funcion = ordenarAZ;
             break;
@@ -334,11 +364,19 @@ function ordenarProductos(e) { //procesa la opción seleccionada de orden en el 
             break;
 
         case "-":
-            funcion = ordenarMenor;
+            funcion = ordenarMenorPrecio;
             break;
 
         case "+":
-            funcion = ordenarMayor;
+            funcion = ordenarMayorPrecio;
+            break;
+
+        case "d-":
+            funcion = ordenarMenorDescuento;
+            break;
+
+        case "d+":
+            funcion = ordenarMayorDescuento;
             break;
 
         default:
@@ -347,6 +385,17 @@ function ordenarProductos(e) { //procesa la opción seleccionada de orden en el 
     productosFiltradosCliente.sort(funcion);
     mostrarProductos(productosFiltradosCliente);
 }
+
+
+const ordenarDestacado = (a, b) => { // Función de ordenamiento destacados primero, luego alfabetico de marca y descripción (a-Z)
+    if (a.destacado == b.destacado) {
+        if (a.marca.localeCompare(b.marca) == 0) {
+            return a.descripcion.localeCompare(b.descripcion);
+        }
+        return a.marca.localeCompare(b.marca);
+    }
+    return b.destacado - a.destacado; // en este caso true toma el valor de 1 y false el de 0
+};
 
 
 const ordenarAZ = (a, b) => { // Función de ordenamiento alfabético (a-Z) por marca y descripción
@@ -365,19 +414,46 @@ const ordenarZA = (a, b) => { // Función de ordenamiento alfabético (Z-a) por 
 };
 
 
-const ordenarMenor = (a, b) => { // Función de ordenamiento por menor precio y por marca (a-Z)
-    if (a.precioLista - b.precioLista == 0) {
+const ordenarMenorPrecio = (a, b) => { // Función de ordenamiento por menor precio y por marca (a-Z)
+    if (a.precioVF() - b.precioVF() == 0) {
+        if (a.marca.localeCompare(b.marca) == 0) {
+            return a.descripcion.localeCompare(b.descripcion);
+        }
         return a.marca.localeCompare(b.marca);
     }
-    return a.precioLista - b.precioLista;
+    return a.precioVF() - b.precioVF();
 };
 
 
-const ordenarMayor = (a, b) => { // Función de ordenamiento por mayor precio y por marca (a-Z)
-    if (b.precioLista - a.precioLista == 0) {
+const ordenarMayorPrecio = (a, b) => { // Función de ordenamiento por mayor precio y por marca (a-Z)
+    if (b.precioVF() - a.precioVF() == 0) {
+        if (a.marca.localeCompare(b.marca) == 0) {
+            return a.descripcion.localeCompare(b.descripcion);
+        }
         return a.marca.localeCompare(b.marca);
     }
-    return b.precioLista - a.precioLista;
+    return b.precioVF() - a.precioVF();
+};
+
+const ordenarMenorDescuento = (a, b) => { // Función de ordenamiento por menor descuento y por marca (a-Z)
+    if (a.descuento - b.descuento == 0) {
+        if (a.marca.localeCompare(b.marca) == 0) {
+            return a.descripcion.localeCompare(b.descripcion);
+        }
+        return a.marca.localeCompare(b.marca);
+    }
+    return a.descuento - b.descuento;
+};
+
+
+const ordenarMayorDescuento = (a, b) => { // Función de ordenamiento por mayor descuento y por marca (a-Z)
+    if (b.descuento - a.descuento == 0) {
+        if (a.marca.localeCompare(b.marca) == 0) {
+            return a.descripcion.localeCompare(b.descripcion);
+        }
+        return a.marca.localeCompare(b.marca);
+    }
+    return b.descuento - a.descuento;
 };
 
 
@@ -413,13 +489,22 @@ function mostrarProductos(vectorProductos) { // Carga los productos en la págin
         const arrayTarjetas = [];
         for (let producto of vectorProductos) { // recorre el array de productos a mostrar generando dinámicamente el HTML
             const $contenedorTarjeta = $(`<div class="col mb-4"></div>`);
+            let precioSinDescuento = "";
             let codigoHTML = `
-                <div class="card h-100">
+                <div class="card h-100">`;
+
+            if (producto.descuento > 0) {
+                codigoHTML += `
+                    <div class="descuento">-${producto.descuento}%</div>`;
+                precioSinDescuento = `<del>$${producto.precioLF().toFixed(2)}<del>`;
+            }
+
+            codigoHTML += `
                     <img src="img/${producto.imagen}" class="card-img-top" alt="${producto.descripcion}">
                     <div class="card-body">
                         <h5 class="card-title">${producto.marca}</h5>
                         <p class="card-text">${producto.descripcion}</p>
-                        <p class="my-2"><b>Precio: $${producto.precioVF().toFixed(2)}</b></p>
+                        <p class="my-2"><b>Precio: $${producto.precioVF().toFixed(2)}</b> ${precioSinDescuento}</p>
                         <p class="my-2">Disponible: ${producto.stock}u</p>`;
 
             if (producto.stock > 0) { // Si se puede vender genera los botones de agregar y el input de cantidad
@@ -435,7 +520,9 @@ function mostrarProductos(vectorProductos) { // Carga los productos en la págin
             } else { // Si el producto no tiene stock genera una tarjeta con un boton "disbled" que notifica "Agotado"
                 codigoHTML += `<button type="button" class="btn btn-danger w-100" data-producto-id="${producto.id}" disabled>Agotado</button>`;
             }
-            codigoHTML += `</div></div>`;
+            codigoHTML += `
+                    </div>
+                </div>`;
 
             $contenedorTarjeta.html(codigoHTML);
             arrayTarjetas.push($contenedorTarjeta);
@@ -471,7 +558,7 @@ function actualizarInfoTarjetas() { // en lugar de cambiar la cantidad de la tar
         let prodId = $(this).data("productoId");
         let producto = productos.find(prod => prod.id == prodId);
         let prodStock = producto.stock;
-        let $bodyTarjeta =  $(this).closest(".card-body");
+        let $bodyTarjeta = $(this).closest(".card-body");
         $bodyTarjeta.find("p:nth-of-type(3)").html(`Disponible: ${prodStock}u`);
         if (prodStock < 1 && $(this).parent(".form-inline").length) {
             $(this).parent(".form-inline").remove();
@@ -484,18 +571,18 @@ function actualizarInfoTarjetas() { // en lugar de cambiar la cantidad de la tar
                         <button type="button" class="btn btn-danger w-50 btnAgregar" data-producto-id="${producto.id}">Agregar</button>
                         <input type="number" class="form-control ml-2 inputCantidad" value="1" min="1" max="${producto.stock}">
                      </div>`).find(".btnAgregar").click(function (e) { // genero los eventos para todos los botones agregar
-                        // para luego pasar los valores del producto correspondiente a la funcion de agregar al carrito,
-                        // tomo esos valores del atributo "data-" mediante el metodo data()
-                        let id = $(this).data("productoId");
-                        let $inputCantidad = $(this).next();
-                        let cant = parseInt($inputCantidad.val());
-                        // primero verifico si la cantidad es valida entes de agregar al carrito. Si bien setee el
-                        // atributo "max" en el input, puede que el usuario manualmente fuerce un valor no admisible 
-                        if (validarCantidad(id, cant)) {
-                            agregarCarrito(id, cant);
-                        }
-                        $inputCantidad.val(1); // devuelve el valor del input a 1
-                    });
+                // para luego pasar los valores del producto correspondiente a la funcion de agregar al carrito,
+                // tomo esos valores del atributo "data-" mediante el metodo data()
+                let id = $(this).data("productoId");
+                let $inputCantidad = $(this).next();
+                let cant = parseInt($inputCantidad.val());
+                // primero verifico si la cantidad es valida entes de agregar al carrito. Si bien setee el
+                // atributo "max" en el input, puede que el usuario manualmente fuerce un valor no admisible 
+                if (validarCantidad(id, cant)) {
+                    agregarCarrito(id, cant);
+                }
+                $inputCantidad.val(1); // devuelve el valor del input a 1
+            });
         }
     });
 }
@@ -662,7 +749,7 @@ function restarUnidadCarrito(prodId) { // resta una unidad del ítem del carrito
     actualizarInfoTarjetas();
 }
 
-
+/*
 function capitalizar(frase) { // Es una funcion auxiliar que uso internamente en el constructor del los objetos Producto. Capitaliza la primer letra de cada palabra del string ingresado
     frase = frase.toString(); // convierto el valor ingresado a string para asegurarme 
 
@@ -678,6 +765,7 @@ function capitalizar(frase) { // Es una funcion auxiliar que uso internamente en
 
     return frase;
 }
+*/
 
 
 function loguearUsuario() { // Se ejecuta al tocar en el boton I/O de logueo
@@ -887,7 +975,6 @@ $filtroBuscar.click(function (e) { // Este evento se dispara, al clickear el bot
     productosFiltradosCliente = productos;
     ordenarProductos();
     $inputBuscar.val("");
-    mostrarProductos(productosFiltradosCliente);
 });
 
 $carritoIcon.click(function (e) { // evento asociado al icono del carrito para mostrar su información
@@ -967,8 +1054,3 @@ $divModalMensajes.find(".modal-footer").click(function (e) { // Evento general d
 //Ejecución *********************** 
 
 iniciar();
-
-
-
-
-

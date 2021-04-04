@@ -26,9 +26,38 @@
     border-radius: .25rem;
 
     .card {
+        .descuento {
+            position: absolute;
+            width: 3.5rem;
+            height: 3rem;
+            top: 0;
+            right: 0;
+            background-color: #b30404;
+            border-radius: 40% 0% 40% 0%;
+            color: white;
+            font-weight: 700;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .card-img-top {
             width: 70%;
             margin: auto;
+        }
+
+        .card-body p:nth-of-type(2) {
+            b {
+                font-size: 1.1rem;
+                color: #b30404;
+            }
+
+            del {
+                color: #545454;
+                margin-left: .25rem;
+            }
+
         }
 
         .btn {

@@ -44,12 +44,12 @@ class Producto {
         this.imagen = objeto.imagen;
     }
 
-    precioVF() { // devuelve precio de venta final
+    precioLF() { // devuelve precio de venta final
         return this.precioLista * 1.21;
     }
 
-    precioVFDescuento(descuento) { // devuelve pvf con algún posible descuento (%)
-        return (this.precioLista * (1 - (descuento / 100)) * 1.21);
+    precioVF() { // devuelve precio de venta final
+        return (this.precioLista * (1 - (this.descuento / 100)) * 1.21);
     }
 
     consultaVenta(cant) { // consulta si la cantidad demandada se puede vender

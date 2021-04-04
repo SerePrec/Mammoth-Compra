@@ -152,14 +152,16 @@
                     <div class="col-12 mb-3 filtros">
                         <div class="form-inline">
                             <input type="search" id="inputBuscar" class="form-control mr-sm-2 w-50"
-                                placeholder="Descripción..." aria-label="Search" name="buscar">
+                                placeholder="Descripción, marca, tipo, ..." aria-label="Search" name="buscar">
                             <button id="btnBuscar" class="btn btn-dark my-2 my-sm-0">Buscar</button>
                             <select id="selectOrdenar" class="form-control w-25 ml-auto" name="orden">
-                                <option value="n">...</option>
+                                <option value="p">Destacados 1ro</option>
                                 <option value="a">Marca A-Z</option>
                                 <option value="z">Marca Z-A</option>
                                 <option value="-">Menor precio</option>
                                 <option value="+">Mayor precio</option>
+                                <option value="d-">Menor descuento</option>
+                                <option value="d+">Mayor descuento</option>
                             </select>
                         </div>
                     </div>
@@ -572,6 +574,8 @@
     </script>
 
     <!-- Mi JS -->
+    <script src="js/clases.js"></script>
+    <script src="js/objetoProductos.js"></script>
     <script src="js/productos.js"></script>
 
     <!--------- SCRIPTS --------->
