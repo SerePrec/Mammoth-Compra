@@ -1,82 +1,125 @@
 /***************************************************************/
 /************************ ShowRoom - Inicio ********************/
 
-.showRoom .errorResultadoBuscar {
-    background-color: #e9ecef;
-    border-radius: .25rem;
-    width: 100%;
-    margin: 1.5rem 0;
-    padding: 2rem;
-    text-align: center;
+.colProductos {
+    .filtros {
+        .form-inline {
+            #inputBuscar {
+                border-bottom-right-radius: 0;
+                border-top-right-radius: 0;
 
-    p {
-        color: red;
-        font-size: 1.5rem;
+            }
+
+            #btnBuscar {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+
+                img {
+                    width: 1.1rem;
+                }
+            }
+
+            #selectOrdenar {
+                width: 25%;
+
+                @include responsive(sm) {
+                    width: 35%;
+                }
+            }
+        }
     }
-}
 
 
-#contenedorProductos {
-    max-height: 75vh;
-    overflow-y: scroll;
-    background-color: #e9ecef;
-    margin: 1rem 0 1.5rem 0;
-    padding-top: .5rem;
-    border: 3px solid #e9ecef;
-    border-radius: .25rem;
 
-    .card {
-        .descuento {
-            position: absolute;
-            width: 3.5rem;
-            height: 3rem;
-            top: 0;
-            right: 0;
-            background-color: #b30404;
-            border-radius: 40% 0% 40% 0%;
-            color: white;
-            font-weight: 700;
+    #contenedorProductos {
+        max-height: 75vh;
+        overflow-y: scroll;
+        background-color: #e9ecef;
+        margin: 1rem 0 1.5rem 0;
+        padding-top: .5rem;
+        border: 3px solid #e9ecef;
+        border-radius: .25rem;
+
+        .card {
+            .descuento {
+                position: absolute;
+                width: 3.5rem;
+                height: 3rem;
+                top: 0;
+                right: 0;
+                background-color: #b30404;
+                border-radius: 40% 0% 40% 0%;
+                color: white;
+                font-weight: 700;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .card-img-top {
+                width: 70%;
+                margin: auto;
+            }
+
+            .card-body p:nth-of-type(2) {
+                b {
+                    font-size: 1.1rem;
+                    color: #b30404;
+                }
+
+                del {
+                    color: #545454;
+                    margin-left: .25rem;
+                }
+
+            }
+
+            .btn {
+                background-color: #b30404;
+                color: white;
+                font-weight: 500;
+                transition: all .3s;
+
+                &:hover:not([disabled]) {
+                    background-color: #d11212;
+                    transform: scale(1.04, 1.04);
+                }
+
+            }
+
+            .inputCantidad {
+                width: 40%;
+                max-width: 4.5rem;
+            }
+        }
+
+        .errorResultadoBuscar {
+            background-color: #e9ecef;
+            border-radius: .25rem;
+            margin: 1.5rem 0;
+            padding: 2rem;
             text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .card-img-top {
-            width: 70%;
             margin: auto;
-        }
+            flex: 0 0 80%;
+            max-width: none;
 
-        .card-body p:nth-of-type(2) {
-            b {
-                font-size: 1.1rem;
-                color: #b30404;
+            p {
+                color: red;
+                font-size: 1.5rem;
             }
+        }
+    }
 
-            del {
-                color: #545454;
-                margin-left: .25rem;
-            }
+    @include responsive(xs) {
+        padding-left: 0;
+        padding-right: 0;
 
+        #contenedorProductos {
+            margin-left: 1rem;
+            margin-right: 1rem;
         }
 
-        .btn {
-            background-color: #b30404;
-            color: white;
-            font-weight: 500;
-            transition: all .3s;
-
-            &:hover:not([disabled]) {
-                background-color: #d11212;
-                transform: scale(1.04, 1.04);
-            }
-
-        }
-
-        .inputCantidad {
-            width: 40%;
-            max-width: 4.5rem;
-        }
     }
 }
 

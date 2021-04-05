@@ -8,6 +8,7 @@ main.productos {
 		margin-top: 1rem;
 		margin-bottom: 1rem;
 		font-weight: 600;
+		padding: 0.5rem 1rem;
 
 		li {
 			color: #545454;
@@ -22,7 +23,27 @@ main.productos {
 	.filtros {
 		background-color: #e9ecef;
 		border-radius: .25rem;
-		padding: 1rem;
+		padding: .5rem 1rem;
+
+		h3 {
+			font-size: 1.25rem;
+			margin-bottom: .5rem;
+			height: 2.4rem;
+			display: flex;
+			align-items: center;
+
+			span {
+				padding-left: 1rem;
+			}
+		}
+
+		h4 {
+			font-size: 1.1rem;
+		}
+
+		label {
+			font-weight: 500;
+		}
 	}
 }
 

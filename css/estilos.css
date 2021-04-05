@@ -257,7 +257,8 @@ main.productos {
   main.productos .breadcrumb {
     margin-top: 1rem;
     margin-bottom: 1rem;
-    font-weight: 600; }
+    font-weight: 600;
+    padding: 0.5rem 1rem; }
     main.productos .breadcrumb li {
       color: #545454; }
       main.productos .breadcrumb li a {
@@ -266,7 +267,19 @@ main.productos {
   main.productos .filtros {
     background-color: #e9ecef;
     border-radius: .25rem;
-    padding: 1rem; }
+    padding: .5rem 1rem; }
+    main.productos .filtros h3 {
+      font-size: 1.25rem;
+      margin-bottom: .5rem;
+      height: 2.4rem;
+      display: flex;
+      align-items: center; }
+      main.productos .filtros h3 span {
+        padding-left: 1rem; }
+    main.productos .filtros h4 {
+      font-size: 1.1rem; }
+    main.productos .filtros label {
+      font-weight: 500; }
 
 .ocultar {
   display: none; }
@@ -275,18 +288,23 @@ main.productos {
 /***************************************************************/
 /***************************************************************/
 /************************ ShowRoom - Inicio ********************/
-.showRoom .errorResultadoBuscar {
-  background-color: #e9ecef;
-  border-radius: .25rem;
-  width: 100%;
-  margin: 1.5rem 0;
-  padding: 2rem;
-  text-align: center; }
-  .showRoom .errorResultadoBuscar p {
-    color: red;
-    font-size: 1.5rem; }
+.colProductos .filtros .form-inline #inputBuscar {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0; }
 
-#contenedorProductos {
+.colProductos .filtros .form-inline #btnBuscar {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0; }
+  .colProductos .filtros .form-inline #btnBuscar img {
+    width: 1.1rem; }
+
+.colProductos .filtros .form-inline #selectOrdenar {
+  width: 25%; }
+  @media only screen and (max-width: 767px) {
+    .colProductos .filtros .form-inline #selectOrdenar {
+      width: 35%; } }
+
+.colProductos #contenedorProductos {
   max-height: 75vh;
   overflow-y: scroll;
   background-color: #e9ecef;
@@ -294,7 +312,7 @@ main.productos {
   padding-top: .5rem;
   border: 3px solid #e9ecef;
   border-radius: .25rem; }
-  #contenedorProductos .card .descuento {
+  .colProductos #contenedorProductos .card .descuento {
     position: absolute;
     width: 3.5rem;
     height: 3rem;
@@ -308,26 +326,46 @@ main.productos {
     display: flex;
     justify-content: center;
     align-items: center; }
-  #contenedorProductos .card .card-img-top {
+  .colProductos #contenedorProductos .card .card-img-top {
     width: 70%;
     margin: auto; }
-  #contenedorProductos .card .card-body p:nth-of-type(2) b {
+  .colProductos #contenedorProductos .card .card-body p:nth-of-type(2) b {
     font-size: 1.1rem;
     color: #b30404; }
-  #contenedorProductos .card .card-body p:nth-of-type(2) del {
+  .colProductos #contenedorProductos .card .card-body p:nth-of-type(2) del {
     color: #545454;
     margin-left: .25rem; }
-  #contenedorProductos .card .btn {
+  .colProductos #contenedorProductos .card .btn {
     background-color: #b30404;
     color: white;
     font-weight: 500;
     transition: all .3s; }
-    #contenedorProductos .card .btn:hover:not([disabled]) {
+    .colProductos #contenedorProductos .card .btn:hover:not([disabled]) {
       background-color: #d11212;
       transform: scale(1.04, 1.04); }
-  #contenedorProductos .card .inputCantidad {
+  .colProductos #contenedorProductos .card .inputCantidad {
     width: 40%;
     max-width: 4.5rem; }
+  .colProductos #contenedorProductos .errorResultadoBuscar {
+    background-color: #e9ecef;
+    border-radius: .25rem;
+    margin: 1.5rem 0;
+    padding: 2rem;
+    text-align: center;
+    margin: auto;
+    flex: 0 0 80%;
+    max-width: none; }
+    .colProductos #contenedorProductos .errorResultadoBuscar p {
+      color: red;
+      font-size: 1.5rem; }
+
+@media only screen and (max-width: 575px) {
+  .colProductos {
+    padding-left: 0;
+    padding-right: 0; }
+    .colProductos #contenedorProductos {
+      margin-left: 1rem;
+      margin-right: 1rem; } }
 
 /************************** ShowRoom - Fin **********************/
 /***************************************************************/
@@ -391,11 +429,11 @@ main.compra {
     main.compra #detalleCompra .table tbody th {
       width: 5%; }
     main.compra #detalleCompra .table tbody td:nth-child(2) {
-      width: 10%; }
+      width: 15%; }
     main.compra #detalleCompra .table tbody td:nth-child(3) {
       width: 55%; }
     main.compra #detalleCompra .table tbody td:nth-child(4) {
-      width: 10%; }
+      width: 15%; }
     main.compra #detalleCompra .table tbody td:nth-child(5) {
       width: 20%; }
     main.compra #detalleCompra .table tbody tr:last-child td:first-child {
@@ -426,6 +464,9 @@ main.compra {
     text-align: right;
     padding: .5rem 1rem;
     margin-bottom: 2rem; }
+  @media only screen and (max-width: 575px) {
+    main.compra #detalleCompra .table tbody td:nth-child(2) {
+      padding: 0; } }
 
 /******************** Main de compra.html - Fin ****************/
 /***************************************************************/

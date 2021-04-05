@@ -50,7 +50,7 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -108,7 +108,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="mensajesEmergentes">
                 <button type="button" class="close">
                     <span>×</span>
@@ -130,32 +130,103 @@
         <div class="container-xl">
 
             <nav aria-label="breadcrumb" class="mt-3">
-                <ol class="breadcrumb py-3">
+                <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Inicio</a></li>
                     <li class="breadcrumb-item"><a href="#">Productos</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Compras</li>
                 </ol>
             </nav>
 
-            
-            <div class="row mx-0 mr-sm-n3 showRoom">
 
+            <div class="row mx-0 mr-sm-n3 showRoom">
                 <div class="col-sm-3 col-xl-2 mb-4 filtros">
-                    <h3>Filtros</h3>
-                    <button type="button" id="filtroBuscar" class="btn btn-outline-secondary ocultar mb-3">BUSQUEDA
+                    <h3>Filtros <span><img src="./img/filtros.png" alt=""></span></h3>
+
+                    <button type="button" id="filtroBuscar"
+                        class="btn btn-sm btn-outline-secondary ocultar mb-2">BUSQUEDA
                         <span>[&times;]</span></button>
 
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>Categorías</h4>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="categoria" id="catTodos"
+                                    value="todos" checked>
+                                <label class="form-check-label" for="catTodos">
+                                    TODAS
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="categoria" id="catBicicletas"
+                                    value="bicicletas">
+                                <label class="form-check-label" for="catBicicletas">
+                                    BICICLETAS
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="categoria" id="catComponentes"
+                                    value="componentes">
+                                <label class="form-check-label" for="catComponentes">
+                                    COMPONENTES
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="categoria" id="catAccesorios"
+                                    value="accesorios">
+                                <label class="form-check-label" for="catAccesorios">
+                                    ACCESORIOS
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="categoria" id="catEquipamiento"
+                                    value="equipamiento">
+                                <label class="form-check-label" for="catEquipamiento">
+                                    EQUIPAMIENTO
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="categoria" id="catIndumentaria"
+                                    value="indumentaria">
+                                <label class="form-check-label" for="catIndumentaria">
+                                    INDUMENTARIA
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="checkDestacados">
+                                <label class="form-check-label" for="checkDestacados">
+                                    Solo Destacados
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="filtroPrecioMin">Precio Mínimo $</label>
+                                <input type="range" class="form-control-range" id="rangoPrecioMin" min="0" max="1000000"
+                                    step="500" value="0">
+                                <input type="number" id="filtroPrecioMin" class="form-control form-control-sm" placeholder="$ Min"
+                                    step="500">
+                            </div>
+                            <div class="form-group">
+                                <label for="filtroPrecioMax">Precio Máximo $</label>
+                                <input type="range" class="form-control-range" id="rangoPrecioMax" min="0" max="1000000"
+                                    step="500" value="0">
+                                <input type="number" id="filtroPrecioMax" class="form-control form-control-sm" placeholder="$ Máx"
+                                    step="500">
+                            </div>
+                            <button type="button" id="aplicarFiltros"
+                                class="btn btn-sm btn-danger mb-3 w-100">APLICAR</button>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col-sm-9 col-xl-10">
+                <div class="col-sm-9 col-xl-10 colProductos">
 
                     <div class="col-12 mb-3 filtros">
                         <div class="form-inline">
-                            <input type="search" id="inputBuscar" class="form-control mr-sm-2 w-50"
+                            <input type="search" id="inputBuscar" class="form-control mr-0 w-50"
                                 placeholder="Descripción, marca, tipo, ..." aria-label="Search" name="buscar">
-                            <button id="btnBuscar" class="btn btn-dark my-2 my-sm-0">Buscar</button>
-                            <select id="selectOrdenar" class="form-control w-25 ml-auto" name="orden">
-                                <option value="p">Destacados 1ro</option>
+                            <button id="btnBuscar" class="btn btn-dark my-sm-0"><img src="./img/icon_search_w.png"
+                                    alt=""></button>
+                            <select id="selectOrdenar" class="form-control ml-auto" name="orden">
+                                <option value="p">Destacados &#9650;</option>
                                 <option value="a">Marca A-Z</option>
                                 <option value="z">Marca Z-A</option>
                                 <option value="-">Menor precio</option>
@@ -174,41 +245,41 @@
 
         <!-- Modal Carrito -->
         <div class="modal fade" id="modalCarrito" data-backdrop="static" data-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Mi Carrito</h5>
-                    <button type="button" id="btnCarritoCerrar" class="close" data-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body p-0 pt-1">
-                    <div class="carritoNoVacio">
-                        <button type="button" id="btnVaciarCarrito"
-                            class="btn btn-outline-dark d-block mx-auto mt-0 mb-1"><img
-                                src="./img/icon_cart.svg"> Vaciar</button>
-
-                        <table class="table">
-                            <tbody id="contenedorItemsCarrito">
-
-                            </tbody>
-                        </table>
-                        <div class="text-center">TOTAL: <span id="totalCarrito"></span></div>
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Mi Carrito</h5>
+                        <button type="button" id="btnCarritoCerrar" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="carritoVacio">
-                        <h3 class="text-center p-5">NO HAY ARTICULOS EN EL CARRITO</h3>
+                    <div class="modal-body p-0 pt-1">
+                        <div class="carritoNoVacio">
+                            <button type="button" id="btnVaciarCarrito"
+                                class="btn btn-outline-dark d-block mx-auto mt-0 mb-1"><img src="./img/icon_cart.svg">
+                                Vaciar</button>
+
+                            <table class="table">
+                                <tbody id="contenedorItemsCarrito">
+
+                                </tbody>
+                            </table>
+                            <div class="text-center">TOTAL: <span id="totalCarrito"></span></div>
+                        </div>
+                        <div class="carritoVacio">
+                            <h3 class="text-center p-5">NO HAY ARTICULOS EN EL CARRITO</h3>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer carritoNoVacio">
-                    <button type="button" id="btnConfirmarCompra"
-                        class="btn btn-danger w-75 mx-auto my-3">Confirmar Compra</button>
+                    <div class="modal-footer carritoNoVacio">
+                        <button type="button" id="btnConfirmarCompra" class="btn btn-danger w-75 mx-auto my-3">Confirmar
+                            Compra</button>
+                    </div>
                 </div>
             </div>
+
         </div>
-        
-    </div>
 
     </main>
     <!---------------------- MAIN - Fin ------------------------>

@@ -105,7 +105,7 @@ main.compra {
                 }
 
                 td:nth-child(2) {
-                    width: 10%;
+                    width: 15%;
                 }
 
                 td:nth-child(3) {
@@ -113,7 +113,7 @@ main.compra {
                 }
 
                 td:nth-child(4) {
-                    width: 10%;
+                    width: 15%;
                 }
 
                 td:nth-child(5) {
@@ -172,6 +172,18 @@ main.compra {
             margin-bottom: 2rem;
         }
     }
+
+    @include responsive(xs) {
+		#detalleCompra {
+            .table {
+                tbody {
+                    td:nth-child(2) {
+                        padding: 0;
+                    }
+                }
+            }
+        }
+	}
 }
 
 /******************** Main de compra.html - Fin ****************/
