@@ -3,18 +3,27 @@
 /*************** Asignacion general de fuentes ****************/
 html {
 	font-size: 16px;
-	h1,h2,h3,h4 {
+
+	h1,
+	h2,
+	h3,
+	h4 {
 		font-family: $fuente-principal;
 	}
-	p, nav, label {
+
+	p,
+	nav,
+	label {
 		font-family: $fuente-secundaria;
 	}
+
 	@include responsive(1300px) {
 		font-size: 14px;
 	}
+
 	@include responsive(xs) {
 		font-size: 12px;
-	}  
+	}
 }
 
 /************** Propiedades generales de textos ****************/
@@ -25,13 +34,21 @@ main {
 		letter-spacing: 0.2em;
 		font-weight: 800;
 	}
+
 	h3 {
 		font-size: 1.5rem;
 	}
+
 	h4 {
 		font-size: 1.2rem;
 	}
 }
 
 // para pisar a Bootstrap
-p {margin-bottom: 0;} 
+p {
+	margin-bottom: 0;
+}
+.form-control:focus {
+	border-color: #b30404;
+	box-shadow: 0 0 0 .2rem rgba(94, 24, 15, 0.452);
+}

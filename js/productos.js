@@ -17,6 +17,8 @@ TODO:
 //Generales
 let usuario = "";
 let load = false;
+let busqueda = false;
+let checkDestacado = false;
 let productosFiltradosCliente;
 let acumulado = 0;
 let carritoUsuario = {};
@@ -29,6 +31,7 @@ const $inputBuscar = $("#inputBuscar");
 const $btnBuscar = $("#btnBuscar");
 const $selectOrdenar = $("#selectOrdenar");
 const $filtroBuscar = $("#filtroBuscar");
+const $listadoFitros = $("#filtros");
 const $numItems = $("#numItems");
 const $carritoIcon = $(".carritoIcon");
 const $btnCarritoCerrar = $("#btnCarritoCerrar");
@@ -305,7 +308,7 @@ function buscarProductos(e) { //procesa el valor de búsqueda que el usario intr
             prod => prod.descripcion.toLowerCase().indexOf(fraseBuscar) != -1);
 
         $filtroBuscar.removeClass("ocultar"); // Hace visible un botón para luego quitar esté filtrado por búsqueda. Este boton esta oculto al inicio
-        ordenarProductos();
+        busqueda = true;
     }
 }
 
@@ -776,12 +779,19 @@ let tempEmergente; // Variable que almacena el temporizador de los mensajes emer
 
 $btnBuscar.click(function (e) { // Al clickear en boton buscar al lado del input correspondiente, se llama a la funcion buscarProductos
     buscarProductos();
+    filtrarCategoria(productosFiltradosCliente);
+    filtrarDestacados(productosFiltradosCliente);
+    ordenarProductos();
 });
 
 $inputBuscar.keyup(function (e) { // Luego introduje este evento asociado a que a medida que se teclea en el input
     //de búsqueda de productos, se llama a la función. Por lo que al instante se van mostrando las coincidencias. Esto hace
-    //redundante al evento anterior sobre el botón buscar, pero lo dejo porque le voy a dar uso al agregar más tipos de filtros
+    //redundante al evento anterior sobre el botón buscar, pero lo dejo porque hay eventos como el copiado con el mouse o
+    //el dictado por voz que no activan este evento y sería necesario el boton para aceptar el input
     buscarProductos();
+    filtrarCategoria(productosFiltradosCliente);
+    filtrarDestacados(productosFiltradosCliente);
+    ordenarProductos();
 });
 
 $selectOrdenar.change(function (e) { // Al cambiar la opción del select para ordenar, se llama a la función respectiva
@@ -791,7 +801,9 @@ $selectOrdenar.change(function (e) { // Al cambiar la opción del select para or
 $filtroBuscar.click(function (e) { // Este evento se dispara, al clickear el botón que aparece luego de hacer una búsqueda por descripción
     $(this).addClass("ocultar"); // vuelve a ocultar el botón
     // Acá se vuelven a mostrar todos los productos y ordenados según la selección del select, reseteando el campo del input de búsqueda
-    productosFiltradosCliente = productos;
+    busqueda = false;
+    filtrarCategoria(productos);
+    filtrarDestacados(productosFiltradosCliente);
     ordenarProductos();
     $inputBuscar.val("");
 });
@@ -873,3 +885,33 @@ $divModalMensajes.find(".modal-footer").click(function (e) { // Evento general d
 //Ejecución *********************** 
 
 iniciar();
+
+$listadoFitros.find(":radio, :checkbox").change(function (e) {
+    if (busqueda) {
+        buscarProductos();
+        filtrarCategoria(productosFiltradosCliente);
+    } else {
+        filtrarCategoria(productos);
+    }
+    filtrarDestacados(productosFiltradosCliente);
+    ordenarProductos();
+});
+
+
+function filtrarCategoria(vectorAFiltrar) {
+    let categoria = $listadoFitros.find(":radio:checked").val().toLowerCase();
+    if (categoria == "todas") {
+        productosFiltradosCliente = vectorAFiltrar;
+    } else {
+        productosFiltradosCliente = vectorAFiltrar.filter(
+            prod => prod.categoria.toLowerCase() == categoria);
+    }
+}
+
+function filtrarDestacados(vectorAFiltrar) {
+    checkDestacado = $listadoFitros.find(":checkbox").prop("checked");
+    if (checkDestacado) {
+        productosFiltradosCliente = vectorAFiltrar.filter(
+            prod => prod.destacado);
+    }
+}

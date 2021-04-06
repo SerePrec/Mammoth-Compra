@@ -27,6 +27,9 @@ header {
 				.btn {
 					background-color: #b30404;
 					color: white;
+					&:hover {
+						background-color: #d11212;
+					}
 				}
 
 				input[disabled] {

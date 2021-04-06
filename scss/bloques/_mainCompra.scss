@@ -82,6 +82,13 @@ main.compra {
                 font-weight: bold;
                 padding-right: 1rem;
             }
+
+            #btnAceptaCompra {
+                background-color: #b30404;
+                &:hover {
+                    background-color: #d11212;
+                }
+            }
         }
     }
 

@@ -70,9 +70,14 @@ main.inicio, main.productos, main.servicios, main.noticias, main.contacto {
 /*************** Asignacion general de fuentes ****************/
 html {
   font-size: 16px; }
-  html h1, html h2, html h3, html h4 {
+  html h1,
+  html h2,
+  html h3,
+  html h4 {
     font-family: "Montserrat", Helvetica, sans-serif; }
-  html p, html nav, html label {
+  html p,
+  html nav,
+  html label {
     font-family: "Roboto Condensed", Helvetica, sans-serif; }
   @media only screen and (max-width: 1300px) {
     html {
@@ -97,6 +102,10 @@ main h4 {
 p {
   margin-bottom: 0; }
 
+.form-control:focus {
+  border-color: #b30404;
+  box-shadow: 0 0 0 0.2rem rgba(94, 24, 15, 0.452); }
+
 /***************************************************************/
 /************************ Header - Inicio **********************/
 header {
@@ -119,6 +128,8 @@ header {
     header .usuario .logUsuario .input-group .btn {
       background-color: #b30404;
       color: white; }
+      header .usuario .logUsuario .input-group .btn:hover {
+        background-color: #d11212; }
     header .usuario .logUsuario .input-group input[disabled] {
       background-color: white;
       font-weight: 700;
@@ -264,22 +275,24 @@ main.productos {
       main.productos .breadcrumb li a {
         color: #b30404;
         font-weight: 500; }
-  main.productos .filtros {
+  main.productos #filtros {
     background-color: #e9ecef;
     border-radius: .25rem;
     padding: .5rem 1rem; }
-    main.productos .filtros h3 {
+    main.productos #filtros h3 {
       font-size: 1.25rem;
       margin-bottom: .5rem;
       height: 2.4rem;
       display: flex;
       align-items: center; }
-      main.productos .filtros h3 span {
+      main.productos #filtros h3 span {
         padding-left: 1rem; }
-    main.productos .filtros h4 {
+    main.productos #filtros h4 {
       font-size: 1.1rem; }
-    main.productos .filtros label {
+    main.productos #filtros label {
       font-weight: 500; }
+    main.productos #filtros #aplicarFiltros {
+      background-color: #b30404; }
 
 .ocultar {
   display: none; }
@@ -288,21 +301,23 @@ main.productos {
 /***************************************************************/
 /***************************************************************/
 /************************ ShowRoom - Inicio ********************/
-.colProductos .filtros .form-inline #inputBuscar {
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0; }
-
-.colProductos .filtros .form-inline #btnBuscar {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0; }
-  .colProductos .filtros .form-inline #btnBuscar img {
-    width: 1.1rem; }
-
-.colProductos .filtros .form-inline #selectOrdenar {
-  width: 25%; }
-  @media only screen and (max-width: 767px) {
-    .colProductos .filtros .form-inline #selectOrdenar {
-      width: 35%; } }
+.colProductos .buscarOrdenar {
+  background-color: #e9ecef;
+  border-radius: .25rem;
+  padding: .5rem 1rem; }
+  .colProductos .buscarOrdenar .form-inline #inputBuscar {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0; }
+  .colProductos .buscarOrdenar .form-inline #btnBuscar {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0; }
+    .colProductos .buscarOrdenar .form-inline #btnBuscar img {
+      width: 1.1rem; }
+  .colProductos .buscarOrdenar .form-inline #selectOrdenar {
+    width: 25%; }
+    @media only screen and (max-width: 767px) {
+      .colProductos .buscarOrdenar .form-inline #selectOrdenar {
+        width: 35%; } }
 
 .colProductos #contenedorProductos {
   max-height: 75vh;
@@ -418,6 +433,10 @@ main.compra {
   main.compra #checkOutCompra form #contenedorCuotas label span {
     font-weight: bold;
     padding-right: 1rem; }
+  main.compra #checkOutCompra form #btnAceptaCompra {
+    background-color: #b30404; }
+    main.compra #checkOutCompra form #btnAceptaCompra:hover {
+      background-color: #d11212; }
   main.compra #detalleCompra > h2 {
     color: white;
     text-shadow: 2px 2px #545454; }

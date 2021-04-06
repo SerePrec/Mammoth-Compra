@@ -20,7 +20,7 @@ main.productos {
 		}
 	}
 
-	.filtros {
+	#filtros {
 		background-color: #e9ecef;
 		border-radius: .25rem;
 		padding: .5rem 1rem;
@@ -44,6 +44,11 @@ main.productos {
 		label {
 			font-weight: 500;
 		}
+
+		#aplicarFiltros {
+			background-color: #b30404;
+		}
+	
 	}
 }
 

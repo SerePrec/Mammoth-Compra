@@ -139,7 +139,7 @@
 
 
             <div class="row mx-0 mr-sm-n3 showRoom">
-                <div class="col-sm-3 col-xl-2 mb-4 filtros">
+                <div id = "filtros" class="col-sm-3 col-xl-2 mb-4">
                     <h3>Filtros <span><img src="./img/filtros.png" alt=""></span></h3>
 
                     <button type="button" id="filtroBuscar"
@@ -150,9 +150,9 @@
                         <div class="col-sm-12">
                             <h4>Categorías</h4>
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="categoria" id="catTodos"
-                                    value="todos" checked>
-                                <label class="form-check-label" for="catTodos">
+                                <input class="form-check-input" type="radio" name="categoria" id="catTodas"
+                                    value="todas" checked>
+                                <label class="form-check-label" for="catTodas">
                                     TODAS
                                 </label>
                             </div>
@@ -160,35 +160,35 @@
                                 <input class="form-check-input" type="radio" name="categoria" id="catBicicletas"
                                     value="bicicletas">
                                 <label class="form-check-label" for="catBicicletas">
-                                    BICICLETAS
+                                    Bicicletas
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="categoria" id="catComponentes"
                                     value="componentes">
                                 <label class="form-check-label" for="catComponentes">
-                                    COMPONENTES
+                                    Componentes
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="categoria" id="catAccesorios"
                                     value="accesorios">
                                 <label class="form-check-label" for="catAccesorios">
-                                    ACCESORIOS
+                                    Accesorios
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="categoria" id="catEquipamiento"
                                     value="equipamiento">
                                 <label class="form-check-label" for="catEquipamiento">
-                                    EQUIPAMIENTO
+                                    Equipamiento
                                 </label>
                             </div>
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="radio" name="categoria" id="catIndumentaria"
                                     value="indumentaria">
                                 <label class="form-check-label" for="catIndumentaria">
-                                    INDUMENTARIA
+                                    Indumentaria
                                 </label>
                             </div>
                             <div class="form-check mb-3">
@@ -219,7 +219,7 @@
 
                 <div class="col-sm-9 col-xl-10 colProductos">
 
-                    <div class="col-12 mb-3 filtros">
+                    <div class="col-12 mb-3 buscarOrdenar">
                         <div class="form-inline">
                             <input type="search" id="inputBuscar" class="form-control mr-0 w-50"
                                 placeholder="Descripción, marca, tipo, ..." aria-label="Search" name="buscar">

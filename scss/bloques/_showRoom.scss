@@ -2,7 +2,10 @@
 /************************ ShowRoom - Inicio ********************/
 
 .colProductos {
-    .filtros {
+    .buscarOrdenar {
+        background-color: #e9ecef;
+		border-radius: .25rem;
+		padding: .5rem 1rem;
         .form-inline {
             #inputBuscar {
                 border-bottom-right-radius: 0;
