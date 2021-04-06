@@ -198,18 +198,16 @@
                                 </label>
                             </div>
                             <div class="form-group">
-                                <label for="filtroPrecioMin">Precio Mínimo $</label>
-                                <input type="range" class="form-control-range" id="rangoPrecioMin" min="0" max="1000000"
-                                    step="500" value="0">
-                                <input type="number" id="filtroPrecioMin" class="form-control form-control-sm" placeholder="$ Min"
-                                    step="500">
+                                <label for="inputPrecioMin">Precio Mínimo $</label>
+                                <input type="range" class="form-control-range" id="rangoPrecioMin" min="0" max="100"
+                                    step="1">
+                                <input type="text" id="inputPrecioMin" class="form-control form-control-sm text-center" placeholder="$ Min" disabled>
                             </div>
                             <div class="form-group">
-                                <label for="filtroPrecioMax">Precio Máximo $</label>
-                                <input type="range" class="form-control-range" id="rangoPrecioMax" min="0" max="1000000"
-                                    step="500" value="0">
-                                <input type="number" id="filtroPrecioMax" class="form-control form-control-sm" placeholder="$ Máx"
-                                    step="500">
+                                <label for="inputPrecioMax">Precio Máximo $</label>
+                                <input type="range" class="form-control-range" id="rangoPrecioMax" min="0" max="100"
+                                    step="1">
+                                <input type="text" id="inputPrecioMax" class="form-control form-control-sm text-center" placeholder="$ Máx" disabled>
                             </div>
                             <button type="button" id="aplicarFiltros"
                                 class="btn btn-sm btn-danger mb-3 w-100">APLICAR</button>

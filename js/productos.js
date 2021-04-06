@@ -19,12 +19,13 @@ let usuario = "";
 let load = false;
 let busqueda = false;
 let checkDestacado = false;
+let filtroPrecioAplicado = false;
 let productosFiltradosCliente;
 let acumulado = 0;
 let carritoUsuario = {};
 let auxCarritosGuardados;
 let auxCarritoGuardado;
-let scrollContenedorProductos;
+let precioMinimo, precioMaximo, precioMinSel, precioMaxSel;
 
 //DOM
 const $inputBuscar = $("#inputBuscar");
@@ -32,6 +33,10 @@ const $btnBuscar = $("#btnBuscar");
 const $selectOrdenar = $("#selectOrdenar");
 const $filtroBuscar = $("#filtroBuscar");
 const $listadoFitros = $("#filtros");
+const $inputPrecioMinimo = $("#inputPrecioMin");
+const $inputPrecioMaximo = $("#inputPrecioMax");
+const $rangoPrecioMinimo = $("#rangoPrecioMin");
+const $rangoPrecioMaximo = $("#rangoPrecioMax");
 const $numItems = $("#numItems");
 const $carritoIcon = $(".carritoIcon");
 const $btnCarritoCerrar = $("#btnCarritoCerrar");
@@ -71,7 +76,8 @@ const iniciar = () => { // Ejecuta el inicio del simulador
     productosFiltradosCliente = productos;
 
     // Carga inicial de productos en la página
-    ordenarProductos();
+    ordenarProductos(productosFiltradosCliente);
+    seteoRangoPrecios(productosFiltradosCliente);
 
     validarUsuario();
     load = true;
@@ -109,7 +115,7 @@ function asignarCarrito(user) { // Si esta logueado, carga el carrito de compra 
             if (carritoGuardado && carritoGuardado.usuario == user && carritoGuardado.miSeleccion.length != 0) {
                 validarCarritoGuardado(user, carritoGuardado);
                 actualizarIconoCarrito();
-                ordenarProductos();
+                ordenarProductos(productosFiltradosCliente);
                 actualizarCarritoEnStorage();
                 return
             }
@@ -187,7 +193,7 @@ function validarCarritoGuardado(user, carritoGuard) { // Valida las cantidades d
 }
 
 
-function ordenarProductos(e) { //procesa la opción seleccionada de orden en el select y llama a la función de orden respectiva
+function ordenarProductos(vectorAOrdenar) { //procesa la opción seleccionada de orden en el select y llama a la función de orden respectiva
     let tipoOrden = $selectOrdenar.val().toLowerCase();
     let funcion;
     switch (tipoOrden) {
@@ -222,8 +228,8 @@ function ordenarProductos(e) { //procesa la opción seleccionada de orden en el 
         default:
             break;
     }
-    productosFiltradosCliente.sort(funcion);
-    mostrarProductos(productosFiltradosCliente);
+    vectorAOrdenar.sort(funcion);
+    mostrarProductos(vectorAOrdenar);
 }
 
 
@@ -781,7 +787,8 @@ $btnBuscar.click(function (e) { // Al clickear en boton buscar al lado del input
     buscarProductos();
     filtrarCategoria(productosFiltradosCliente);
     filtrarDestacados(productosFiltradosCliente);
-    ordenarProductos();
+    ordenarProductos(productosFiltradosCliente);
+    seteoRangoPrecios(productosFiltradosCliente);
 });
 
 $inputBuscar.keyup(function (e) { // Luego introduje este evento asociado a que a medida que se teclea en el input
@@ -791,11 +798,16 @@ $inputBuscar.keyup(function (e) { // Luego introduje este evento asociado a que 
     buscarProductos();
     filtrarCategoria(productosFiltradosCliente);
     filtrarDestacados(productosFiltradosCliente);
-    ordenarProductos();
+    ordenarProductos(productosFiltradosCliente);
+    seteoRangoPrecios(productosFiltradosCliente);
 });
 
 $selectOrdenar.change(function (e) { // Al cambiar la opción del select para ordenar, se llama a la función respectiva
-    ordenarProductos();
+    if(filtroPrecioAplicado) {
+        ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
+    } else {
+        ordenarProductos(productosFiltradosCliente);
+    }
 });
 
 $filtroBuscar.click(function (e) { // Este evento se dispara, al clickear el botón que aparece luego de hacer una búsqueda por descripción
@@ -804,7 +816,8 @@ $filtroBuscar.click(function (e) { // Este evento se dispara, al clickear el bot
     busqueda = false;
     filtrarCategoria(productos);
     filtrarDestacados(productosFiltradosCliente);
-    ordenarProductos();
+    ordenarProductos(productosFiltradosCliente);
+    seteoRangoPrecios(productosFiltradosCliente);
     $inputBuscar.val("");
 });
 
@@ -894,8 +907,30 @@ $listadoFitros.find(":radio, :checkbox").change(function (e) {
         filtrarCategoria(productos);
     }
     filtrarDestacados(productosFiltradosCliente);
-    ordenarProductos();
+    ordenarProductos(productosFiltradosCliente);
+    seteoRangoPrecios(productosFiltradosCliente);
 });
+
+$rangoPrecioMinimo.mousedown(function (e) {
+    $(this).on("mousemove", actFiltroPrecioMin);
+    $(this).on("mouseup", function (e) {
+        $(e.target).off("mousemove", actFiltroPrecioMin);
+        actFiltroPrecioMin(e);
+    });
+});
+
+$rangoPrecioMaximo.mousedown(function (e) {
+    $(this).on("mousemove", actFiltroPrecioMax);
+    $(this).on("mouseup", function (e) {
+        $(e.target).off("mousemove", actFiltroPrecioMax);
+        actFiltroPrecioMax(e);
+    });
+});
+
+$listadoFitros.find(":input[type=range]").change(function(e) {
+    ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
+});
+
 
 
 function filtrarCategoria(vectorAFiltrar) {
@@ -914,4 +949,60 @@ function filtrarDestacados(vectorAFiltrar) {
         productosFiltradosCliente = vectorAFiltrar.filter(
             prod => prod.destacado);
     }
+}
+
+function seteoRangoPrecios(vectorAProcesar) {
+    filtroPrecioAplicado = false;
+    if (vectorAProcesar.length == 0) {
+        $rangoPrecioMinimo.val(50).attr("disabled", true);
+        $rangoPrecioMaximo.val(50).attr("disabled", true);
+        $inputPrecioMinimo.val("");
+        $inputPrecioMaximo.val("");
+        return
+    }
+    precioMinimo = +Infinity;
+    precioMaximo = -Infinity;
+    let precio;
+    for (const producto of vectorAProcesar) {
+        precio = producto.precioVF();
+        if (precio > precioMaximo) precioMaximo = precioMaxSel = precio;
+        if (precio < precioMinimo) precioMinimo = precioMinSel = precio;
+    }
+    $inputPrecioMinimo.val(`$${Math.ceil(precioMinimo)}`);
+    $inputPrecioMaximo.val(`$${Math.ceil(precioMaximo)}`);
+    if (vectorAProcesar.length == 1) {
+        $rangoPrecioMinimo.val(50).attr("disabled", true);
+        $rangoPrecioMaximo.val(50).attr("disabled", true);
+        return
+    }
+    $rangoPrecioMinimo.val(0).attr("disabled", false);
+    $rangoPrecioMaximo.val(100).attr("disabled", false);
+}
+
+
+function actFiltroPrecioMin(e) {
+    precioMinSel = Math.ceil(precioMinimo + (precioMaximo - precioMinimo) * $(e.target).val() / 100);
+    $(e.target).next().val(`$${precioMinSel}`);
+    if (precioMinSel >= precioMaxSel) {
+        $(e.target).next().val($inputPrecioMaximo.val());
+        precioMinSel = precioMaxSel;
+        $(e.target).val($rangoPrecioMaximo.val());
+    }
+}
+
+function actFiltroPrecioMax(e) {
+    precioMaxSel = Math.ceil(precioMinimo + (precioMaximo - precioMinimo) * $(e.target).val() / 100);
+    $(e.target).next().val(`$${precioMaxSel}`);
+    if (precioMinSel >= precioMaxSel) {
+        $(e.target).next().val($inputPrecioMinimo.val());
+        precioMaxSel = precioMinSel;
+        $(e.target).val($rangoPrecioMinimo.val());
+    }
+}
+
+function filtrarRangoPrecio(vectorAFiltrar) {
+    filtroPrecioAplicado = "true";
+    let vectorAuxiliar = productosFiltradosCliente.filter(
+        prod => Boolean(prod.precioVF() >= precioMinSel && prod.precioVF() <= precioMaxSel));
+    return vectorAuxiliar;
 }
