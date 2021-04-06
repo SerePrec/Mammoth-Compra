@@ -230,6 +230,7 @@ function ordenarProductos(vectorAOrdenar) { //procesa la opción seleccionada de
     }
     vectorAOrdenar.sort(funcion);
     mostrarProductos(vectorAOrdenar);
+   actCantProductosEncontrados(vectorAOrdenar);
 }
 
 
@@ -803,7 +804,7 @@ $inputBuscar.keyup(function (e) { // Luego introduje este evento asociado a que 
 });
 
 $selectOrdenar.change(function (e) { // Al cambiar la opción del select para ordenar, se llama a la función respectiva
-    if(filtroPrecioAplicado) {
+    if (filtroPrecioAplicado) {
         ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
     } else {
         ordenarProductos(productosFiltradosCliente);
@@ -927,7 +928,7 @@ $rangoPrecioMaximo.mousedown(function (e) {
     });
 });
 
-$listadoFitros.find(":input[type=range]").change(function(e) {
+$listadoFitros.find(":input[type=range]").change(function (e) {
     ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
 });
 
@@ -1005,4 +1006,9 @@ function filtrarRangoPrecio(vectorAFiltrar) {
     let vectorAuxiliar = productosFiltradosCliente.filter(
         prod => Boolean(prod.precioVF() >= precioMinSel && prod.precioVF() <= precioMaxSel));
     return vectorAuxiliar;
+}
+
+function actCantProductosEncontrados(vectorAContar) {
+    let encontrados = vectorAContar.length;
+    $("#cantProductosEncontrados").text(`(${encontrados}) producto/s`);
 }
