@@ -378,7 +378,7 @@ productos.push(new Producto(
     25400,
     14,
     0,
-    1,
+    2,
     "producto29.jpg",
     false
 ));
@@ -417,7 +417,7 @@ productos.push(new Producto(
     5280,
     0,
     0,
-    1,
+    4,
     "producto32.jpg",
     true
 ));
@@ -690,7 +690,7 @@ productos.push(new Producto(
     3260,
     0,
     0,
-    1,
+    3,
     "producto53.jpg",
     false
 ));
@@ -794,7 +794,7 @@ productos.push(new Producto(
     5030,
     14,
     0,
-    1,
+    2,
     "producto61.jpg",
     false
 ));
@@ -1002,7 +1002,7 @@ productos.push(new Producto(
     8990,
     0,
     0,
-    1,
+    2,
     "producto77.jpg",
     false
 ));

@@ -319,6 +319,96 @@ function buscarProductos(e) { //procesa el valor de búsqueda que el usario intr
     }
 }
 
+function filtrarCategoria(vectorAFiltrar) { // Filtra al vector pasado por la categoría seleccionada por el usuario
+    let categoria = $listadoFitros.find(":radio:checked").val().toLowerCase();
+    if (categoria == "todas") {
+        productosFiltradosCliente = vectorAFiltrar;
+    } else {
+        productosFiltradosCliente = vectorAFiltrar.filter(
+            prod => prod.categoria.toLowerCase() == categoria);
+    }
+}
+
+function filtrarDestacados(vectorAFiltrar) { // Filtra al vector pasado por si es o no un producto destacado
+    checkDestacado = $listadoFitros.find(":checkbox").prop("checked");
+    if (checkDestacado) {
+        productosFiltradosCliente = vectorAFiltrar.filter(
+            prod => prod.destacado);
+    }
+}
+
+function seteoRangoPrecios(vectorAProcesar) { // Controla la selección del rango de precios por el usuario y colocar su valor en los input respectivos
+    // esta bandera es para que luego cuando se ordena/muestra los productos,
+    // se sepa si ordenar procesa el conjunto del vector productosFiltradosCliente
+    // o solo un vector auxiliar que devuelve la función filtrarRangoPrecio()
+    filtroPrecioAplicado = false; 
+    if (vectorAProcesar.length == 0) { // Si no hay productos, se pone en disabled los controles "range" y se vacía su valor para mostrar placeholder
+        $rangoPrecioMinimo.val(50).attr("disabled", true);
+        $rangoPrecioMaximo.val(50).attr("disabled", true);
+        $inputPrecioMinimo.val("");
+        $inputPrecioMaximo.val("");
+        return
+    }
+    precioMinimo = +Infinity;
+    precioMaximo = -Infinity;
+    let precio;
+    for (const producto of vectorAProcesar) { // se obtiene el precio máximo y mínimo del vector a procesar
+        precio = producto.precioVF();
+        if (precio > precioMaximo) precioMaximo = precioMaxSel = precio;
+        if (precio < precioMinimo) precioMinimo = precioMinSel = precio;
+    }
+    // esos valores extremos se muestran el los input
+    $inputPrecioMinimo.val(`$${Math.ceil(precioMinimo)}`);
+    $inputPrecioMaximo.val(`$${Math.ceil(precioMaximo)}`);
+    if (vectorAProcesar.length == 1) { // si hay un solo producto, se bloquean los controles "range" ya que no tiene sentido seleccionar un rango de precios 
+        $rangoPrecioMinimo.val(50).attr("disabled", true);
+        $rangoPrecioMaximo.val(50).attr("disabled", true);
+        return
+    }
+    // de lo contrario se habilitan los controles
+    $rangoPrecioMinimo.val(0).attr("disabled", false);
+    $rangoPrecioMaximo.val(100).attr("disabled", false);
+}
+
+
+function actFiltroPrecioMin(e) { // Se encarga de ir actualizando el valor del input precio mínimo según el desplazamiento del control "range"
+    // opto por una escala no lineal porque se hace dificil seleccionar con tanto rango de precio
+    precioMinSel = (precioMinimo + (precioMaximo - precioMinimo) * ($(e.target).val()) ** 2 / 10000);
+    $(e.target).next().val(`$${Math.ceil(precioMinSel)}`);
+    if (precioMinSel >= precioMaxSel) { // Si quiere sellecionar un rango ilógico, se fija el valor compatible según la selección del otro control
+        $(e.target).next().val($inputPrecioMaximo.val());
+        precioMinSel = precioMaxSel;
+    }
+}
+
+function actFiltroPrecioMax(e) { // Se encarga de ir actualizando el valor del input precio máximo según el desplazamiento del control "range"
+    // opto por una escala no lineal porque se hace dificil seleccionar con tanto rango de precio
+    precioMaxSel = (precioMinimo + (precioMaximo - precioMinimo) * ($(e.target).val()) ** 2 / 10000);
+    $(e.target).next().val(`$${Math.ceil(precioMaxSel)}`);
+    if (precioMinSel >= precioMaxSel) { // Si quiere sellecionar un rango ilógico, se fija el valor compatible según la selección del otro control
+        $(e.target).next().val($inputPrecioMinimo.val());
+        precioMaxSel = precioMinSel;
+    }
+}
+
+function filtrarRangoPrecio(vectorAFiltrar) { // filtra el vector pasado según el rango de precio elegido. No sobreescribe el vector, sino que devuelve otro
+    filtroPrecioAplicado = "true";
+    // se crea y se devuelve un vector auxiliar, para no sobreescribir el vector pasado
+    // y poder seguir operando posteriormente con el mismo si se van cambiando solo los rangos de precio
+    let vectorAuxiliar = vectorAFiltrar.filter(
+        prod => Boolean(prod.precioVF() >= precioMinSel && prod.precioVF() <= precioMaxSel));
+    return vectorAuxiliar; 
+}
+
+function actCantProductosEncontrados(vectorAContar) { // Actualiza el contador de prodcutos encontrados según los criterios
+    let encontrados = vectorAContar.length;
+    if (encontrados == 1) {
+        $("#cantProductosEncontrados").text(`${encontrados} producto`);
+    } else {
+        $("#cantProductosEncontrados").text(`${encontrados} productos`);
+    }
+}
+
 
 function mostrarProductos(vectorProductos) { // Carga los productos en la página en formato de tarjetas, a partir del array que toma como parámetro
     const $contenedorProductos = $("#contenedorProductos");
@@ -804,9 +894,9 @@ $inputBuscar.keyup(function (e) { // Luego introduje este evento asociado a que 
 });
 
 $selectOrdenar.change(function (e) { // Al cambiar la opción del select para ordenar, se llama a la función respectiva
-    if (filtroPrecioAplicado) {
+    if (filtroPrecioAplicado) { // Si hay un filtro de rengo de precio aplicado, ordena el vector que devuelve este filtrado
         ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
-    } else {
+    } else { // sino opera sobre el vector que recoje el resto del los filtros, excepto el de rango de precio
         ordenarProductos(productosFiltradosCliente);
     }
 });
@@ -820,6 +910,42 @@ $filtroBuscar.click(function (e) { // Este evento se dispara, al clickear el bot
     ordenarProductos(productosFiltradosCliente);
     seteoRangoPrecios(productosFiltradosCliente);
     $inputBuscar.val("");
+});
+
+$listadoFitros.find(":radio, :checkbox").change(function (e) { //Agrego evento change a los radios y el checkbox para disparar el filtrado 
+    if (busqueda) { // Si esta activa un búsqueda, la vuelve a hacer como punto de partida para aplicar los posteriores filtros 
+        buscarProductos();
+        filtrarCategoria(productosFiltradosCliente);
+    } else {
+        filtrarCategoria(productos);
+    }
+    filtrarDestacados(productosFiltradosCliente);
+    ordenarProductos(productosFiltradosCliente);
+    seteoRangoPrecios(productosFiltradosCliente);
+});
+
+$rangoPrecioMinimo.mousedown(function (e) { // Agrego eventos del mouse a los input "range" para generar la actualización en tiempo real del precio mínimo
+    $(this).on("mousemove", actFiltroPrecioMin);
+    $(this).one("mouseup", function (e) {
+        $(e.target).off("mousemove", actFiltroPrecioMin); // al soltar el boton del mouse quita el evento mousemove
+        if (precioMinSel >= precioMaxSel) { // si el precio esta fuera del rango lógico devuelve la posición del selector donde corresponde en relación al precio máximo
+            $(e.target).val($rangoPrecioMaximo.val());
+        }
+    });
+});
+
+$rangoPrecioMaximo.mousedown(function (e) { // Agrego eventos del mouse a los input "range" para generar la actualización en tiempo real del precio máximo
+    $(this).on("mousemove", actFiltroPrecioMax);
+    $(this).one("mouseup", function (e) {
+        $(e.target).off("mousemove", actFiltroPrecioMax);
+        if (precioMinSel >= precioMaxSel) { // si el precio esta fuera del rango lógico devuelve la posición del selector donde corresponde en relación al precio mínimo
+            $(e.target).val($rangoPrecioMinimo.val());
+        }
+    });
+});
+
+$listadoFitros.find(":input[type=range]").change(function (e) { // Agrego enevto a los dos input "range" para que al cambiar su valor, muestre los productos con el orden seleccionado
+    ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
 });
 
 $carritoIcon.click(function (e) { // evento asociado al icono del carrito para mostrar su información
@@ -899,124 +1025,3 @@ $divModalMensajes.find(".modal-footer").click(function (e) { // Evento general d
 //Ejecución *********************** 
 
 iniciar();
-
-$listadoFitros.find(":radio, :checkbox").change(function (e) {
-    if (busqueda) {
-        buscarProductos();
-        filtrarCategoria(productosFiltradosCliente);
-    } else {
-        filtrarCategoria(productos);
-    }
-    filtrarDestacados(productosFiltradosCliente);
-    ordenarProductos(productosFiltradosCliente);
-    seteoRangoPrecios(productosFiltradosCliente);
-});
-
-$rangoPrecioMinimo.mousedown(function (e) {
-    $(this).on("mousemove", actFiltroPrecioMin);
-    $(this).one("mouseup", function (e) {
-        $(e.target).off("mousemove", actFiltroPrecioMin);
-        if (precioMinSel >= precioMaxSel) {
-            $(e.target).val($rangoPrecioMaximo.val());
-        }
-    });
-});
-
-$rangoPrecioMaximo.mousedown(function (e) {
-    $(this).on("mousemove", actFiltroPrecioMax);
-    $(this).one("mouseup", function (e) {
-        $(e.target).off("mousemove", actFiltroPrecioMax);
-        if (precioMinSel >= precioMaxSel) {
-            $(e.target).val($rangoPrecioMinimo.val());
-        }
-    });
-});
-
-$listadoFitros.find(":input[type=range]").change(function (e) {
-    ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
-});
-
-
-
-function filtrarCategoria(vectorAFiltrar) {
-    let categoria = $listadoFitros.find(":radio:checked").val().toLowerCase();
-    if (categoria == "todas") {
-        productosFiltradosCliente = vectorAFiltrar;
-    } else {
-        productosFiltradosCliente = vectorAFiltrar.filter(
-            prod => prod.categoria.toLowerCase() == categoria);
-    }
-}
-
-function filtrarDestacados(vectorAFiltrar) {
-    checkDestacado = $listadoFitros.find(":checkbox").prop("checked");
-    if (checkDestacado) {
-        productosFiltradosCliente = vectorAFiltrar.filter(
-            prod => prod.destacado);
-    }
-}
-
-function seteoRangoPrecios(vectorAProcesar) {
-    filtroPrecioAplicado = false;
-    if (vectorAProcesar.length == 0) {
-        $rangoPrecioMinimo.val(50).attr("disabled", true);
-        $rangoPrecioMaximo.val(50).attr("disabled", true);
-        $inputPrecioMinimo.val("");
-        $inputPrecioMaximo.val("");
-        return
-    }
-    precioMinimo = +Infinity;
-    precioMaximo = -Infinity;
-    let precio;
-    for (const producto of vectorAProcesar) {
-        precio = producto.precioVF();
-        if (precio > precioMaximo) precioMaximo = precioMaxSel = precio;
-        if (precio < precioMinimo) precioMinimo = precioMinSel = precio;
-    }
-    $inputPrecioMinimo.val(`$${Math.ceil(precioMinimo)}`);
-    $inputPrecioMaximo.val(`$${Math.ceil(precioMaximo)}`);
-    if (vectorAProcesar.length == 1) {
-        $rangoPrecioMinimo.val(50).attr("disabled", true);
-        $rangoPrecioMaximo.val(50).attr("disabled", true);
-        return
-    }
-    $rangoPrecioMinimo.val(0).attr("disabled", false);
-    $rangoPrecioMaximo.val(100).attr("disabled", false);
-}
-
-
-function actFiltroPrecioMin(e) {
-    // opto por una escala no lineal porque se hace dificil seleccionar con tanto rango de precio
-    precioMinSel = (precioMinimo + (precioMaximo - precioMinimo) * ($(e.target).val()) ** 2 / 10000);
-    $(e.target).next().val(`$${Math.ceil(precioMinSel)}`);
-    if (precioMinSel >= precioMaxSel) {
-        $(e.target).next().val($inputPrecioMaximo.val());
-        precioMinSel = precioMaxSel;
-    }
-}
-
-function actFiltroPrecioMax(e) {
-    // opto por una escala no lineal porque se hace dificil seleccionar con tanto rango de precio
-    precioMaxSel = (precioMinimo + (precioMaximo - precioMinimo) * ($(e.target).val()) ** 2 / 10000);
-    $(e.target).next().val(`$${Math.ceil(precioMaxSel)}`);
-    if (precioMinSel >= precioMaxSel) {
-        $(e.target).next().val($inputPrecioMinimo.val());
-        precioMaxSel = precioMinSel;
-    }
-}
-
-function filtrarRangoPrecio(vectorAFiltrar) {
-    filtroPrecioAplicado = "true";
-    let vectorAuxiliar = productosFiltradosCliente.filter(
-        prod => Boolean(prod.precioVF() >= precioMinSel && prod.precioVF() <= precioMaxSel));
-    return vectorAuxiliar;
-}
-
-function actCantProductosEncontrados(vectorAContar) {
-    let encontrados = vectorAContar.length;
-    if (encontrados == 1) {
-        $("#cantProductosEncontrados").text(`${encontrados} producto`);
-    } else {
-        $("#cantProductosEncontrados").text(`${encontrados} productos`);
-    }
-}
