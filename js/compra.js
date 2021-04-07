@@ -331,6 +331,7 @@ $formularioCompra.submit(function (e) { // Evento "submit" del formulario de com
 
     carritoUsuario.miSeleccion = []; //Se pone a cero el carrito una vez concretada la compra
     localStorage.setItem("carritoUsuario", JSON.stringify(carritoUsuario)); // actualizo el carritoUsuario actual en el localStorage
+    actualizarIconoCarrito();
 });
 
 
