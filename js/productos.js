@@ -583,7 +583,7 @@ function animarIconoCarritoIn() { // animacion encadenada del icono del carrito
         .animate({
             top: "-10px",
             opacity: ".3"
-        }, 300)
+        }, 600)
         .animate({
             opacity: "1"
         }, 250);
@@ -595,7 +595,7 @@ function animarIconoCarritoOut() { // animacion encadenada del icono del carrito
     $numItems.animate({
             top: "-55px",
             opacity: "0"
-        }, 300, () => {
+        }, 600, () => {
             $numItems.css("top", "-10px");
             actualizarIconoCarrito();
         })
