@@ -148,7 +148,7 @@ function siCargarCarritoGuardado() { // Se llama cuando el usuario decide cargar
     if (carritoUsuario.miSeleccion && carritoUsuario.miSeleccion.length) vaciarCarrito();
     // Se procede a la carga del carrito guardado y todas las actualizaciones necesarias 
     validarCarritoGuardado(usuario, auxCarritoGuardado);
-    actualizarIconoCarrito();
+    animarIconoCarritoIn();
     actualizarInfoTarjetas();
     actualizarCarritoEnStorage();
     removerCarritoGuardado(auxCarritoGuardado, auxCarritosGuardados);
@@ -341,7 +341,7 @@ function seteoRangoPrecios(vectorAProcesar) { // Controla la selección del rang
     // esta bandera es para que luego cuando se ordena/muestra los productos,
     // se sepa si ordenar procesa el conjunto del vector productosFiltradosCliente
     // o solo un vector auxiliar que devuelve la función filtrarRangoPrecio()
-    filtroPrecioAplicado = false; 
+    filtroPrecioAplicado = false;
     if (vectorAProcesar.length == 0) { // Si no hay productos, se pone en disabled los controles "range" y se vacía su valor para mostrar placeholder
         $rangoPrecioMinimo.val(50).attr("disabled", true);
         $rangoPrecioMaximo.val(50).attr("disabled", true);
@@ -397,7 +397,7 @@ function filtrarRangoPrecio(vectorAFiltrar) { // filtra el vector pasado según 
     // y poder seguir operando posteriormente con el mismo si se van cambiando solo los rangos de precio
     let vectorAuxiliar = vectorAFiltrar.filter(
         prod => Boolean(prod.precioVF() >= precioMinSel && prod.precioVF() <= precioMaxSel));
-    return vectorAuxiliar; 
+    return vectorAuxiliar;
 }
 
 function actCantProductosEncontrados(vectorAContar) { // Actualiza el contador de prodcutos encontrados según los criterios
@@ -455,7 +455,7 @@ function mostrarProductos(vectorProductos) { // Carga los productos en la págin
                             <input type="number" class="form-control ml-2 inputCantidad" value="1" min="1" max="${producto.stock}">
                         </div>`;
             } else { // Si el producto no tiene stock genera una tarjeta con un boton "disbled" que notifica "Agotado"
-                codigoHTML += `<button type="button" class="btn btn-danger w-100" data-producto-id="${producto.id}" disabled>Agotado</button>`;
+                codigoHTML += `<button type="button" class="btn btn-danger" data-producto-id="${producto.id}" disabled>Agotado</button>`;
             }
             codigoHTML += `
                     </div>
@@ -499,10 +499,14 @@ function actualizarInfoTarjetas() { // en lugar de cambiar la cantidad de la tar
         $bodyTarjeta.find("p:nth-of-type(3)").html(`Disponible: ${prodStock}u`);
         if (prodStock < 1 && $(this).parent(".form-inline").length) {
             $(this).parent(".form-inline").remove();
-            $bodyTarjeta.append(`<button type="button" class="btn btn-danger w-100" data-producto-id="${producto.id}" disabled>Agotado</button>`);
+            $bodyTarjeta.append(`<button type="button" class="btn btn-danger" data-producto-id="${producto.id}" disabled>Agotado</button>`);
         }
-        if (prodStock >= 1 && $(this).parent(".form-inline").length == 0) {
-            $(this).remove();
+        if (prodStock >= 1) {
+            if ($(this).parent(".form-inline").length == 0) {
+                $(this).remove();
+            } else {
+                $(this).parent(".form-inline").remove();
+            }
             $bodyTarjeta.append(`
                     <div class="form-inline">
                         <button type="button" class="btn btn-danger w-50 btnAgregar" data-producto-id="${producto.id}">Agregar</button>
@@ -563,12 +567,42 @@ function agregarCarrito(prodId, cant) { //agrega los productos al carrito y los 
     console.log("%cComprando", "color: white; background-color: green; padding: 3px", producto.descripcion,
         "// Cant:", cant); // simulando un control interno de la operación
 
+
     // hago las actualizaciones correspondientes
-    actualizarIconoCarrito();
+    animarIconoCarritoIn();
     actualizarCarritoEnStorage();
     actualizarInfoTarjetas(productosFiltradosCliente);
 }
 
+function animarIconoCarritoIn() { // animacion encadenada del icono del carrito
+    $numItems.stop(true);
+    $numItems.css({
+            "top": "-55px",
+            "opacity": "0"
+        })
+        .animate({
+            top: "-10px",
+            opacity: ".3"
+        }, 300)
+        .animate({
+            opacity: "1"
+        }, 250);
+    actualizarIconoCarrito();
+}
+
+function animarIconoCarritoOut() { // animacion encadenada del icono del carrito
+    $numItems.stop(true);
+    $numItems.animate({
+            top: "-55px",
+            opacity: "0"
+        }, 300, () => {
+            $numItems.css("top", "-10px");
+            actualizarIconoCarrito();
+        })
+        .animate({
+            opacity: "1"
+        }, 250);
+}
 
 function actualizarIconoCarrito() { //refresca el contador del ícono carrito
     let contador = 0;
@@ -625,16 +659,25 @@ function mostrarCarrito() { //genera el HTML para la ventana modal del carrito
 
 function vaciarCarrito() { // vacía el carrito activo del usuario
     let productoItem;
+    let cont = 0;
 
     for (let item of carritoUsuario.miSeleccion) { // devuelvo al stock las cantidades del los productos que se eliminan del carrito
+        cont++
         productoItem = productos.find(producto => producto.id == item.id)
         productoItem.ingresar((item.cant));
+        $contenedorItemsCarrito.find(`button[data-producto-id='${item.id}']`).parent().parent()
+            .fadeOut(750 * (1 + cont * .05));
     }
+    $contenedorItemsCarrito.parent().next()
+        .fadeOut(750 * (1 + cont * .05), () => {
+            mostrarCarrito();
+            $contenedorItemsCarrito.parent().next().show();
+        });
+
 
     carritoUsuario.miSeleccion = [];
     // hago las actualizaciones correspondientes 
-    mostrarCarrito();
-    actualizarIconoCarrito();
+    animarIconoCarritoOut();
     actualizarCarritoEnStorage();
     actualizarInfoTarjetas();
 
@@ -655,9 +698,9 @@ function eliminarProductoCarrito(prodId) { // elimina un item completo del carri
     let indice = carritoUsuario.miSeleccion.indexOf(itemCarrito);
     carritoUsuario.miSeleccion.splice(indice, 1); // elimino del array miSeleccion, el objeto item correspondiente
 
+    eliminarElemCarritoFade(prodId, 350);
     // hago las actualizaciones correspondientes 
-    mostrarCarrito();
-    actualizarIconoCarrito();
+    animarIconoCarritoOut();
     actualizarCarritoEnStorage();
     actualizarInfoTarjetas();
 }
@@ -676,15 +719,26 @@ function restarUnidadCarrito(prodId) { // resta una unidad del ítem del carrito
     if (itemCarrito.cant == 0) { // si el item del carrito quedo en cero unidades, lo elimino
         let indice = carritoUsuario.miSeleccion.indexOf(itemCarrito);
         carritoUsuario.miSeleccion.splice(indice, 1);
-
+        eliminarElemCarritoFade(prodId, 350);
+    } else {
+        mostrarCarrito();
     }
 
     // hago las actualizaciones correspondientes 
-    mostrarCarrito();
-    actualizarIconoCarrito();
+    animarIconoCarritoOut();
     actualizarCarritoEnStorage();
     actualizarInfoTarjetas();
 }
+
+function eliminarElemCarritoFade(prodId, tiempo) {
+    $contenedorItemsCarrito.find(`button[data-producto-id='${prodId}']`).parent().parent()
+        .fadeOut(tiempo, function () {
+            // hago las actualizaciones correspondientes 
+            mostrarCarrito();
+        })
+}
+
+
 
 
 function loguearUsuario() { // Se ejecuta al tocar en el boton I/O de logueo
@@ -744,23 +798,17 @@ function logInUsuario() { // Genera al usuario en caso de no tener una sesion ab
     // error debajo del input de login/out 
     let $errorInputUsuario = $("#errorInputUsuario");
     if (user.trim().length < 5 || user.trim().length > 20 || !isNaN(parseInt(user))) { // acá inpongo los requisitos a cumplir en el nombre de usuario (para practicar)
-        if ($errorInputUsuario.length == 0) {
-            $errorInputUsuario = $(
-                `<p id="errorInputUsuario">El usuario debe contener al menos 5 caracteres y no sobrepasar los 20. Tampoco debe comenzar con un número.</p>`
-            );
-            $divLogUsuario.append($errorInputUsuario);
-
-            setTimeout(() => {
-                if ($("#errorInputUsuario").length) $("#errorInputUsuario").remove();
-            }, 4000) // El mensaje dura 4 segundos, luego se elimina el HTML creado a tal fin
-        }
+        // paro todas las animaciones que puedan estar ejecutandose sobre el elmento. Por ejemplo si tecleo rápido usuarios erroneos 
+        $errorInputUsuario.stop(true);
+        // El mensaje aparece en 0.3s, dura 4 segundos visible y se oculta en 0.3s
+        $errorInputUsuario.slideDown(300, () => { // paso un callback a la animación para encadenarlas
+            $errorInputUsuario.delay(4000).slideUp(300);
+        });
 
         $inputUsuario.val(""); // reseteo el valor del input para que vuelva a ingresar
         return false;
     } else { // si cumple los requisitos, seteo el usuario y guardo en storage
-        if ($errorInputUsuario.length) {
-            $errorInputUsuario.remove();
-        }
+        $errorInputUsuario.stop(true).slideUp(300); // encadeno primero las paradas de animaciones y luego ejecuto la animacion de ocultar
 
         usuario = user;
         localStorage.setItem("usuario", user);
@@ -944,7 +992,7 @@ $rangoPrecioMaximo.mousedown(function (e) { // Agrego eventos del mouse a los in
     });
 });
 
-$listadoFitros.find(":input[type=range]").change(function (e) { // Agrego enevto a los dos input "range" para que al cambiar su valor, muestre los productos con el orden seleccionado
+$listadoFitros.find(":input[type='range']").change(function (e) { // Agrego enevto a los dos input "range" para que al cambiar su valor, muestre los productos con el orden seleccionado
     ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
 });
 

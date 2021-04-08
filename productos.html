@@ -107,6 +107,7 @@
                         <button id="btnLogInOut" class="btn btn-danger" type="button">I/O</button>
                     </div>
                 </div>
+                <p id="errorInputUsuario">El usuario debe contener al menos 5 caracteres y no sobrepasar los 20. Tampoco debe comenzar con un número.</p>
             </div>
 
             <div class="mensajesEmergentes">
@@ -139,7 +140,7 @@
 
 
             <div class="row mx-0 mr-sm-n3 showRoom">
-                <div id = "filtros" class="col-sm-3 col-xl-2 mb-4">
+                <div id="filtros" class="col-sm-3 col-xl-2 mb-4">
                     <h3>Filtros <span><img src="./img/filtros.png" alt=""></span></h3>
                     <div id="cantProductosEncontrados">() producto/s</div>
 
@@ -202,13 +203,15 @@
                                 <label for="inputPrecioMin">Precio Mínimo $</label>
                                 <input type="range" class="form-control-range" id="rangoPrecioMin" min="0" max="100"
                                     step=".5">
-                                <input type="text" id="inputPrecioMin" class="form-control form-control-sm text-center" placeholder="$ Min" disabled>
+                                <input type="text" id="inputPrecioMin" class="form-control form-control-sm text-center"
+                                    placeholder="$ Min" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="inputPrecioMax">Precio Máximo $</label>
                                 <input type="range" class="form-control-range" id="rangoPrecioMax" min="0" max="100"
                                     step=".5">
-                                <input type="text" id="inputPrecioMax" class="form-control form-control-sm text-center" placeholder="$ Máx" disabled>
+                                <input type="text" id="inputPrecioMax" class="form-control form-control-sm text-center"
+                                    placeholder="$ Máx" disabled>
                             </div>
                             <button type="button" id="aplicarFiltros"
                                 class="btn btn-sm btn-danger mb-3 w-100">APLICAR</button>
@@ -633,9 +636,7 @@
     </script>
 
     <!-- jQuery, Popper.js y Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
     </script>

@@ -4,8 +4,9 @@
 .colProductos {
     .buscarOrdenar {
         background-color: #e9ecef;
-		border-radius: .25rem;
-		padding: .5rem 1rem;
+        border-radius: .25rem;
+        padding: .5rem 1rem;
+
         .form-inline {
             #inputBuscar {
                 border-bottom-right-radius: 0;
@@ -65,7 +66,15 @@
                 margin: auto;
             }
 
+            .card-body p:nth-of-type(1) {
+                padding-bottom: 6.25rem;
+
+            }
+
             .card-body p:nth-of-type(2) {
+                position: absolute;
+                bottom: 5rem;
+
                 b {
                     font-size: 1.1rem;
                     color: #b30404;
@@ -78,6 +87,19 @@
 
             }
 
+            .card-body p:nth-of-type(3) {
+                position: absolute;
+                width: 100%;
+                bottom: 3.5rem;
+
+            }
+
+            .card-body>*:last-child {
+                position: absolute;
+                width: 100%;
+                bottom: 1.25rem;
+            }
+
             .btn {
                 background-color: #b30404;
                 color: white;
@@ -87,6 +109,12 @@
                 &:hover:not([disabled]) {
                     background-color: #d11212;
                     transform: scale(1.04, 1.04);
+                }
+
+                &[disabled] {
+                    width: 88%;
+                    left: 6%;
+                    right: 6%;
                 }
 
             }
