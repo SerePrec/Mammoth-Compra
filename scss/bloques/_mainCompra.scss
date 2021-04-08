@@ -30,33 +30,37 @@ main.compra {
                 padding-bottom: 1.5rem;
             }
 
-            .table td {
-                background-color: white;
-                padding: .25rem;
-                vertical-align: middle;
-
-                &:nth-child(1) {
-                    width: 22%;
-                }
-
-                &:nth-child(2) {
-                    width: 50%;
-                }
-
-                &:nth-child(3) {
-                    width: 10%;
-                }
-
-                &:nth-child(4) {
-                    width: 18%;
+            .table tr {
+                opacity: 0;
+                td {
+                    background-color: white;
+                    padding: .25rem;
+                    vertical-align: middle;
+    
+                    &:nth-child(1) {
+                        width: 22%;
+                    }
+    
+                    &:nth-child(2) {
+                        width: 50%;
+                    }
+    
+                    &:nth-child(3) {
+                        width: 10%;
+                    }
+    
+                    &:nth-child(4) {
+                        width: 18%;
+                    }
                 }
             }
 
             .importe {
                 padding: 1rem;
                 font-weight: 700;
-
+                
                 p {
+                    display: none;
                     text-align: right;
                     font-size: 1.4rem;
                     margin-top: 1rem;
@@ -93,6 +97,7 @@ main.compra {
     }
 
     #detalleCompra {
+        opacity: 0;
         &>h2 {
             color: white;
             text-shadow: 2px 2px #545454;

@@ -117,6 +117,7 @@ const inicioCompra = () => { // Inicializa la página
 
     mostrarResumenCompra(); // carga el contenido HTML relativo a la selección de productos previa
     actualizarIconoCarrito();
+    animarResumenCompra();
 };
 
 
@@ -212,6 +213,27 @@ function mostrarResumenCompra() { //genera el HTML para la zona de resumen de co
             </div>`);
 }
 
+function animarResumenCompra() { // genera animaciones concatenadas de la columna resumen de compra y el sector de cuotas
+    $(document).ready(function () { // verifica que este listo el documento
+        $contenedorResumenCompra.find("tr").each(function (indice) { // sobre cada <tr> itera y aplica una animación
+            if (indice == $contenedorResumenCompra.find("tr").length - 1) { //si es el último elemento aplica una animación
+                //con 2 concatenaciones, cosa que no ocurre con los demás pasos de la iteración.
+                $(this).delay(indice * 150).animate({
+                    opacity: "1"
+                }, 500, function () { // al terminar la animación de este último elemento, llama a animar $importe
+                    $importe.slideDown(200, function () { // al termianr la animación, anima $contenedorCuotas
+                        $contenedorCuotas.parent().slideDown(1000);
+                    });
+                });
+                return false;
+            }
+            $(this).delay(indice * 150).animate({ //asigna animaciones con un delay creciente para que inicien secuencialmente
+                opacity: "1"
+            }, 500);
+        });
+    });
+}
+
 
 function cargarDetalleCompra(vectorComprado) { // carga el detalle final de la compra en la página
     const $checkOutCompra = $("#checkOutCompra");
@@ -270,6 +292,9 @@ function cargarDetalleCompra(vectorComprado) { // carga el detalle final de la c
 
     $padre.append(codigoHTML);
     window.scrollTo(0, 0); // Hago scroll hasta el inicio de la página para asegurar que se visualice bien desde el inicio el contenido
+    $("#detalleCompra").animate({ //Animación de aparición suave
+        opacity: "1"
+    }, 1500);
 }
 
 function verificarReposicion() { // verifica si es necesario reponer productos al finalizar la compra

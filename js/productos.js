@@ -1,13 +1,35 @@
 /* 
-Desafío TODO:
+Desafío 13 Complementario
 
-Consigna:
-TODO:
-
+Consigna: 
+Codifica animaciones concatenadas sobre uno o más elementos. Es decir que luego 
+de finalizar una animación en su función callback, se especifica la llamada a otra animación.
 
 
 Planteo:
-TODO:
+Respecto a la última entrega hice muchas incorporaciones funcionales al simulador, para que 
+vaya acercándose al estado final. Tomé como punto de partida esta nueva versión para incorporar
+animaciones con jQuery.
+Lo que hice fue modificar algunas de las animaciones que ya tenía a jQuery y en otros casos,
+generar nuevas. Dentro de estas animaciones hay varios casos que son del tipo concatenadas
+como pide el desafío. A modo de resumen, este es el listado de animaciones con jQuery:
+- Animación concatenada del mensaje de error que aparece si se ingresa un usuario vacío o 
+fuera de los parámetros que puse arbitrariamente. Se usa slideDown y su callback llama a un
+delay y luego a slideUp.
+- Animación concatenada del número de productos del ícono de carrito. Son 2 animaciones, una que
+se ejecuta al adicionar productos y otra al sacar productos (ya se por eliminar el ítem, restar
+una unidad o vaciar el carrito). Usando el método chaining, van poniéndose en cola distintas 
+animaciones del tipo animate().
+- Animaciones al quitar productos individuales del carrito. Se produce cuando un producto
+desaparece del carrito. En su callback llama a la función que actualiza el contenido. 
+- Animación al vaciar el carrito. Similar a la anterior, pero aplicada a cada uno de los 
+elementos y contenedor del importe total.
+- Animación al abrir el carrito. Genera un efecto de apertura gradual con slideDown.
+- Animación concatenada del resumen de compra. Con el método de iteración each() asigno
+a cada fila del resumen una animación por CSS y al elemento final, la misma animación pero
+doblemente concatenada, por sus callbacks. Primero llama a la animación del importe total
+y esta, al finalizar, llama a la animación del bloque de cuotas.
+- Animación detalle final de compra. Aumenta gradualmente la opacidad CSS.
 
 */
 
@@ -20,6 +42,7 @@ let load = false;
 let busqueda = false;
 let checkDestacado = false;
 let filtroPrecioAplicado = false;
+let carritoAbierto = false;
 let productosFiltradosCliente;
 let acumulado = 0;
 let carritoUsuario = {};
@@ -618,16 +641,17 @@ function mostrarCarrito() { //genera el HTML para la ventana modal del carrito
     // para un carrito vacío o uno con contenido. La sección vacía ya tiene todo 
     // el código necesario para mostrarse. 
     // Lo hice de esta manera distinta, para probar distintas opciones de manejo del DOM.
-    let $htmlCarritoNoVacio = $(".modal .carritoNoVacio");
-    let $htmlCarritoVacio = $(".modal .carritoVacio");
+    let $htmlCarritoNoVacio = $("#modalCarrito .carritoNoVacio");
+    let $htmlCarritoVacio = $("#modalCarrito .carritoVacio");
 
-    if (carritoUsuario.miSeleccion.length == 0) { // si el carrito esta vacio, manejo las clases para mostrar la sección correspondiente
-        $htmlCarritoNoVacio.addClass("ocultar");
-        $htmlCarritoVacio.removeClass("ocultar");
-
-    } else { // Si tiene productos, manejo las clases para mostrar la sección correspondinte
-        $htmlCarritoNoVacio.removeClass("ocultar");
-        $htmlCarritoVacio.addClass("ocultar");
+    if (carritoUsuario.miSeleccion.length == 0) { // si el carrito esta vacio, manejo display:none para mostrar la sección correspondiente
+        $htmlCarritoNoVacio.hide();
+        $htmlCarritoVacio.show();
+    } else { // Si tiene productos, manejo display:node para mostrar la sección correspondinte
+        // si esta abierto no lo oculto para no generar una nueva animación. De lo contrario,
+        // lo oculto para habilitar la animacón finaldel slideDown
+        if (!carritoAbierto) $htmlCarritoNoVacio.hide(); 
+        $htmlCarritoVacio.hide();
 
         //genero un array donde almaceno todo el HTML necesario así lo inserto en el DOM en una unica vez
         const arrayFilas = [];
@@ -653,6 +677,8 @@ function mostrarCarrito() { //genera el HTML para la ventana modal del carrito
 
         acumulado = total;
         $totalCarrito.text("$" + total.toFixed(2)); // inserto el importe total acumulado en la respectiva seccion del HTML
+        $htmlCarritoNoVacio.delay(500).slideDown(1200); // Genero la animación desplegable con un delay previo para dar lugar a que el html generado este cargado
+        carritoAbierto = true;
     }
 }
 
@@ -666,6 +692,7 @@ function vaciarCarrito() { // vacía el carrito activo del usuario
         productoItem = productos.find(producto => producto.id == item.id)
         productoItem.ingresar((item.cant));
         $contenedorItemsCarrito.find(`button[data-producto-id='${item.id}']`).parent().parent()
+            .css("backgroundColor", "#b30404ba")
             .fadeOut(750 * (1 + cont * .05));
     }
     $contenedorItemsCarrito.parent().next()
@@ -730,15 +757,15 @@ function restarUnidadCarrito(prodId) { // resta una unidad del ítem del carrito
     actualizarInfoTarjetas();
 }
 
+
 function eliminarElemCarritoFade(prodId, tiempo) {
     $contenedorItemsCarrito.find(`button[data-producto-id='${prodId}']`).parent().parent()
+        .css("backgroundColor", "#b30404ba")
         .fadeOut(tiempo, function () {
             // hago las actualizaciones correspondientes 
             mostrarCarrito();
         })
 }
-
-
 
 
 function loguearUsuario() { // Se ejecuta al tocar en el boton I/O de logueo
@@ -1003,6 +1030,10 @@ $carritoIcon.click(function (e) { // evento asociado al icono del carrito para m
 $btnVaciarCarrito.click(function (e) { // Evento al clickear sobre el botón de vaciar el carrito dentro de la ventana del carrito
     vaciarCarrito();
 });
+
+$btnCarritoCerrar.click((e) => { // Evento para indicar que se cerro el carrito y hacer luego animación slidedown en mostrarCarrito
+    carritoAbierto = false;
+})
 
 $contenedorItemsCarrito.click(function (e) { // evento global dentro del contenedor de los itmes del carrito
     // se toma el elemento que se esta clickeando dentro del contenedor y se pregunta por el atributo data Id
