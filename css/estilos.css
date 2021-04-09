@@ -298,6 +298,15 @@ main.productos {
       color: white; }
     main.productos #filtros h4 {
       font-size: 1.1rem; }
+    main.productos #filtros .row .form-check {
+      transition: background-color .4s; }
+      main.productos #filtros .row .form-check.seleccionado {
+        background-color: #8b8b8b;
+        color: white;
+        border-radius: .25rem; }
+      main.productos #filtros .row .form-check:hover:not(:nth-of-type(7)) {
+        background-color: #acacac;
+        border-radius: .25rem; }
     main.productos #filtros label {
       font-weight: 500; }
     main.productos #filtros #aplicarFiltros {

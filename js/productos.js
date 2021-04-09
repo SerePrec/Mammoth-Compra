@@ -1,35 +1,12 @@
 /* 
-Desafío 13 Complementario
+Desafío TODO:
 
 Consigna: 
-Codifica animaciones concatenadas sobre uno o más elementos. Es decir que luego 
-de finalizar una animación en su función callback, se especifica la llamada a otra animación.
+TODO:
 
 
 Planteo:
-Respecto a la última entrega hice muchas incorporaciones funcionales al simulador, para que 
-vaya acercándose al estado final. Tomé como punto de partida esta nueva versión para incorporar
-animaciones con jQuery.
-Lo que hice fue modificar algunas de las animaciones que ya tenía a jQuery y en otros casos,
-generar nuevas. Dentro de estas animaciones hay varios casos que son del tipo concatenadas
-como pide el desafío. A modo de resumen, este es el listado de animaciones con jQuery:
-- Animación concatenada del mensaje de error que aparece si se ingresa un usuario vacío o 
-fuera de los parámetros que puse arbitrariamente. Se usa slideDown y su callback llama a un
-delay y luego a slideUp.
-- Animación concatenada del número de productos del ícono de carrito. Son 2 animaciones, una que
-se ejecuta al adicionar productos y otra al sacar productos (ya se por eliminar el ítem, restar
-una unidad o vaciar el carrito). Usando el método chaining, van poniéndose en cola distintas 
-animaciones del tipo animate().
-- Animaciones al quitar productos individuales del carrito. Se produce cuando un producto
-desaparece del carrito. En su callback llama a la función que actualiza el contenido. 
-- Animación al vaciar el carrito. Similar a la anterior, pero aplicada a cada uno de los 
-elementos y contenedor del importe total.
-- Animación al abrir el carrito. Genera un efecto de apertura gradual con slideDown.
-- Animación concatenada del resumen de compra. Con el método de iteración each() asigno
-a cada fila del resumen una animación por CSS y al elemento final, la misma animación pero
-doblemente concatenada, por sus callbacks. Primero llama a la animación del importe total
-y esta, al finalizar, llama a la animación del bloque de cuotas.
-- Animación detalle final de compra. Aumenta gradualmente la opacidad CSS.
+TODO:
 
 */
 
@@ -460,7 +437,7 @@ function mostrarProductos(vectorProductos) { // Carga los productos en la págin
             }
 
             codigoHTML += `
-                    <img src="img/${producto.imagen}" class="card-img-top" alt="${producto.descripcion}">
+                    <img src="img/productos/${producto.imagen}" class="card-img-top" alt="${producto.descripcion}">
                     <div class="card-body">
                         <h5 class="card-title">${producto.marca}</h5>
                         <p class="card-text">${producto.descripcion}</p>
@@ -660,7 +637,7 @@ function mostrarCarrito() { //genera el HTML para la ventana modal del carrito
             let productoItem = productos.find(prod => prod.id == item.id);
             let fila = `
                 <tr>
-                    <td><img src="img/${productoItem.imagen}" class="card-img-top" alt=""></td>
+                    <td><img src="img/productos/${productoItem.imagen}" class="card-img-top" alt=""></td>
                     <td>${productoItem.descripcion}</td>
                     <td class="text-center">${item.cant}x</td>
                     <td class="text-right font-weight-bold">$${productoItem.precioVF().toFixed(2)}</td>
@@ -997,6 +974,8 @@ $listadoFitros.find(":radio, :checkbox").change(function (e) { //Agrego evento c
     filtrarDestacados(productosFiltradosCliente);
     ordenarProductos(productosFiltradosCliente);
     seteoRangoPrecios(productosFiltradosCliente);
+    $listadoFitros.find(":radio:checked").parent().addClass("seleccionado");
+    $listadoFitros.find(":radio:not(:checked)").parent().removeClass("seleccionado");
 });
 
 $rangoPrecioMinimo.mousedown(function (e) { // Agrego eventos del mouse a los input "range" para generar la actualización en tiempo real del precio mínimo

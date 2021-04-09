@@ -107,7 +107,8 @@
                         <button id="btnLogInOut" class="btn btn-danger" type="button">I/O</button>
                     </div>
                 </div>
-                <p id="errorInputUsuario">El usuario debe contener al menos 5 caracteres y no sobrepasar los 20. Tampoco debe comenzar con un número.</p>
+                <p id="errorInputUsuario">El usuario debe contener al menos 5 caracteres y no sobrepasar los 20. Tampoco
+                    debe comenzar con un número.</p>
             </div>
 
             <div class="mensajesEmergentes">
@@ -151,7 +152,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <h4>Categorías</h4>
-                            <div class="form-check mb-2">
+                            <div class="form-check mb-2 seleccionado">
                                 <input class="form-check-input" type="radio" name="categoria" id="catTodas"
                                     value="todas" checked>
                                 <label class="form-check-label" for="catTodas">
@@ -386,8 +387,7 @@
                 <div class="accordion mapaSitio__accordion" id="accordionSitemap">
                     <div class="card border-0">
                         <div class="card-header border-0" id="tituloInicio" data-toggle="collapse"
-                            data-target="#collapseInicio" aria-expanded="true" aria-controls="collapseInicio"
-                            onclick="document.getElementById('tituloInicio').classList.toggle('desplegado');">
+                            data-target="#collapseInicio" aria-expanded="true" aria-controls="collapseInicio">
                             <h5 class="mb-0">INICIO</h5>
                             <i class="fa fa-chevron-down"></i>
                             <i class="fa fa-chevron-up"></i>
@@ -403,8 +403,7 @@
                     </div>
                     <div class="card border-0">
                         <div class="card-header border-0" id="tituloProductos" data-toggle="collapse"
-                            data-target="#collapseProductos" aria-expanded="false" aria-controls="collapseProductos"
-                            onclick="document.getElementById('tituloProductos').classList.toggle('desplegado');">
+                            data-target="#collapseProductos" aria-expanded="false" aria-controls="collapseProductos">
                             <h5 class="mb-0">PRODUCTOS</h5>
                             <i class="fa fa-chevron-down"></i>
                             <i class="fa fa-chevron-up"></i>
@@ -423,8 +422,7 @@
                     </div>
                     <div class="card border-0">
                         <div class="card-header border-0" id="tituloServicios" data-toggle="collapse"
-                            data-target="#collapseServicios" aria-expanded="false" aria-controls="collapseServicios"
-                            onclick="document.getElementById('tituloServicios').classList.toggle('desplegado');">
+                            data-target="#collapseServicios" aria-expanded="false" aria-controls="collapseServicios">
                             <h5 class="mb-0">SERVICIOS</h5>
                             <i class="fa fa-chevron-down"></i>
                             <i class="fa fa-chevron-up"></i>
@@ -441,8 +439,7 @@
                     </div>
                     <div class="card border-0">
                         <div class="card-header border-0" id="tituloNoticias" data-toggle="collapse"
-                            data-target="#collapseNoticias" aria-expanded="true" aria-controls="collapseNoticias"
-                            onclick="document.getElementById('tituloNoticias').classList.toggle('desplegado');">
+                            data-target="#collapseNoticias" aria-expanded="true" aria-controls="collapseNoticias">
                             <h5 class="mb-0">NOTICIAS</h5>
                             <i class="fa fa-chevron-down"></i>
                             <i class="fa fa-chevron-up"></i>
@@ -461,8 +458,7 @@
                     </div>
                     <div class="card border-0">
                         <div class="card-header border-0" id="tituloContacto" data-toggle="collapse"
-                            data-target="#collapseContacto" aria-expanded="true" aria-controls="collapseContacto"
-                            onclick="document.getElementById('tituloContacto').classList.toggle('desplegado');">
+                            data-target="#collapseContacto" aria-expanded="true" aria-controls="collapseContacto">
                             <h5 class="mb-0">CONTACTO</h5>
                             <i class="fa fa-chevron-down"></i>
                             <i class="fa fa-chevron-up"></i>
@@ -593,7 +589,7 @@
 
     <!--------------- Botón Fijo - Inicio ----------------->
     <div id="botonMenu" class="botonMenu">
-        <a class="botonMenu__link" onclick="document.getElementById('botonMenu').classList.toggle('active');">
+        <a class="botonMenu__link">
             <i class="fa fa-plus"></i>
         </a>
         <menu class="botonMenu__desplegable">
@@ -645,6 +641,7 @@
     </script>
 
     <!-- Mi JS -->
+    <script src="js/base.js"></script>
     <script src="js/clases.js"></script>
     <script src="js/objetosProducto.js"></script>
     <script src="js/productos.js"></script>

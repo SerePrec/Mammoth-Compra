@@ -154,7 +154,7 @@ function mostrarResumenCompra() { //genera el HTML para la zona de resumen de co
         let productoItem = productos.find(prod => prod.id == item.id);
         let fila = `
             <tr>
-                <td><img src="img/${productoItem.imagen}" class="card-img-top" alt=""></td>
+                <td><img src="img/productos/${productoItem.imagen}" class="card-img-top" alt=""></td>
                 <td>${productoItem.descripcion}</td>
                 <td class="text-center">${item.cant}x</td>
                 <td class="text-right font-weight-bold">$${productoItem.precioVF().toFixed(2)}</td>
@@ -266,7 +266,7 @@ function cargarDetalleCompra(vectorComprado) { // carga el detalle final de la c
         codigoHTML += `
                     <tr>
                         <th scope="row">${vectorComprado.indexOf(item)+1}</th>
-                        <td><img src="img/${productoItem.imagen}" class="card-img-top" alt=""></td>
+                        <td><img src="img/productos/${productoItem.imagen}" class="card-img-top" alt=""></td>
                         <td>${productoItem.descripcion}</td>
                         <td class="text-center">${item.cant}</td>
                         <td class="text-right font-weight-bold">$${(productoItem.precioVF() * item.cant).toFixed(2)}</td>
