@@ -3,8 +3,8 @@
 
 //Generales
 let usuario = "";
-let nombre, email;
 let acumulado = 0;
+let nombre, email;
 let cuotas, importeCuota;
 let carritoUsuario = {};
 
@@ -25,6 +25,9 @@ $(document).ready(function () {
 const $contenedorCuotas = $("#contenedorCuotas");
 const $btnAceptaCompra = $("#btnAceptaCompra");
 const $formularioCompra = $("#formularioCompra");
+const $divModalMensajes = $("#modalMensajes");
+const $divModalMensajesFondo = $("#modalMensajesFondo");
+
 
 // Definición de clases *******************************************************
 // Ver archivo clases.js ******************************************************
@@ -265,16 +268,61 @@ function actualizarIconoCarrito() { //refresca el contador del ícono carrito
     $numItems.text(contador);
 }
 
+function enviarPago() {
+    $divModalMensajes.addClass("show");
+    $divModalMensajesFondo.addClass("show");
+    $divModalMensajes.find(".modal-body h4").text("Enviando Datos...");
 
-// Eventos ********************************************************************
-//*****************************************************************************
+    let URLPAGAR = "https://jsonplaceholder.typicode.com/posts";
+    const dataCompra = generarDataCompra();
 
-$formularioCompra.submit(function (e) { // Evento "submit" del formulario de compra
-    e.preventDefault(); // freno su acción por defecto
+    // SIMULACIÓN DE AJAX POST
+    $.ajax({
+        method: "POST",
+        url: URLPAGAR,
+        data: dataCompra,
+        success: function (respuesta) {
+            //console.log(respuesta)
+            console.log("%c----- PAGO ACEPTADO -----",
+                "color:white; background-color: green; padding: 3px"); // Infomación de control interno
 
-    // Capturo que input del tipo radio esta seleccionado
-    cuotas = parseInt($inputRadios.filter(":checked").val());
+        },
+        complete: function () {
+            $divModalMensajes.find(".modal-body h4").text("Validando Pago...");
+            // Simulo un tienpo de unos segundos de validación del pago una vez
+            // que obtengo la respuesta del servidor y completo sucess
+            setTimeout(function () {
+                $divModalMensajes.removeClass("show");
+                $divModalMensajesFondo.removeClass("show");
+                $divModalMensajes.find(".modal-body h4").text("");
+                
+                cargarDetalleCompra(carritoUsuario.miSeleccion); // llamo a la funcion para cargar el HTML del detalle de compra
+                console.log("Mi Carrito:", carritoUsuario); // info de control interno
+                verificarReposicion(); // llamo a verificar si hay productos que reponer (por debajo o en el punto de repedido)
 
+                carritoUsuario.miSeleccion = []; //Se pone a cero el carrito una vez concretada la compra
+                localStorage.setItem("carritoUsuario", JSON.stringify(carritoUsuario)); // actualizo el carritoUsuario actual en el localStorage
+                actualizarIconoCarrito();
+            }, 3000);
+        }
+    });
+}
+
+function generarDataCompra() {
+    //Capturo los datos del usuario, tarjeta y forma de pago
+    nombre = $("#inputNombre").val();
+    const apellido = $("#inputApellido").val();
+    email = $("#inputEmail").val();
+    const direccion = $("#inputDireccion").val();
+    const tarjetaCreditoNum =
+        $("#tarjetaCredito input").eq(0).val() +
+        $("#tarjetaCredito input").eq(1).val() +
+        $("#tarjetaCredito input").eq(2).val() +
+        $("#tarjetaCredito input").eq(3).val();
+    const tarjetaCreditoNombre = $("#inputNomTarjeta").val();
+    const tarjetaCreditoCVV = $("#inputCVV").val();
+
+    cuotas = parseInt($inputRadios.filter(":checked").val()); // Capturo que input del tipo radio esta seleccionado
     switch (cuotas) { // en base al valor del input, asigno las variables de cuotas e importeCuota que utilizo en el detalle de compra
         case 1:
             importeCuota = acumulado;
@@ -295,16 +343,35 @@ $formularioCompra.submit(function (e) { // Evento "submit" del formulario de com
             break;
     }
 
-    nombre = $("#inputNombre").val(); // capturo el nombre del usuario
-    email = $("#inputEmail").val(); // capturo el nombre del usuario
+    const pagoTotal = cuotas * importeCuota;
 
-    cargarDetalleCompra(carritoUsuario.miSeleccion); // llamo a la funcion para cargar el HTML del detalle de compra
-    console.log("Mi Carrito:", carritoUsuario); // info de control interno
-    verificarReposicion(); // llamo a verificar si hay productos que reponer (por debajo o en el punto de repedido)
+    let compra = new Compra(
+        nombre,
+        apellido,
+        email,
+        direccion,
+        tarjetaCreditoNum,
+        tarjetaCreditoNombre,
+        tarjetaCreditoCVV,
+        carritoUsuario,
+        cuotas,
+        pagoTotal
+    );
 
-    carritoUsuario.miSeleccion = []; //Se pone a cero el carrito una vez concretada la compra
-    localStorage.setItem("carritoUsuario", JSON.stringify(carritoUsuario)); // actualizo el carritoUsuario actual en el localStorage
-    actualizarIconoCarrito();
+    return compra;
+}
+
+
+// Eventos ********************************************************************
+//*****************************************************************************
+
+$formularioCompra.submit(function (e) { // Evento "submit" del formulario de compra
+    e.preventDefault(); // freno su acción por defecto
+
+    //Llamo a las funciones que capturan los valores ingresados y simulan el
+    //envío al servidor
+    generarDataCompra();
+    enviarPago();
 });
 
 

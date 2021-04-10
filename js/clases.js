@@ -69,6 +69,21 @@ class CarritoUsuario {
     }
 }
 
+class Compra {
+    constructor(nombre, apellido, email, direcc, tarjNum, tarjNom, tarjCVV, carrito, cuotas, total) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.direcc = direcc;
+        this.tarjetaNumero = tarjNum;
+        this.tarjetaNombre = tarjNom;
+        this.tarjetaCVV = tarjCVV;
+        this.carrito = carrito;
+        this.cuotas = cuotas;
+        this.pagoTotal = total;
+    }
+}
+
 
 // Funciones que se utilizan en las clases ************************************
 // **************************************************************************** 

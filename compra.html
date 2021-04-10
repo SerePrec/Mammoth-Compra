@@ -178,7 +178,7 @@
                         </div>
                         <fieldset class="form-group py-3">
                             <legend class="col-form-label">Datos de su tarjeta</legend>
-                            <div class="form-group row">
+                            <div id ="tarjetaCredito" class="form-group row">
                                 <label class="col-2 col-form-label">Número</label>
                                 <div class="col-2 px-1">
                                     <input type="text" class="form-control text-center" placeholder="XXXX" maxlength="4"
@@ -549,19 +549,12 @@
 
     <!---------------- Modal para mensajes ---------------->
     <div id="modalMensajes" class="modal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content loader">
                 <div class="modal-body p-0 pt-1">
                     <div>
                         <h4 class="text-center p-5">Texto a mostrar</h4>
                     </div>
-                </div>
-                <div class="modal-footer">
                 </div>
             </div>
         </div>

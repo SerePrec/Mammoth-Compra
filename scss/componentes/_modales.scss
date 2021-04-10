@@ -161,6 +161,13 @@
 		opacity: 1;
 		z-index: 1050;
 	}
+
+	.modal-content.loader {
+		background-image: url("../img/puff.svg");
+		background-size: 50%;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
 }
 
 #modalMensajesFondo {

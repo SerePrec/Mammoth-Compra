@@ -2183,6 +2183,11 @@ article:hover .servicios__imagen .servicios__link {
   #modalMensajes.show {
     opacity: 1;
     z-index: 1050; }
+  #modalMensajes .modal-content.loader {
+    background-image: url("../img/puff.svg");
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center; }
 
 #modalMensajesFondo {
   display: none; }
