@@ -914,162 +914,13 @@ function cerrarModalMensaje() { // Funcion para cerrar las ventanas modales de I
 // Eventos ********************************************************************
 //*****************************************************************************
 
+// Los eventos sobre el DOM, se pusieron dentro de la función cargaOk(), ya que si
+// la carga de la página no es correcta por fallar alguna de las solicitudes AJAX
+// no tiene sentido asignar esos eventos, es más causarían errores
+
 let clickear = new MouseEvent("click", { // defino un evento "click" para simularlo desde JS
     bubbles: true,
     cancelable: true
-});
-
-$btnBuscar.click(function (e) { // Al clickear en boton buscar al lado del input correspondiente, se llama a la funcion buscarProductos
-    buscarProductos();
-    filtrarCategoria(productosFiltradosCliente);
-    filtrarDestacados(productosFiltradosCliente);
-    ordenarProductos(productosFiltradosCliente);
-    seteoRangoPrecios(productosFiltradosCliente);
-});
-
-$inputBuscar.keyup(function (e) { // Luego introduje este evento asociado a que a medida que se teclea en el input
-    //de búsqueda de productos, se llama a la función. Por lo que al instante se van mostrando las coincidencias. Esto hace
-    //redundante al evento anterior sobre el botón buscar, pero lo dejo porque hay eventos como el copiado con el mouse o
-    //el dictado por voz que no activan este evento y sería necesario el boton para aceptar el input
-    buscarProductos();
-    filtrarCategoria(productosFiltradosCliente);
-    filtrarDestacados(productosFiltradosCliente);
-    ordenarProductos(productosFiltradosCliente);
-    seteoRangoPrecios(productosFiltradosCliente);
-});
-
-$selectOrdenar.change(function (e) { // Al cambiar la opción del select para ordenar, se llama a la función respectiva
-    if (filtroPrecioAplicado) { // Si hay un filtro de rengo de precio aplicado, ordena el vector que devuelve este filtrado
-        ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
-    } else { // sino opera sobre el vector que recoje el resto del los filtros, excepto el de rango de precio
-        ordenarProductos(productosFiltradosCliente);
-    }
-});
-
-$filtroBuscar.click(function (e) { // Este evento se dispara, al clickear el botón que aparece luego de hacer una búsqueda por descripción
-    $(this).addClass("ocultar"); // vuelve a ocultar el botón
-    // Acá se vuelven a mostrar todos los productos y ordenados según la selección del select, reseteando el campo del input de búsqueda
-    busqueda = false;
-    filtrarCategoria(productos);
-    filtrarDestacados(productosFiltradosCliente);
-    ordenarProductos(productosFiltradosCliente);
-    seteoRangoPrecios(productosFiltradosCliente);
-    $inputBuscar.val("");
-});
-
-$listadoFitros.find(":radio, :checkbox").change(function (e) { //Agrego evento change a los radios y el checkbox para disparar el filtrado 
-    if (busqueda) { // Si esta activa un búsqueda, la vuelve a hacer como punto de partida para aplicar los posteriores filtros 
-        buscarProductos();
-        filtrarCategoria(productosFiltradosCliente);
-    } else {
-        filtrarCategoria(productos);
-    }
-    filtrarDestacados(productosFiltradosCliente);
-    ordenarProductos(productosFiltradosCliente);
-    seteoRangoPrecios(productosFiltradosCliente);
-    $listadoFitros.find(":radio:checked").parent().addClass("seleccionado");
-    $listadoFitros.find(":radio:not(:checked)").parent().removeClass("seleccionado");
-});
-
-$rangoPrecioMinimo.mousedown(function (e) { // Agrego eventos del mouse a los input "range" para generar la actualización en tiempo real del precio mínimo
-    $(this).on("mousemove", actFiltroPrecioMin);
-    $(this).one("mouseup", function (e) {
-        $(e.target).off("mousemove", actFiltroPrecioMin); // al soltar el boton del mouse quita el evento mousemove
-        if (precioMinSel >= precioMaxSel) { // si el precio esta fuera del rango lógico devuelve la posición del selector donde corresponde en relación al precio máximo
-            $(e.target).val($rangoPrecioMaximo.val());
-        }
-    });
-});
-
-$rangoPrecioMaximo.mousedown(function (e) { // Agrego eventos del mouse a los input "range" para generar la actualización en tiempo real del precio máximo
-    $(this).on("mousemove", actFiltroPrecioMax);
-    $(this).one("mouseup", function (e) {
-        $(e.target).off("mousemove", actFiltroPrecioMax);
-        if (precioMinSel >= precioMaxSel) { // si el precio esta fuera del rango lógico devuelve la posición del selector donde corresponde en relación al precio mínimo
-            $(e.target).val($rangoPrecioMinimo.val());
-        }
-    });
-});
-
-$listadoFitros.find(":input[type='range']").change(function (e) { // Agrego enevto a los dos input "range" para que al cambiar su valor, muestre los productos con el orden seleccionado
-    ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
-});
-
-$carritoIcon.click(function (e) { // evento asociado al icono del carrito para mostrar su información
-    mostrarCarrito();
-});
-
-$btnVaciarCarrito.click(function (e) { // Evento al clickear sobre el botón de vaciar el carrito dentro de la ventana del carrito
-    vaciarCarrito();
-});
-
-$btnCarritoCerrar.click((e) => { // Evento para indicar que se cerro el carrito y hacer luego animación slidedown en mostrarCarrito
-    carritoAbierto = false;
-})
-
-$contenedorItemsCarrito.click(function (e) { // evento global dentro del contenedor de los itmes del carrito
-    // se toma el elemento que se esta clickeando dentro del contenedor y se pregunta por el atributo data Id
-    let $elemento = $(e.target);
-    let id = $elemento.data("productoId");
-    if (!id) return; // si no tiene ese atributo, no se hace nada porque se esta clickeando en un lugar que no interesa
-    if ($elemento.hasClass("menos")) { // si tiene id y la clase .menos, se trata del boton restar unidad y se llama a la función respectiva pasando como parámetro el id del producto
-        restarUnidadCarrito(id);
-    } else if ($elemento.hasClass("eliminar")) { // si la clase es .eliminar, se trata del boton eliminar item y se llama a la función respectiva pasando el id como parámetro
-        eliminarProductoCarrito(id);
-    }
-});
-
-$btnConfirmarCompra.click(function (e) {
-    //Actualizo el listado de productos en el sesionStorage con las cantidades de stock que quedaron
-    //para simular correctamente la venta y para luego hacer util a la funcion verificarReposicion() en la pagina compra.html
-    let productosJSON = JSON.stringify(productos);
-    sessionStorage.setItem("productos", productosJSON);
-    location.assign("compra.html") // redirijo a la pagina compra.html
-});
-
-$btnLogInOut.click(function (e) {
-    loguearUsuario();
-}); // Llama a la funcion loguearUsuario al clickear el botón I/O del logueo
-
-$inputUsuario.keypress(function (e) { // Llama a la funcion loguearUsuario al presionar la tecla Enter en el input del logueo
-    if (e.key == "Enter") {
-        loguearUsuario();
-    }
-});
-
-$btnCerrarMensajeEmergente.click((e) => { // Evento al clickear en la x de los mensajes emergentes para ocultarlo
-    $divMensajesEmergentes.removeClass("show");
-    $divMensajesEmergentes.removeClass("destacado");
-    clearTimeout(tempEmergente); // quita el timer que se inicializó con el mensaje
-});
-
-$btnCerrarModalMensaje.click((e) => { // cierra el modal de tipo Info al clickear en la x (el de tipo Confirm, no muestra esta x)
-    cerrarModalMensaje();
-});
-
-$divModalMensajes.find(".modal-footer").click(function (e) { // Evento general del footer de la ventana modal de mensajes
-    // se toma el elemento que se esta clickeando dentro del footer del modal y se pregunta por el atributo data-accion
-    let $elemento = $(e.target);
-    let accion = $elemento.data("accion");
-    if (!accion) return;
-    cerrarModalMensaje();
-    switch (accion) { // Según el valor del atributo data-accion, se porcede a llamar a la funcion que corresponda
-        case "siCargarCarrito":
-            siCargarCarritoGuardado();
-            break;
-        case "noCargarCarrito":
-            noCargarCarritoGuardado();
-            break;
-        case "siGuardarCarrito":
-            siGuardarCarrito();
-            break;
-        case "noGuardarCarrito":
-            noGuardarCarrito();
-            break;
-        default:
-            console.log("Hay algún error");
-            break;
-    }
 });
 
 
@@ -1079,9 +930,9 @@ $.when(productosAjax(), dolarAjax())
     .then(cargaOk, cargaError);
 
 function cargaOk() {
-    $("#contenedorProductos .loader").hide()
+    $("#contenedorProductos .loader").hide();
 
-    // si las dos solicitudes AJAX se cumplen correctamente entonces asigno los
+    // Si las dos solicitudes AJAX se cumplen correctamente entonces asigno los
     // eventos e inicio el simulador. No asigno los eventos si no se cumple esto
     // para evitar errores de funcionamiento si el usuario intenta usar la aplicación
     // con error de carga

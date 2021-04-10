@@ -53,8 +53,8 @@ let dolarVenta = parseFloat(sessionStorage.getItem("dolar"));
 //***************************************************************
 const inicioCompra = () => { // Inicializa la página
     validarUsuario(); // recoje el valor del usuario
-    if (!cargarCarrito(usuario) || carritoUsuario.length == 0 || !productosJSON) { // recoje el carrito actual
-        // si no hay carrito por algún motivo, o no se puede obtener la lista de productos del sessionStorage,
+    if (!cargarCarrito(usuario) || carritoUsuario.length == 0 || !productosJSON || !dolarVenta) { // recoje el carrito actual
+        // si no hay carrito por algún motivo, o no se puede obtener la lista de productos o el dolar del sessionStorage,
         // redirige a la página anterior del proceso. Ej: Esto puede pasar al recargar la página una vez terminada
         // la compra o si la pagina se abre independiente de la sesion.
 
