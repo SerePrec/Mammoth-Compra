@@ -1,13 +1,39 @@
 /* 
-Desafío TODO:
+Desafío 14
 
 Consigna: 
-TODO:
+Tomando como ejemplo la llamada AJAX con JSON, incorpora al proyecto del simulador
+al menos una llamada AJAX, que mediante la interacción del usuario (un botón o envío
+de formulario), se realice la llamada y la misma responda un JSON estático.
+Incluir esa respuesta en el HTML.
 
 
 Planteo:
-TODO:
+Para este desafío incorporé dos llamadas AJAX.
+IMPORTANTE!! probarlo con plugin LiveServer de VSC o desde el link de Netlify, sino
+da error la llamada AJAX pidiendo el JSON estático de productos.
+Link: https://js14-prellezose.netlify.app/
 
+Llamadas AJAX:
+- Por un lado y como se pide en la consigna de la 3er entrega, generé un JSON
+estático que contiene todos los productos. Está en /data/productos.json.
+Luego hago la llamada AJAX de este archivo y lo meto en mi array productos,
+previamente instanciando cada elemento con la clase Producto para poder tener
+cada objeto producto con los métodos que en el JSON no puedo poner (no admite funciones)
+
+- Por otro lado hago una llamda AJAX a la API de dolarsi.com y, mediante una
+función de procesamiento del JSON devuelto como respuesta, encuentro del valor del
+Dolar Oficial, que es el que me interesa operar. También lo muestro a la derecha
+del breadcrum con una animación una vez que se concreta con exito la llamada.
+
+Aparte de lo anterior, utilicé el método $.when() que leí en la documentación de jQuery
+y me venía bien a lo que buscaba, una comprobación de que estas dos llaamdas se realicen
+con éxito para cargar el contenido y demas funcionalidades del simulador.
+Ya que si no se cargan los productos debidamente o no se obtiene el valor del dolar
+no se puede operar, porque la lista de precios de los productos la pasé a dólares.
+Por lo tanto, si ambas llamdas se cumplen, se carga con normalidad la página,
+y de lo contrario, se generá un mensaje de error en la zona del showroom y deshabilitan
+los eventos asociados al simulador para evitar errores. 
 */
 
 // Declaración de variables y constantes globales *****************************
