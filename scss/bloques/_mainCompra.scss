@@ -6,18 +6,20 @@ main.compra {
     background: linear-gradient(180deg, #b9b8b8 0%, rgba(84, 84, 84, 0.75) 100%);
 
     .breadcrumb {
-		margin-top: 1rem;
-		margin-bottom: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
 
-		li {
-			color: #545454;
+        li {
+            color: #545454;
 
-			a {
-				color: #b30404;
-				font-weight: 500;
-			}
-		}
-	}
+            a {
+                color: #b30404;
+                font-weight: 500;
+            }
+        }
+    }
 
     #checkOutCompra {
 
@@ -32,23 +34,24 @@ main.compra {
 
             .table tr {
                 opacity: 0;
+
                 td {
                     background-color: white;
                     padding: .25rem;
                     vertical-align: middle;
-    
+
                     &:nth-child(1) {
                         width: 22%;
                     }
-    
+
                     &:nth-child(2) {
                         width: 50%;
                     }
-    
+
                     &:nth-child(3) {
                         width: 10%;
                     }
-    
+
                     &:nth-child(4) {
                         width: 18%;
                     }
@@ -58,7 +61,7 @@ main.compra {
             .importe {
                 padding: 1rem;
                 font-weight: 700;
-                
+
                 p {
                     display: none;
                     text-align: right;
@@ -89,6 +92,7 @@ main.compra {
 
             #btnAceptaCompra {
                 background-color: #b30404;
+
                 &:hover {
                     background-color: #d11212;
                 }
@@ -98,6 +102,7 @@ main.compra {
 
     #detalleCompra {
         opacity: 0;
+
         &>h2 {
             color: white;
             text-shadow: 2px 2px #545454;
@@ -186,7 +191,7 @@ main.compra {
     }
 
     @include responsive(xs) {
-		#detalleCompra {
+        #detalleCompra {
             .table {
                 tbody {
                     td:nth-child(2) {
@@ -195,7 +200,7 @@ main.compra {
                 }
             }
         }
-	}
+    }
 }
 
 /******************** Main de compra.html - Fin ****************/

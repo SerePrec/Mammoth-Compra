@@ -1,30 +1,28 @@
 // Definición de clases *******************************************************
 //*****************************************************************************
 
-// Defino esta clase para poder incorporar métodos a los objetos de productos que vienen en formato JSON
-// ya que en este formato no se pueden guardar funciones
 class Producto {
-    constructor(objeto) { // el constructor toma como parámetro un objeto, que va a ser el proveniente del array tomado del storage
-        this.id = objeto.id;
-        this.categoria = objeto.categoria.toLowerCase();
-        this.codigo = objeto.codigo;
-        this.marca = objeto.marca.toUpperCase(); // transforma a mayúsculas
-        this.descripcion = capitalizar(objeto.descripcion);
-        this.precioLista = objeto.precioLista;
-        this.descuento = objeto.descuento;
-        this.stock = objeto.stock;
-        this.ptoRepedido = objeto.ptoRepedido;
-        this.vendible = (objeto.stock > 0); // si el stock al cargar es menor a cero se setea false
-        this.imagen = objeto.imagen;
-        this.destacado = objeto.destacado;
+    constructor(id, cate, codigo, marca, descrip, precio, desc, stock, repedido, imagen, destacado) {
+        this.id = id;
+        this.categoria = cate.toLowerCase();
+        this.codigo = codigo;
+        this.marca = marca.toUpperCase(); // transforma a mayúsculas
+        this.descripcion = capitalizar(descrip);
+        this.precioLista = precio;
+        this.descuento = desc;
+        this.stock = stock;
+        this.ptoRepedido = repedido;
+        this.vendible = (stock > 0); // si el stock al cargar es menor a cero se setea false
+        this.imagen = imagen;
+        this.destacado = destacado;
     }
 
     precioLF() { // devuelve precio de venta final
-        return this.precioLista * 1.21 * dolarVenta;
+        return this.precioLista * 1.21;
     }
 
     precioVF() { // devuelve precio de venta final
-        return (this.precioLista * (1 - (this.descuento / 100)) * 1.21) * dolarVenta;
+        return (this.precioLista * (1 - (this.descuento / 100)) * 1.21);
     }
 
     consultaVenta(cant) { // consulta si la cantidad demandada se puede vender

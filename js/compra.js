@@ -26,62 +26,9 @@ const $contenedorCuotas = $("#contenedorCuotas");
 const $btnAceptaCompra = $("#btnAceptaCompra");
 const $formularioCompra = $("#formularioCompra");
 
-// Definición de clases ****************************************
-//**************************************************************
-// Defino esta clase para poder incorporar métodos a los objetos de productos que vienen en formato JSON
-// ya que en este formato no se pueden guardar funciones
+// Definición de clases *******************************************************
+// Ver archivo clases.js ******************************************************
 
-class Producto {
-    constructor(objeto) { // el constructor toma como parámetro un objeto, que va a ser el proveniente del array tomado del storage
-        this.id = objeto.id;
-        this.categoria = objeto.categoria;
-        this.codigo = objeto.codigo;
-        this.marca = objeto.marca;
-        this.descripcion = objeto.descripcion;
-        this.precioLista = objeto.precioLista;
-        this.descuento = objeto.descuento;
-        this.stock = objeto.stock;
-        this.ptoRepedido = objeto.ptoRepedido;
-        this.vendible = (objeto.stock > 0); // si el stock al cargar es menor a cero se setea false
-        this.imagen = objeto.imagen;
-        this.destacado = objeto.destacado;
-    }
-
-    precioLF() { // devuelve precio de venta final
-        return this.precioLista * 1.21;
-    }
-
-    precioVF() { // devuelve precio de venta final
-        return (this.precioLista * (1 - (this.descuento / 100)) * 1.21);
-    }
-
-    consultaVenta(cant) { // consulta si la cantidad demandada se puede vender
-        return (this.stock >= cant);
-    }
-
-    vender(cant) { // ejecuta cambios de stock al hacer la venta
-        if (cant >= 0 && this.consultaVenta(cant)) {
-            this.stock = this.stock - cant;
-            this.vendible = (this.stock > 0);
-            return true;
-        }
-        return false;
-    }
-
-    ingresar(cant) { // ejecuta cambios de stock al hacer un ingreso / compra a proveedor
-        if (cant >= 0) {
-            this.stock = this.stock + cant;
-            this.vendible = (this.stock > 0);
-            return true;
-        }
-        return false;
-    }
-
-    repedir() { // consulta si se llegó al punto de repedido
-        return (this.ptoRepedido >= this.stock);
-    }
-
-}
 
 // Simulo obtener los productos de un servidor (sessionStorage) en formato JSON
 //*****************************************************************************
@@ -99,6 +46,7 @@ if (productosJSON) { // Esta verificación evita dar error si la pagina se abre 
     }
 }
 
+let dolarVenta = parseFloat(sessionStorage.getItem("dolar"));
 
 
 // Definiciones de funciones ************************************

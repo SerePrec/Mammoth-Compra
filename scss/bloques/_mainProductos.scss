@@ -4,21 +4,45 @@ main.productos {
 	@extend %mainComun;
 	overflow: hidden;
 
-	.breadcrumb {
-		margin-top: 1rem;
-		margin-bottom: 1rem;
-		font-weight: 600;
-		padding: 0.5rem 1rem;
+	nav{
+		position: relative;
+		.breadcrumb {
+			margin-top: 1rem;
+			margin-bottom: 1rem;
+			font-weight: 600;
+			padding: 0.5rem 1rem;
+	
+			li {
+				color: #545454;
+	
+				a {
+					color: #b30404;
+					font-weight: 500;
+				}
+			}
+		}
+	
+		div {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: absolute;
+			top:.5rem;
+			right: 1.25rem;
+			font-weight: 500;
+			background-color: white;
+			padding-right:1rem;
+			padding-left: .25rem;
+			border-radius: .25rem;
+			min-width: 8.5rem;
 
-		li {
-			color: #545454;
-
-			a {
-				color: #b30404;
-				font-weight: 500;
+			img {
+				width: .9rem;
+				margin: 0 .5rem;
 			}
 		}
 	}
+
 
 	#filtros {
 		background-color: #e9ecef;
@@ -52,15 +76,19 @@ main.productos {
 		}
 
 		.row .form-check {
-			transition: background-color .4s;
+			transition: all .4s;
+			label {
+				padding-left: .25rem;
+			}
 			&.seleccionado {
-				background-color: #8b8b8b;
+				background-color: #b30404a3;
 				color: white;
 				border-radius: .25rem;
+				padding-left: 2rem;
 			}
-			&:hover:not(:nth-of-type(7)) {
-				background-color: #acacac;
-				border-radius: .25rem;
+			&:not(.seleccionado):not(:nth-of-type(7)):hover {
+				padding-left: 2rem;
+				color:#b30404;
 			}
 		}
 

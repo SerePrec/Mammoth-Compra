@@ -266,16 +266,34 @@ main.inicio .difusion {
 /***************** Main de productos.html - Inicio *************/
 main.productos {
   overflow: hidden; }
-  main.productos .breadcrumb {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-    padding: 0.5rem 1rem; }
-    main.productos .breadcrumb li {
-      color: #545454; }
-      main.productos .breadcrumb li a {
-        color: #b30404;
-        font-weight: 500; }
+  main.productos nav {
+    position: relative; }
+    main.productos nav .breadcrumb {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem; }
+      main.productos nav .breadcrumb li {
+        color: #545454; }
+        main.productos nav .breadcrumb li a {
+          color: #b30404;
+          font-weight: 500; }
+    main.productos nav div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: .5rem;
+      right: 1.25rem;
+      font-weight: 500;
+      background-color: white;
+      padding-right: 1rem;
+      padding-left: .25rem;
+      border-radius: .25rem;
+      min-width: 8.5rem; }
+      main.productos nav div img {
+        width: .9rem;
+        margin: 0 .5rem; }
   main.productos #filtros {
     background-color: #e9ecef;
     border-radius: .25rem;
@@ -299,14 +317,17 @@ main.productos {
     main.productos #filtros h4 {
       font-size: 1.1rem; }
     main.productos #filtros .row .form-check {
-      transition: background-color .4s; }
+      transition: all .4s; }
+      main.productos #filtros .row .form-check label {
+        padding-left: .25rem; }
       main.productos #filtros .row .form-check.seleccionado {
-        background-color: #8b8b8b;
+        background-color: #b30404a3;
         color: white;
-        border-radius: .25rem; }
-      main.productos #filtros .row .form-check:hover:not(:nth-of-type(7)) {
-        background-color: #acacac;
-        border-radius: .25rem; }
+        border-radius: .25rem;
+        padding-left: 2rem; }
+      main.productos #filtros .row .form-check:not(.seleccionado):not(:nth-of-type(7)):hover {
+        padding-left: 2rem;
+        color: #b30404; }
     main.productos #filtros label {
       font-weight: 500; }
     main.productos #filtros #aplicarFiltros {
@@ -345,6 +366,33 @@ main.productos {
   padding-top: .5rem;
   border: 3px solid #e9ecef;
   border-radius: .25rem; }
+  .colProductos #contenedorProductos .loader {
+    height: 31rem;
+    background-image: url("../../img/puff.svg");
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #e9ecef;
+    border-radius: .25rem;
+    margin: 1.5rem 0;
+    padding: 2rem;
+    text-align: center;
+    margin: auto;
+    flex: 0 0 80%;
+    max-width: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    font-size: 2rem; }
+    .colProductos #contenedorProductos .loader h3 {
+      width: 100%;
+      margin-bottom: 2rem; }
+    .colProductos #contenedorProductos .loader p {
+      font-size: 1.25rem;
+      width: 100%;
+      margin-bottom: .5rem; }
   .colProductos #contenedorProductos .card .descuento {
     position: absolute;
     width: 3.5rem;
@@ -427,7 +475,9 @@ main.compra {
   background: linear-gradient(180deg, #b9b8b8 0%, rgba(84, 84, 84, 0.75) 100%); }
   main.compra .breadcrumb {
     margin-top: 1rem;
-    margin-bottom: 1rem; }
+    margin-bottom: 1rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem; }
     main.compra .breadcrumb li {
       color: #545454; }
       main.compra .breadcrumb li a {

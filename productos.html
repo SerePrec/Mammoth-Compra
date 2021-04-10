@@ -137,6 +137,10 @@
                     <li class="breadcrumb-item"><a href="#">Productos</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Compras</li>
                 </ol>
+                <div class="dolar">
+                    <img src="./img/dolar.png" alt="">
+                    <p> --.-- / --.-- </p>
+                </div>
             </nav>
 
 
@@ -240,7 +244,9 @@
                         </div>
                     </div>
 
-                    <div id="contenedorProductos" class="row row-cols-1 row-cols-md-2 row-cols-lg-3"></div>
+                    <div id="contenedorProductos" class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+                        <div class="loader">Cargando ...</div>
+                    </div>
                 </div>
 
             </div>
@@ -621,7 +627,6 @@
     <div id="modalMensajesFondo" class="modal-backdrop"></div>
     <!---------------- Modal para mensajes ---------------->
 
-
     <!--------------------------->
     <!--------- SCRIPTS --------->
 
@@ -643,7 +648,7 @@
     <!-- Mi JS -->
     <script src="js/base.js"></script>
     <script src="js/clases.js"></script>
-    <script src="js/objetosProducto.js"></script>
+    <script src="js/data.js"></script>
     <script src="js/productos.js"></script>
 
     <!--------- SCRIPTS --------->
