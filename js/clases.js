@@ -1,5 +1,6 @@
-// Definición de clases *******************************************************
-//*****************************************************************************
+// **************************************************************************//
+// ************************** Definición de clases **************************//
+// **************************************************************************//
 
 // Defino esta clase para poder incorporar métodos a los objetos de productos que vienen en formato JSON
 // ya que en este formato no se pueden guardar funciones
@@ -9,7 +10,7 @@ class Producto {
         this.categoria = objeto.categoria.toLowerCase();
         this.codigo = objeto.codigo;
         this.marca = objeto.marca.toUpperCase(); // transforma a mayúsculas
-        this.descripcion = capitalizar(objeto.descripcion);
+        this.descripcion = capitalizar(objeto.descripcion); // Capitaliza toda la frase de la descripción
         this.precioLista = objeto.precioLista;
         this.descuento = objeto.descuento;
         this.stock = objeto.stock;
@@ -54,6 +55,8 @@ class Producto {
     }
 }
 
+
+// Clase para los items que forman parte de la selección del carrito 
 class ItemCarrito {
     constructor(objetoProducto, cantidad) {
         this.id = objetoProducto.id;
@@ -62,6 +65,8 @@ class ItemCarrito {
     }
 }
 
+
+// Clase para el objeto carrito del usuario 
 class CarritoUsuario {
     constructor(usu, carr) {
         this.usuario = usu;
@@ -69,6 +74,8 @@ class CarritoUsuario {
     }
 }
 
+
+// Clase para el objeto representativo de la compra, que guarda info del cliente, carrito y pago  
 class Compra {
     constructor(nombre, apellido, email, direcc, tarjNum, tarjNom, tarjCVV, carrito, cuotas, total) {
         this.nombre = nombre;

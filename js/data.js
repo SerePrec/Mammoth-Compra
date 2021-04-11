@@ -46,6 +46,7 @@ function dolarAjax() {
             //console.log(respuesta);
             valoresDolar = respuesta;
             dolarOficial(valoresDolar);
+            // Con una animación una vez que obtenemos la respuesta, actualiza el valor en la página
             $(".dolar")
                 .slideUp("slow", function () {
                     $(this)
@@ -56,7 +57,8 @@ function dolarAjax() {
     });
 }
 
-function dolarOficial(vectorDolar) {
+// Recorre el array devuelto por el servidor y obtiene la cotización del Dolar Oficial
+function dolarOficial(vectorDolar) { 
     for (const valor of vectorDolar) {
         if (valor.casa.nombre == "Dolar Oficial") {
             //lo paso a número decimal, pero debo convertir las "," en "." para que lo tome

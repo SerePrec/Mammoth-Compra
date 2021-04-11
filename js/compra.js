@@ -1,40 +1,44 @@
-// Declaración de variables y constantes globales ***************
-//***************************************************************
+// **************************************************************************//
+// ************* Declaración de variables y constantes globales *************//
+// **************************************************************************//
 
-//Generales
-let usuario = "";
+//Generales ***************************
 let acumulado = 0;
-let nombre, email;
-let cuotas, importeCuota;
 let carritoUsuario = {};
+let cuotas, importeCuota;
+let email, nombre;
+let usuario = "";
 
 const interes3Cuotas = 8;
 const interes6Cuotas = 12;
 const interes12Cuotas = 20;
 const interes18Cuotas = 30;
 
-//DOM
-const $numItems = $("#numItems");
-const $inputUsuario = $("#inputUsuario");
+//DOM *********************************
+const $btnAceptaCompra = $("#btnAceptaCompra");
+const $contenedorCuotas = $("#contenedorCuotas");
 const $contenedorResumenCompra = $("#contenedorResumenCompra");
+const $divModalMensajes = $("#modalMensajes");
+const $divModalMensajesFondo = $("#modalMensajesFondo");
+const $formularioCompra = $("#formularioCompra");
 const $importe = $(".importe p");
+const $inputUsuario = $("#inputUsuario");
 let $inputRadios; // debo esperar a que cargue la parte de las cuotas para definir esta variable de consulta
 $(document).ready(function () {
     $inputRadios = $("[name='numCuotas']");
 });
-const $contenedorCuotas = $("#contenedorCuotas");
-const $btnAceptaCompra = $("#btnAceptaCompra");
-const $formularioCompra = $("#formularioCompra");
-const $divModalMensajes = $("#modalMensajes");
-const $divModalMensajesFondo = $("#modalMensajesFondo");
+const $numItems = $("#numItems");
 
 
 // Definición de clases *******************************************************
 // Ver archivo clases.js ******************************************************
 
 
+// **************************************************************************//
+// ******************* Obtención de valores del storage *********************//
+// **************************************************************************//
+
 // Simulo obtener los productos de un servidor (sessionStorage) en formato JSON
-//*****************************************************************************
 let productosJSON = sessionStorage.getItem("productos");
 let productosServidor;
 let productos = [];
@@ -52,8 +56,13 @@ if (productosJSON) { // Esta verificación evita dar error si la pagina se abre 
 let dolarVenta = parseFloat(sessionStorage.getItem("dolar"));
 
 
-// Definiciones de funciones ************************************
-//***************************************************************
+// **************************************************************************//
+// *********************** Definiciones de funciones ************************//
+// **************************************************************************//
+
+// Funciones de carga de Usuario y Carrito ************************************
+//*****************************************************************************
+
 const inicioCompra = () => { // Inicializa la página
     validarUsuario(); // recoje el valor del usuario
     if (!cargarCarrito(usuario) || carritoUsuario.length == 0 || !productosJSON || !dolarVenta) { // recoje el carrito actual
@@ -82,6 +91,7 @@ function validarUsuario() { // si hay  un usuario cargado, lo setea en el input 
     $inputUsuario.attr("disabled", true);
 }
 
+
 function cargarCarrito(user) { // se carga el carrito actual del localStorage
     let carritoGuardado = localStorage.getItem("carritoUsuario");
     carritoGuardado = JSON.parse(carritoGuardado);
@@ -95,6 +105,10 @@ function cargarCarrito(user) { // se carga el carrito actual del localStorage
     }
 
 }
+
+
+// Funciones relacionadas a mostrar el resumen de compra **********************
+//*****************************************************************************
 
 function mostrarResumenCompra() { //genera el HTML para la zona de resumen de compra
 
@@ -164,6 +178,7 @@ function mostrarResumenCompra() { //genera el HTML para la zona de resumen de co
             </div>`);
 }
 
+
 function animarResumenCompra() { // genera animaciones concatenadas de la columna resumen de compra y el sector de cuotas
     $(document).ready(function () { // verifica que este listo el documento
         $contenedorResumenCompra.find("tr").each(function (indice) { // sobre cada <tr> itera y aplica una animación
@@ -185,6 +200,107 @@ function animarResumenCompra() { // genera animaciones concatenadas de la column
     });
 }
 
+
+// Funciones de envío de la información de compra al "servidor" ***************
+//*****************************************************************************
+
+function enviarPago() {
+    $divModalMensajes.addClass("show");
+    $divModalMensajesFondo.addClass("show");
+    $divModalMensajes.find(".modal-body h4").text("Enviando Datos...");
+
+    let URLPAGAR = "https://jsonplaceholder.typicode.com/posts";
+    const dataCompra = generarDataCompra();
+
+    // SIMULACIÓN DE AJAX POST
+    $.ajax({
+        method: "POST",
+        url: URLPAGAR,
+        data: dataCompra,
+        success: function (respuesta) {
+            //console.log(respuesta)
+            console.log("%c----- PAGO ACEPTADO -----",
+                "color:white; background-color: green; padding: 3px"); // Infomación de control interno
+
+        },
+        complete: function () {
+            $divModalMensajes.find(".modal-body h4").text("Validando Pago...");
+            // Simulo un tienpo de unos segundos de validación del pago una vez
+            // que obtengo la respuesta del servidor y completo sucess
+            setTimeout(function () {
+                $divModalMensajes.removeClass("show");
+                $divModalMensajesFondo.removeClass("show");
+                $divModalMensajes.find(".modal-body h4").text("");
+                
+                cargarDetalleCompra(carritoUsuario.miSeleccion); // llamo a la funcion para cargar el HTML del detalle de compra
+                console.log("Mi Carrito:", carritoUsuario); // info de control interno
+                verificarReposicion(); // llamo a verificar si hay productos que reponer (por debajo o en el punto de repedido)
+
+                carritoUsuario.miSeleccion = []; //Se pone a cero el carrito una vez concretada la compra
+                localStorage.setItem("carritoUsuario", JSON.stringify(carritoUsuario)); // actualizo el carritoUsuario actual en el localStorage
+                actualizarIconoCarrito();
+            }, 3000);
+        }
+    });
+}
+
+
+function generarDataCompra() {
+    //Capturo los datos del usuario, tarjeta y forma de pago
+    nombre = $("#inputNombre").val();
+    const apellido = $("#inputApellido").val();
+    email = $("#inputEmail").val();
+    const direccion = $("#inputDireccion").val();
+    const tarjetaCreditoNum =
+        $("#tarjetaCredito input").eq(0).val() +
+        $("#tarjetaCredito input").eq(1).val() +
+        $("#tarjetaCredito input").eq(2).val() +
+        $("#tarjetaCredito input").eq(3).val();
+    const tarjetaCreditoNombre = $("#inputNomTarjeta").val();
+    const tarjetaCreditoCVV = $("#inputCVV").val();
+
+    cuotas = parseInt($inputRadios.filter(":checked").val()); // Capturo que input del tipo radio esta seleccionado
+    switch (cuotas) { // en base al valor del input, asigno las variables de cuotas e importeCuota que utilizo en el detalle de compra
+        case 1:
+            importeCuota = acumulado;
+            break;
+        case 3:
+            importeCuota = (acumulado * (1 + interes3Cuotas / 100) / 3);
+            break;
+        case 6:
+            importeCuota = (acumulado * (1 + interes6Cuotas / 100) / 6);
+            break;
+        case 12:
+            importeCuota = (acumulado * (1 + interes12Cuotas / 100) / 12);
+            break;
+        case 18:
+            importeCuota = (acumulado * (1 + interes18Cuotas / 100) / 18);
+            break;
+        default:
+            break;
+    }
+
+    const pagoTotal = cuotas * importeCuota;
+
+    let compra = new Compra(
+        nombre,
+        apellido,
+        email,
+        direccion,
+        tarjetaCreditoNum,
+        tarjetaCreditoNombre,
+        tarjetaCreditoCVV,
+        carritoUsuario,
+        cuotas,
+        pagoTotal
+    );
+
+    return compra;
+}
+
+
+// Funciones relacionadas a mostrar el detalle final de la compra *************
+//*****************************************************************************
 
 function cargarDetalleCompra(vectorComprado) { // carga el detalle final de la compra en la página
     const $checkOutCompra = $("#checkOutCompra");
@@ -248,6 +364,19 @@ function cargarDetalleCompra(vectorComprado) { // carga el detalle final de la c
     }, 1500);
 }
 
+
+function actualizarIconoCarrito() { //refresca el contador del ícono carrito
+    let contador = 0;
+    for (const producto of carritoUsuario.miSeleccion) {
+        contador += producto.cant;
+    }
+    $numItems.text(contador);
+}
+
+
+// Funciones auxiliares  ******************************************************
+//*****************************************************************************
+
 function verificarReposicion() { // verifica si es necesario reponer productos al finalizar la compra
     for (let producto of productos) {
         if (producto.repedir()) { //si es necesario repedir, lo muestra por consola a modo de simular un control interno
@@ -260,110 +389,10 @@ function verificarReposicion() { // verifica si es necesario reponer productos a
     }
 }
 
-function actualizarIconoCarrito() { //refresca el contador del ícono carrito
-    let contador = 0;
-    for (const producto of carritoUsuario.miSeleccion) {
-        contador += producto.cant;
-    }
-    $numItems.text(contador);
-}
 
-function enviarPago() {
-    $divModalMensajes.addClass("show");
-    $divModalMensajesFondo.addClass("show");
-    $divModalMensajes.find(".modal-body h4").text("Enviando Datos...");
-
-    let URLPAGAR = "https://jsonplaceholder.typicode.com/posts";
-    const dataCompra = generarDataCompra();
-
-    // SIMULACIÓN DE AJAX POST
-    $.ajax({
-        method: "POST",
-        url: URLPAGAR,
-        data: dataCompra,
-        success: function (respuesta) {
-            //console.log(respuesta)
-            console.log("%c----- PAGO ACEPTADO -----",
-                "color:white; background-color: green; padding: 3px"); // Infomación de control interno
-
-        },
-        complete: function () {
-            $divModalMensajes.find(".modal-body h4").text("Validando Pago...");
-            // Simulo un tienpo de unos segundos de validación del pago una vez
-            // que obtengo la respuesta del servidor y completo sucess
-            setTimeout(function () {
-                $divModalMensajes.removeClass("show");
-                $divModalMensajesFondo.removeClass("show");
-                $divModalMensajes.find(".modal-body h4").text("");
-                
-                cargarDetalleCompra(carritoUsuario.miSeleccion); // llamo a la funcion para cargar el HTML del detalle de compra
-                console.log("Mi Carrito:", carritoUsuario); // info de control interno
-                verificarReposicion(); // llamo a verificar si hay productos que reponer (por debajo o en el punto de repedido)
-
-                carritoUsuario.miSeleccion = []; //Se pone a cero el carrito una vez concretada la compra
-                localStorage.setItem("carritoUsuario", JSON.stringify(carritoUsuario)); // actualizo el carritoUsuario actual en el localStorage
-                actualizarIconoCarrito();
-            }, 3000);
-        }
-    });
-}
-
-function generarDataCompra() {
-    //Capturo los datos del usuario, tarjeta y forma de pago
-    nombre = $("#inputNombre").val();
-    const apellido = $("#inputApellido").val();
-    email = $("#inputEmail").val();
-    const direccion = $("#inputDireccion").val();
-    const tarjetaCreditoNum =
-        $("#tarjetaCredito input").eq(0).val() +
-        $("#tarjetaCredito input").eq(1).val() +
-        $("#tarjetaCredito input").eq(2).val() +
-        $("#tarjetaCredito input").eq(3).val();
-    const tarjetaCreditoNombre = $("#inputNomTarjeta").val();
-    const tarjetaCreditoCVV = $("#inputCVV").val();
-
-    cuotas = parseInt($inputRadios.filter(":checked").val()); // Capturo que input del tipo radio esta seleccionado
-    switch (cuotas) { // en base al valor del input, asigno las variables de cuotas e importeCuota que utilizo en el detalle de compra
-        case 1:
-            importeCuota = acumulado;
-            break;
-        case 3:
-            importeCuota = (acumulado * (1 + interes3Cuotas / 100) / 3);
-            break;
-        case 6:
-            importeCuota = (acumulado * (1 + interes6Cuotas / 100) / 6);
-            break;
-        case 12:
-            importeCuota = (acumulado * (1 + interes12Cuotas / 100) / 12);
-            break;
-        case 18:
-            importeCuota = (acumulado * (1 + interes18Cuotas / 100) / 18);
-            break;
-        default:
-            break;
-    }
-
-    const pagoTotal = cuotas * importeCuota;
-
-    let compra = new Compra(
-        nombre,
-        apellido,
-        email,
-        direccion,
-        tarjetaCreditoNum,
-        tarjetaCreditoNombre,
-        tarjetaCreditoCVV,
-        carritoUsuario,
-        cuotas,
-        pagoTotal
-    );
-
-    return compra;
-}
-
-
-// Eventos ********************************************************************
-//*****************************************************************************
+// **************************************************************************//
+// ******************************** Eventos *********************************//
+// **************************************************************************//
 
 $formularioCompra.submit(function (e) { // Evento "submit" del formulario de compra
     e.preventDefault(); // freno su acción por defecto
@@ -375,6 +404,8 @@ $formularioCompra.submit(function (e) { // Evento "submit" del formulario de com
 });
 
 
-//Ejecución *********************** 
+// **************************************************************************//
+// ******************************* Ejecución ********************************//
+// **************************************************************************//
 
 inicioCompra();

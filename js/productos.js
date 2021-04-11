@@ -1,96 +1,80 @@
 /* 
-Desafío 14
+Proyecto Final - 3er Entrega
 
 Consigna: 
-Tomando como ejemplo la llamada AJAX con JSON, incorpora al proyecto del simulador
-al menos una llamada AJAX, que mediante la interacción del usuario (un botón o envío
-de formulario), se realice la llamada y la misma responda un JSON estático.
-Incluir esa respuesta en el HTML.
+Deberás incorporar jQuery para controlar elementos, sumar efectos y animaciones,
+así como optimizar diseño HTML y CSS, en función de la tercera entrega de tu proyecto
+final.
 
 
 Planteo:
-Para este desafío incorporé dos llamadas AJAX.
-IMPORTANTE!! probarlo con plugin LiveServer de VSC o desde el link de Netlify, sino
-da error la llamada AJAX pidiendo el JSON estático de productos.
-Link: https://js14-prellezose.netlify.app/
-
-Llamadas AJAX:
-- Por un lado y como se pide en la consigna de la 3er entrega, generé un JSON
-estático que contiene todos los productos. Está en /data/productos.json.
-Luego hago la llamada AJAX de este archivo y lo meto en mi array productos,
-previamente instanciando cada elemento con la clase Producto para poder tener
-cada objeto producto con los métodos que en el JSON no puedo poner (no admite funciones)
-
-- Por otro lado hago una llamda AJAX a la API de dolarsi.com y, mediante una
-función de procesamiento del JSON devuelto como respuesta, encuentro del valor del
-Dolar Oficial, que es el que me interesa operar. También lo muestro a la derecha
-del breadcrum con una animación una vez que se concreta con exito la llamada.
-
-Aparte de lo anterior, utilicé el método $.when() que leí en la documentación de jQuery
-y me venía bien a lo que buscaba, una comprobación de que estas dos llaamdas se realicen
-con éxito para cargar el contenido y demas funcionalidades del simulador.
-Ya que si no se cargan los productos debidamente o no se obtiene el valor del dolar
-no se puede operar, porque la lista de precios de los productos la pasé a dólares.
-Por lo tanto, si ambas llamdas se cumplen, se carga con normalidad la página,
-y de lo contrario, se generá un mensaje de error en la zona del showroom y deshabilitan
-los eventos asociados al simulador para evitar errores. 
+TODO:
 */
-
-// Declaración de variables y constantes globales *****************************
-// ****************************************************************************
-
-//Generales
-let usuario = "";
-let load = false;
-let busqueda = false;
-let checkDestacado = false;
-let filtroPrecioAplicado = false;
-let carritoAbierto = false;
-let productosFiltradosCliente;
-let acumulado = 0;
-let carritoUsuario = {};
-let auxCarritosGuardados;
-let auxCarritoGuardado;
-let precioMinimo, precioMaximo, precioMinSel, precioMaxSel;
-let tempEmergente; // Variable que almacena el temporizador de los mensajes emergentes para poder quitarlos antes de que se ejecuten
-
-
-//DOM
-const $inputBuscar = $("#inputBuscar");
-const $btnBuscar = $("#btnBuscar");
-const $selectOrdenar = $("#selectOrdenar");
-const $filtroBuscar = $("#filtroBuscar");
-const $listadoFitros = $("#filtros");
-const $inputPrecioMinimo = $("#inputPrecioMin");
-const $inputPrecioMaximo = $("#inputPrecioMax");
-const $rangoPrecioMinimo = $("#rangoPrecioMin");
-const $rangoPrecioMaximo = $("#rangoPrecioMax");
-const $numItems = $("#numItems");
-const $carritoIcon = $(".carritoIcon");
-const $btnCarritoCerrar = $("#btnCarritoCerrar");
-const $contenedorItemsCarrito = $("#contenedorItemsCarrito");
-const $totalCarrito = $("#totalCarrito");
-const $btnVaciarCarrito = $("#btnVaciarCarrito");
-const $btnConfirmarCompra = $("#btnConfirmarCompra");
-const $btnLogInOut = $("#btnLogInOut");
-const $inputUsuario = $("#inputUsuario");
-const $divLogUsuario = $(".logUsuario");
-const $divMensajesEmergentes = $(".usuario .mensajesEmergentes");
-const $pMensajeEmergente = $(".usuario .mensajesEmergentes p");
-const $btnCerrarMensajeEmergente = $(".usuario .mensajesEmergentes button");
-const $divModalMensajes = $("#modalMensajes");
-const $divModalMensajesFondo = $("#modalMensajesFondo");
-const $btnCerrarModalMensaje = $("#modalMensajes .modal-header button");
+// **************************************************************************//
+// ************************ Uso de archivos externos ************************//
+// **************************************************************************//
 
 // Definición de clases *******************************************************
-// Ver archivo clases.js ******************************************************
+// Ver archivo clases.js **************
+
+// Obtención y Generación del array "productos" a partir de un JSON ***********
+// Obtención de la cotización del dólar ***************************************
+// Ver data.js ************************
 
 
-// Generación del array "productos" con que voy a trabajar en mi proyecto *****
-// Ver data.js *****************************************************
+// **************************************************************************//
+// ************* Declaración de variables y constantes globales *************//
+// **************************************************************************//
+
+//Generales ***************************
+let acumulado = 0;
+let auxCarritoGuardado;
+let auxCarritosGuardados;
+let busqueda = false;
+let carritoAbierto = false;
+let carritoUsuario = {};
+let checkDestacado = false;
+let filtroPrecioAplicado = false;
+let load = false;
+let precioMinimo, precioMaximo, precioMinSel, precioMaxSel;
+let productosFiltradosCliente;
+let tempEmergente; // Variable que almacena el temporizador de los mensajes emergentes para poder quitarlos antes de que se ejecuten
+let usuario = "";
 
 
-// Definiciones de funciones **************************************************
+//DOM *********************************
+const $btnBuscar = $("#btnBuscar");
+const $btnCarritoCerrar = $("#btnCarritoCerrar");
+const $btnCerrarMensajeEmergente = $(".usuario .mensajesEmergentes button");
+const $btnCerrarModalMensaje = $("#modalMensajes .modal-header button");
+const $btnConfirmarCompra = $("#btnConfirmarCompra");
+const $btnLogInOut = $("#btnLogInOut");
+const $btnVaciarCarrito = $("#btnVaciarCarrito");
+const $carritoIcon = $(".carritoIcon");
+const $contenedorItemsCarrito = $("#contenedorItemsCarrito");
+const $divLogUsuario = $(".logUsuario");
+const $divMensajesEmergentes = $(".usuario .mensajesEmergentes");
+const $divModalMensajes = $("#modalMensajes");
+const $divModalMensajesFondo = $("#modalMensajesFondo");
+const $filtroBuscar = $("#filtroBuscar");
+const $inputBuscar = $("#inputBuscar");
+const $inputPrecioMaximo = $("#inputPrecioMax");
+const $inputPrecioMinimo = $("#inputPrecioMin");
+const $inputUsuario = $("#inputUsuario");
+const $listadoFitros = $("#filtros");
+const $numItems = $("#numItems");
+const $pMensajeEmergente = $(".usuario .mensajesEmergentes p");
+const $rangoPrecioMaximo = $("#rangoPrecioMax");
+const $rangoPrecioMinimo = $("#rangoPrecioMin");
+const $selectOrdenar = $("#selectOrdenar");
+const $totalCarrito = $("#totalCarrito");
+
+
+// **************************************************************************//
+// *********************** Definiciones de funciones ************************//
+// **************************************************************************//
+
+// Funciones de carga de Usuario y Carrito ************************************
 //*****************************************************************************
 
 const iniciar = () => { // Ejecuta el inicio del simulador
@@ -214,6 +198,9 @@ function validarCarritoGuardado(user, carritoGuard) { // Valida las cantidades d
 }
 
 
+// Funciones para ordenar los productos ***************************************
+//*****************************************************************************
+
 function ordenarProductos(vectorAOrdenar) { //procesa la opción seleccionada de orden en el select y llama a la función de orden respectiva
     let tipoOrden = $selectOrdenar.val().toLowerCase();
     let funcion;
@@ -303,6 +290,7 @@ const ordenarMayorPrecio = (a, b) => { // Función de ordenamiento por mayor pre
     return b.precioVF() - a.precioVF();
 };
 
+
 const ordenarMenorDescuento = (a, b) => { // Función de ordenamiento por menor descuento y por marca (a-Z)
     if (a.descuento - b.descuento == 0) {
         if (a.marca.localeCompare(b.marca) == 0) {
@@ -324,6 +312,9 @@ const ordenarMayorDescuento = (a, b) => { // Función de ordenamiento por mayor 
     return b.descuento - a.descuento;
 };
 
+
+// Funciones de filtrado de productos *****************************************
+//*****************************************************************************
 
 function buscarProductos(e) { //procesa el valor de búsqueda que el usario introdujo en el input
     let fraseBuscar = $inputBuscar.val().trim();
@@ -430,6 +421,9 @@ function actCantProductosEncontrados(vectorAContar) { // Actualiza el contador d
     }
 }
 
+
+// Funciones para mostrar y/o actualizar la información de los productos ******
+//*****************************************************************************
 
 function mostrarProductos(vectorProductos) { // Carga los productos en la página en formato de tarjetas, a partir del array que toma como parámetro
     const $contenedorProductos = $("#contenedorProductos");
@@ -549,8 +543,10 @@ function actualizarInfoTarjetas() { // en lugar de cambiar la cantidad de la tar
     });
 }
 
+// Funciones relacionadas a agregar o sacar productos del carrito *************
+//*****************************************************************************
 
-function validarCantidad(prodId, cant) { //valida la cantidad ingresada por el cliente
+function validarCantidad(prodId, cant) { //valida la cantidad del producto a agregar ingresada por el cliente
     let producto = productos.find(prod => prod.id == prodId);
 
     if (!(cant >= 1)) { // si el valor no es lógico, lo avisa
@@ -595,44 +591,84 @@ function agregarCarrito(prodId, cant) { //agrega los productos al carrito y los 
     actualizarInfoTarjetas(productosFiltradosCliente);
 }
 
-function animarIconoCarritoIn() { // animacion encadenada del icono del carrito
-    $numItems.stop(true);
-    $numItems.css({
-            "top": "-55px",
-            "opacity": "0"
-        })
-        .animate({
-            top: "-10px",
-            opacity: ".3"
-        }, 600)
-        .animate({
-            opacity: "1"
-        }, 250);
-    actualizarIconoCarrito();
-}
 
-function animarIconoCarritoOut() { // animacion encadenada del icono del carrito
-    $numItems.stop(true);
-    $numItems.animate({
-            top: "-55px",
-            opacity: "0"
-        }, 600, () => {
-            $numItems.css("top", "-10px");
-            actualizarIconoCarrito();
-        })
-        .animate({
-            opacity: "1"
-        }, 250);
-}
+function restarUnidadCarrito(prodId) { // resta una unidad del ítem del carrito elegido
+    let itemCarrito = carritoUsuario.miSeleccion.find(item => item.id == prodId);
+    let productoItem = productos.find(prod => prod.id == prodId);
 
-function actualizarIconoCarrito() { //refresca el contador del ícono carrito
-    let contador = 0;
-    for (const producto of carritoUsuario.miSeleccion) {
-        contador += producto.cant;
+    productoItem.ingresar((1)); // devuelvo esa unidad al stock
+    itemCarrito.cant--;
+
+    console.log("%cRestando", "color: white; background-color: orange; padding:3px", itemCarrito.prod,
+        "// Cant:", 1); // Infomación de control interno
+
+    if (itemCarrito.cant == 0) { // si el item del carrito quedo en cero unidades, lo elimino
+        let indice = carritoUsuario.miSeleccion.indexOf(itemCarrito);
+        carritoUsuario.miSeleccion.splice(indice, 1);
+        eliminarElemCarritoFade(prodId, 350);
+    } else {
+        mostrarCarrito();
     }
-    $numItems.text(contador);
+
+    // hago las actualizaciones correspondientes 
+    animarIconoCarritoOut();
+    actualizarCarritoEnStorage();
+    actualizarInfoTarjetas();
 }
 
+
+function eliminarProductoCarrito(prodId) { // elimina un item completo del carrito
+    let itemCarrito = carritoUsuario.miSeleccion.find(item => item.id == prodId);
+    let productoItem = productos.find(prod => prod.id == prodId);
+
+    productoItem.ingresar((itemCarrito.cant)); // devuelvo la cantidad de ese item al stock
+
+    console.log("%cEliminando", "color: white; background-color: red; padding:3px", itemCarrito.prod,
+        "// Cant:", itemCarrito.cant); // Infomación de control interno
+
+    let indice = carritoUsuario.miSeleccion.indexOf(itemCarrito);
+    carritoUsuario.miSeleccion.splice(indice, 1); // elimino del array miSeleccion, el objeto item correspondiente
+
+    eliminarElemCarritoFade(prodId, 350);
+    // hago las actualizaciones correspondientes 
+    animarIconoCarritoOut();
+    actualizarCarritoEnStorage();
+    actualizarInfoTarjetas();
+}
+
+
+function vaciarCarrito() { // vacía el carrito activo del usuario
+    let productoItem;
+    let cont = 0;
+
+    for (let item of carritoUsuario.miSeleccion) { // devuelvo al stock las cantidades del los productos que se eliminan del carrito
+        cont++
+        productoItem = productos.find(producto => producto.id == item.id)
+        productoItem.ingresar((item.cant));
+        $contenedorItemsCarrito.find(`button[data-producto-id='${item.id}']`).parent().parent()
+            .css("backgroundColor", "#b30404ba")
+            .fadeOut(750 * (1 + cont * .05));
+    }
+    $contenedorItemsCarrito.parent().next()
+        .fadeOut(750 * (1 + cont * .05), () => {
+            mostrarCarrito();
+            $contenedorItemsCarrito.parent().next().show();
+        });
+
+
+    carritoUsuario.miSeleccion = [];
+    // hago las actualizaciones correspondientes 
+    animarIconoCarritoOut();
+    actualizarCarritoEnStorage();
+    actualizarInfoTarjetas();
+
+    console.log("%c----- Carrito vaciado -----",
+        "color:white; background-color: red; padding: 3px"); // Infomación de control interno
+}
+
+
+// Funciones para mostrar y/o actualizar la información del carrito ***********
+//*****************************************************************************
 
 function mostrarCarrito() { //genera el HTML para la ventana modal del carrito
     // En el modal ya tengo dos secciones pre-confeccionadas con formatos distintos 
@@ -680,82 +716,6 @@ function mostrarCarrito() { //genera el HTML para la ventana modal del carrito
     }
 }
 
-
-function vaciarCarrito() { // vacía el carrito activo del usuario
-    let productoItem;
-    let cont = 0;
-
-    for (let item of carritoUsuario.miSeleccion) { // devuelvo al stock las cantidades del los productos que se eliminan del carrito
-        cont++
-        productoItem = productos.find(producto => producto.id == item.id)
-        productoItem.ingresar((item.cant));
-        $contenedorItemsCarrito.find(`button[data-producto-id='${item.id}']`).parent().parent()
-            .css("backgroundColor", "#b30404ba")
-            .fadeOut(750 * (1 + cont * .05));
-    }
-    $contenedorItemsCarrito.parent().next()
-        .fadeOut(750 * (1 + cont * .05), () => {
-            mostrarCarrito();
-            $contenedorItemsCarrito.parent().next().show();
-        });
-
-
-    carritoUsuario.miSeleccion = [];
-    // hago las actualizaciones correspondientes 
-    animarIconoCarritoOut();
-    actualizarCarritoEnStorage();
-    actualizarInfoTarjetas();
-
-    console.log("%c----- Carrito vaciado -----",
-        "color:white; background-color: red; padding: 3px"); // Infomación de control interno
-}
-
-
-function eliminarProductoCarrito(prodId) { // elimina un item completo del carrito
-    let itemCarrito = carritoUsuario.miSeleccion.find(item => item.id == prodId);
-    let productoItem = productos.find(prod => prod.id == prodId);
-
-    productoItem.ingresar((itemCarrito.cant)); // devuelvo la cantidad de ese item al stock
-
-    console.log("%cEliminando", "color: white; background-color: red; padding:3px", itemCarrito.prod,
-        "// Cant:", itemCarrito.cant); // Infomación de control interno
-
-    let indice = carritoUsuario.miSeleccion.indexOf(itemCarrito);
-    carritoUsuario.miSeleccion.splice(indice, 1); // elimino del array miSeleccion, el objeto item correspondiente
-
-    eliminarElemCarritoFade(prodId, 350);
-    // hago las actualizaciones correspondientes 
-    animarIconoCarritoOut();
-    actualizarCarritoEnStorage();
-    actualizarInfoTarjetas();
-}
-
-
-function restarUnidadCarrito(prodId) { // resta una unidad del ítem del carrito elegido
-    let itemCarrito = carritoUsuario.miSeleccion.find(item => item.id == prodId);
-    let productoItem = productos.find(prod => prod.id == prodId);
-
-    productoItem.ingresar((1)); // devuelvo esa unidad al stock
-    itemCarrito.cant--;
-
-    console.log("%cRestando", "color: white; background-color: orange; padding:3px", itemCarrito.prod,
-        "// Cant:", 1); // Infomación de control interno
-
-    if (itemCarrito.cant == 0) { // si el item del carrito quedo en cero unidades, lo elimino
-        let indice = carritoUsuario.miSeleccion.indexOf(itemCarrito);
-        carritoUsuario.miSeleccion.splice(indice, 1);
-        eliminarElemCarritoFade(prodId, 350);
-    } else {
-        mostrarCarrito();
-    }
-
-    // hago las actualizaciones correspondientes 
-    animarIconoCarritoOut();
-    actualizarCarritoEnStorage();
-    actualizarInfoTarjetas();
-}
-
-
 function eliminarElemCarritoFade(prodId, tiempo) {
     $contenedorItemsCarrito.find(`button[data-producto-id='${prodId}']`).parent().parent()
         .css("backgroundColor", "#b30404ba")
@@ -766,6 +726,48 @@ function eliminarElemCarritoFade(prodId, tiempo) {
 }
 
 
+function animarIconoCarritoIn() { // animacion encadenada del icono del carrito
+    $numItems.stop(true);
+    $numItems.css({
+            "top": "-55px",
+            "opacity": "0"
+        })
+        .animate({
+            top: "-10px",
+            opacity: ".3"
+        }, 600)
+        .animate({
+            opacity: "1"
+        }, 250);
+    actualizarIconoCarrito();
+}
+
+function animarIconoCarritoOut() { // animacion encadenada del icono del carrito
+    $numItems.stop(true);
+    $numItems.animate({
+            top: "-55px",
+            opacity: "0"
+        }, 600, () => {
+            $numItems.css("top", "-10px");
+            actualizarIconoCarrito();
+        })
+        .animate({
+            opacity: "1"
+        }, 250);
+}
+
+function actualizarIconoCarrito() { //refresca el contador del ícono carrito
+    let contador = 0;
+    for (const producto of carritoUsuario.miSeleccion) {
+        contador += producto.cant;
+    }
+    $numItems.text(contador);
+}
+
+
+// Funciones de Login Logout del usuario **************************************
+//*****************************************************************************
+
 function loguearUsuario() { // Se ejecuta al tocar en el boton I/O de logueo
     if (!usuario) { // si no hay usuario, porcede al login
         if (logInUsuario()) {
@@ -775,42 +777,6 @@ function loguearUsuario() { // Se ejecuta al tocar en el boton I/O de logueo
     } else { // sino al logout
         logOutUsuario();
     }
-}
-
-
-function logOutUsuario() { // hace el logOut del usuario
-    // remueve el "usuario" del localStorage y setea los valores a vacíos
-    localStorage.removeItem("usuario");
-    usuario = "";
-    $inputUsuario.val("");
-    $inputUsuario.attr("disabled", false); // habilita la interaccion con el el input usuario
-
-    // si el carrito actual contiene productos, pregunto si quiere guardarlos
-    if (carritoUsuario.miSeleccion && carritoUsuario.miSeleccion.length != 0) {
-        mostrarModalConfirm(`
-            Has salido de tu usuario y tienes productos seleccionados en tu carrito!\n
-            ¿Deseas guardarlos para poderlos recuperar más adelante?`, "siGuardarCarrito", "noGuardarCarrito"); // genero modal de confirmación preguntando si gurada carrito
-    } else {
-        carritoUsuario.usuario = "";
-        actualizarCarritoEnStorage();
-    }
-}
-
-function siGuardarCarrito() { // función que llama el boton "Si" del modal generado por la funcion logOutUsuario() si hay un carrito para guardar
-    guardarCarritoEnStorage(); // guardo el carrito en el localStorage
-    let mensaje = `${carritoUsuario.usuario}, tu carrito fue guardado.<br><br>Has guardado ${$numItems.text()} producto/s`
-    mostrarModalInfo(mensaje); // muestro modal informativo
-
-    // hago las actualizaciones correspondientes 
-    vaciarCarrito();
-    carritoUsuario.usuario = "";
-    actualizarCarritoEnStorage();
-}
-
-function noGuardarCarrito() { // función que llama el boton "No" del modal generado por la funcion logOutUsuario() si hay un carrito para guardar
-    vaciarCarrito();
-    carritoUsuario.usuario = "";
-    actualizarCarritoEnStorage();
 }
 
 
@@ -842,10 +808,46 @@ function logInUsuario() { // Genera al usuario en caso de no tener una sesion ab
 }
 
 
+function logOutUsuario() { // hace el logOut del usuario
+    // remueve el "usuario" del localStorage y setea los valores a vacíos
+    localStorage.removeItem("usuario");
+    usuario = "";
+    $inputUsuario.val("");
+    $inputUsuario.attr("disabled", false); // habilita la interaccion con el el input usuario
+
+    // si el carrito actual contiene productos, pregunto si quiere guardarlos
+    if (carritoUsuario.miSeleccion && carritoUsuario.miSeleccion.length != 0) {
+        mostrarModalConfirm(`
+            Has salido de tu usuario y tienes productos seleccionados en tu carrito!\n
+            ¿Deseas guardarlos para poderlos recuperar más adelante?`, "siGuardarCarrito", "noGuardarCarrito"); // genero modal de confirmación preguntando si gurada carrito
+    } else {
+        carritoUsuario.usuario = "";
+        actualizarCarritoEnStorage();
+    }
+}
+
+
+function siGuardarCarrito() { // función que llama el boton "Si" del modal generado por la funcion logOutUsuario() si hay un carrito para guardar
+    guardarCarritoEnStorage(); // guardo el carrito en el localStorage
+    let mensaje = `${carritoUsuario.usuario}, tu carrito fue guardado.<br><br>Has guardado ${$numItems.text()} producto/s`
+    mostrarModalInfo(mensaje); // muestro modal informativo
+
+    // hago las actualizaciones correspondientes 
+    vaciarCarrito();
+    carritoUsuario.usuario = "";
+    actualizarCarritoEnStorage();
+}
+
+
+function noGuardarCarrito() { // función que llama el boton "No" del modal generado por la funcion logOutUsuario() si hay un carrito para guardar
+    vaciarCarrito();
+    carritoUsuario.usuario = "";
+    actualizarCarritoEnStorage();
+}
+
+
 function actualizarCarritoEnStorage() { // almacena el carrito del usuario actual en el localStorage como carrito actual ("carritoUsuario")
-
     localStorage.setItem("carritoUsuario", JSON.stringify(carritoUsuario));
-
 }
 
 
@@ -870,7 +872,6 @@ function guardarCarritoEnStorage() { // guarda el carrito del usuario actual en 
         carritosGuardados.push(carritoUsuario);
         localStorage.setItem("carritosGuardados", JSON.stringify(carritosGuardados));
     }
-
 }
 
 
@@ -880,6 +881,9 @@ function removerCarritoGuardado(carritoGuardado, carritosGuardados) { // remueve
     localStorage.setItem("carritosGuardados", JSON.stringify(carritosGuardados));
 }
 
+
+// Funciones para mensajes emergentes *****************************************
+//*****************************************************************************
 
 function mostrarEmergente(leyenda, tiempo, destacar) { // Funcion para mostrar mensajes emergentes (no modales). Se introduce por parámetro
     // la leyenda, el tiempo antes que se cierre solo y si es destacado o no.
@@ -937,8 +941,9 @@ function cerrarModalMensaje() { // Funcion para cerrar las ventanas modales de I
 }
 
 
-// Eventos ********************************************************************
-//*****************************************************************************
+// **************************************************************************//
+// ******************************** Eventos *********************************//
+// **************************************************************************//
 
 // Los eventos sobre el DOM, se pusieron dentro de la función cargaOk(), ya que si
 // la carga de la página no es correcta por fallar alguna de las solicitudes AJAX
@@ -950,8 +955,12 @@ let clickear = new MouseEvent("click", { // defino un evento "click" para simula
 });
 
 
-//Ejecución *********************** 
+// **************************************************************************//
+// ******************************* Ejecución ********************************//
+// **************************************************************************//
 
+// Evalúo ambas solicitudes AJAX y ejecuto las funciones según se resuelvan 
+// ambas exitosamente o no.
 $.when(productosAjax(), dolarAjax())
     .then(cargaOk, cargaError);
 
@@ -963,9 +972,10 @@ function cargaOk() {
     // para evitar errores de funcionamiento si el usuario intenta usar la aplicación
     // con error de carga
 
-    // Eventos ********************************************************************
-    //*****************************************************************************
 
+    // **********************************************************************//
+    // ****************************** Eventos *******************************//
+    // **********************************************************************//
     $btnBuscar.click(function (e) { // Al clickear en boton buscar al lado del input correspondiente, se llama a la funcion buscarProductos
         buscarProductos();
         filtrarCategoria(productosFiltradosCliente);
@@ -973,97 +983,19 @@ function cargaOk() {
         ordenarProductos(productosFiltradosCliente);
         seteoRangoPrecios(productosFiltradosCliente);
     });
-
-    $inputBuscar.keyup(function (e) { // Luego introduje este evento asociado a que a medida que se teclea en el input
-        //de búsqueda de productos, se llama a la función. Por lo que al instante se van mostrando las coincidencias. Esto hace
-        //redundante al evento anterior sobre el botón buscar, pero lo dejo porque hay eventos como el copiado con el mouse o
-        //el dictado por voz que no activan este evento y sería necesario el boton para aceptar el input
-        buscarProductos();
-        filtrarCategoria(productosFiltradosCliente);
-        filtrarDestacados(productosFiltradosCliente);
-        ordenarProductos(productosFiltradosCliente);
-        seteoRangoPrecios(productosFiltradosCliente);
-    });
-
-    $selectOrdenar.change(function (e) { // Al cambiar la opción del select para ordenar, se llama a la función respectiva
-        if (filtroPrecioAplicado) { // Si hay un filtro de rengo de precio aplicado, ordena el vector que devuelve este filtrado
-            ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
-        } else { // sino opera sobre el vector que recoje el resto del los filtros, excepto el de rango de precio
-            ordenarProductos(productosFiltradosCliente);
-        }
-    });
-
-    $filtroBuscar.click(function (e) { // Este evento se dispara, al clickear el botón que aparece luego de hacer una búsqueda por descripción
-        $(this).addClass("ocultar"); // vuelve a ocultar el botón
-        // Acá se vuelven a mostrar todos los productos y ordenados según la selección del select, reseteando el campo del input de búsqueda
-        busqueda = false;
-        filtrarCategoria(productos);
-        filtrarDestacados(productosFiltradosCliente);
-        ordenarProductos(productosFiltradosCliente);
-        seteoRangoPrecios(productosFiltradosCliente);
-        $inputBuscar.val("");
-    });
-
-    $listadoFitros.find(":radio, :checkbox").change(function (e) { //Agrego evento change a los radios y el checkbox para disparar el filtrado 
-        if (busqueda) { // Si esta activa un búsqueda, la vuelve a hacer como punto de partida para aplicar los posteriores filtros 
-            buscarProductos();
-            filtrarCategoria(productosFiltradosCliente);
-        } else {
-            filtrarCategoria(productos);
-        }
-        filtrarDestacados(productosFiltradosCliente);
-        ordenarProductos(productosFiltradosCliente);
-        seteoRangoPrecios(productosFiltradosCliente);
-        $listadoFitros.find(":radio:checked").parent().addClass("seleccionado");
-        $listadoFitros.find(":radio:not(:checked)").parent().removeClass("seleccionado");
-    });
-
-    $rangoPrecioMinimo.mousedown(function (e) { // Agrego eventos del mouse a los input "range" para generar la actualización en tiempo real del precio mínimo
-        $(this).on("mousemove", actFiltroPrecioMin);
-        $(this).one("mouseup", function (e) {
-            $(e.target).off("mousemove", actFiltroPrecioMin); // al soltar el boton del mouse quita el evento mousemove
-            if (precioMinSel >= precioMaxSel) { // si el precio esta fuera del rango lógico devuelve la posición del selector donde corresponde en relación al precio máximo
-                $(e.target).val($rangoPrecioMaximo.val());
-            }
-        });
-    });
-
-    $rangoPrecioMaximo.mousedown(function (e) { // Agrego eventos del mouse a los input "range" para generar la actualización en tiempo real del precio máximo
-        $(this).on("mousemove", actFiltroPrecioMax);
-        $(this).one("mouseup", function (e) {
-            $(e.target).off("mousemove", actFiltroPrecioMax);
-            if (precioMinSel >= precioMaxSel) { // si el precio esta fuera del rango lógico devuelve la posición del selector donde corresponde en relación al precio mínimo
-                $(e.target).val($rangoPrecioMinimo.val());
-            }
-        });
-    });
-
-    $listadoFitros.find(":input[type='range']").change(function (e) { // Agrego enevto a los dos input "range" para que al cambiar su valor, muestre los productos con el orden seleccionado
-        ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
-    });
-
-    $carritoIcon.click(function (e) { // evento asociado al icono del carrito para mostrar su información
-        mostrarCarrito();
-    });
-
-    $btnVaciarCarrito.click(function (e) { // Evento al clickear sobre el botón de vaciar el carrito dentro de la ventana del carrito
-        vaciarCarrito();
-    });
-
+    
     $btnCarritoCerrar.click((e) => { // Evento para indicar que se cerro el carrito y hacer luego animación slidedown en mostrarCarrito
         carritoAbierto = false;
     })
 
-    $contenedorItemsCarrito.click(function (e) { // evento global dentro del contenedor de los itmes del carrito
-        // se toma el elemento que se esta clickeando dentro del contenedor y se pregunta por el atributo data Id
-        let $elemento = $(e.target);
-        let id = $elemento.data("productoId");
-        if (!id) return; // si no tiene ese atributo, no se hace nada porque se esta clickeando en un lugar que no interesa
-        if ($elemento.hasClass("menos")) { // si tiene id y la clase .menos, se trata del boton restar unidad y se llama a la función respectiva pasando como parámetro el id del producto
-            restarUnidadCarrito(id);
-        } else if ($elemento.hasClass("eliminar")) { // si la clase es .eliminar, se trata del boton eliminar item y se llama a la función respectiva pasando el id como parámetro
-            eliminarProductoCarrito(id);
-        }
+    $btnCerrarMensajeEmergente.click((e) => { // Evento al clickear en la x de los mensajes emergentes para ocultarlo
+        $divMensajesEmergentes.removeClass("show");
+        $divMensajesEmergentes.removeClass("destacado");
+        clearTimeout(tempEmergente); // quita el timer que se inicializó con el mensaje
+    });
+
+    $btnCerrarModalMensaje.click((e) => { // cierra el modal de tipo Info al clickear en la x (el de tipo Confirm, no muestra esta x)
+        cerrarModalMensaje();
     });
 
     $btnConfirmarCompra.click(function (e) {
@@ -1078,20 +1010,24 @@ function cargaOk() {
         loguearUsuario();
     }); // Llama a la funcion loguearUsuario al clickear el botón I/O del logueo
 
-    $inputUsuario.keypress(function (e) { // Llama a la funcion loguearUsuario al presionar la tecla Enter en el input del logueo
-        if (e.key == "Enter") {
-            loguearUsuario();
+    $btnVaciarCarrito.click(function (e) { // Evento al clickear sobre el botón de vaciar el carrito dentro de la ventana del carrito
+        vaciarCarrito();
+    });
+
+    $carritoIcon.click(function (e) { // evento asociado al icono del carrito para mostrar su información
+        mostrarCarrito();
+    });
+
+    $contenedorItemsCarrito.click(function (e) { // evento global dentro del contenedor de los itmes del carrito
+        // se toma el elemento que se esta clickeando dentro del contenedor y se pregunta por el atributo data Id
+        let $elemento = $(e.target);
+        let id = $elemento.data("productoId");
+        if (!id) return; // si no tiene ese atributo, no se hace nada porque se esta clickeando en un lugar que no interesa
+        if ($elemento.hasClass("menos")) { // si tiene id y la clase .menos, se trata del boton restar unidad y se llama a la función respectiva pasando como parámetro el id del producto
+            restarUnidadCarrito(id);
+        } else if ($elemento.hasClass("eliminar")) { // si la clase es .eliminar, se trata del boton eliminar item y se llama a la función respectiva pasando el id como parámetro
+            eliminarProductoCarrito(id);
         }
-    });
-
-    $btnCerrarMensajeEmergente.click((e) => { // Evento al clickear en la x de los mensajes emergentes para ocultarlo
-        $divMensajesEmergentes.removeClass("show");
-        $divMensajesEmergentes.removeClass("destacado");
-        clearTimeout(tempEmergente); // quita el timer que se inicializó con el mensaje
-    });
-
-    $btnCerrarModalMensaje.click((e) => { // cierra el modal de tipo Info al clickear en la x (el de tipo Confirm, no muestra esta x)
-        cerrarModalMensaje();
     });
 
     $divModalMensajes.find(".modal-footer").click(function (e) { // Evento general del footer de la ventana modal de mensajes
@@ -1118,8 +1054,84 @@ function cargaOk() {
                 break;
         }
     });
+    
+    $filtroBuscar.click(function (e) { // Este evento se dispara, al clickear el botón que aparece luego de hacer una búsqueda por descripción
+        $(this).addClass("ocultar"); // vuelve a ocultar el botón
+        // Acá se vuelven a mostrar todos los productos y ordenados según la selección del select, reseteando el campo del input de búsqueda
+        busqueda = false;
+        filtrarCategoria(productos);
+        filtrarDestacados(productosFiltradosCliente);
+        ordenarProductos(productosFiltradosCliente);
+        seteoRangoPrecios(productosFiltradosCliente);
+        $inputBuscar.val("");
+    });
 
-    //Función principal de inicio del simulador
+    $inputBuscar.keyup(function (e) { // Luego introduje este evento asociado a que a medida que se teclea en el input
+        //de búsqueda de productos, se llama a la función. Por lo que al instante se van mostrando las coincidencias. Esto hace
+        //redundante al evento anterior sobre el botón buscar, pero lo dejo porque hay eventos como el copiado con el mouse o
+        //el dictado por voz que no activan este evento y sería necesario el boton para aceptar el input
+        buscarProductos();
+        filtrarCategoria(productosFiltradosCliente);
+        filtrarDestacados(productosFiltradosCliente);
+        ordenarProductos(productosFiltradosCliente);
+        seteoRangoPrecios(productosFiltradosCliente);
+    });
+
+    $inputUsuario.keypress(function (e) { // Llama a la funcion loguearUsuario al presionar la tecla Enter en el input del logueo
+        if (e.key == "Enter") {
+            loguearUsuario();
+        }
+    });
+    
+    $listadoFitros.find(":radio, :checkbox").change(function (e) { //Agrego evento change a los radios y el checkbox para disparar el filtrado 
+        if (busqueda) { // Si esta activa un búsqueda, la vuelve a hacer como punto de partida para aplicar los posteriores filtros 
+            buscarProductos();
+            filtrarCategoria(productosFiltradosCliente);
+        } else {
+            filtrarCategoria(productos);
+        }
+        filtrarDestacados(productosFiltradosCliente);
+        ordenarProductos(productosFiltradosCliente);
+        seteoRangoPrecios(productosFiltradosCliente);
+        $listadoFitros.find(":radio:checked").parent().addClass("seleccionado");
+        $listadoFitros.find(":radio:not(:checked)").parent().removeClass("seleccionado");
+    });
+
+    $listadoFitros.find(":input[type='range']").change(function (e) { // Agrego enevto a los dos input "range" para que al cambiar su valor, muestre los productos con el orden seleccionado
+        ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
+    });
+    
+    $rangoPrecioMaximo.mousedown(function (e) { // Agrego eventos del mouse a los input "range" para generar la actualización en tiempo real del precio máximo
+        $(this).on("mousemove", actFiltroPrecioMax);
+        $(this).one("mouseup", function (e) {
+            $(e.target).off("mousemove", actFiltroPrecioMax);
+            if (precioMinSel >= precioMaxSel) { // si el precio esta fuera del rango lógico devuelve la posición del selector donde corresponde en relación al precio mínimo
+                $(e.target).val($rangoPrecioMinimo.val());
+            }
+        });
+    });
+
+    $rangoPrecioMinimo.mousedown(function (e) { // Agrego eventos del mouse a los input "range" para generar la actualización en tiempo real del precio mínimo
+        $(this).on("mousemove", actFiltroPrecioMin);
+        $(this).one("mouseup", function (e) {
+            $(e.target).off("mousemove", actFiltroPrecioMin); // al soltar el boton del mouse quita el evento mousemove
+            if (precioMinSel >= precioMaxSel) { // si el precio esta fuera del rango lógico devuelve la posición del selector donde corresponde en relación al precio máximo
+                $(e.target).val($rangoPrecioMaximo.val());
+            }
+        });
+    });
+
+    $selectOrdenar.change(function (e) { // Al cambiar la opción del select para ordenar, se llama a la función respectiva
+        if (filtroPrecioAplicado) { // Si hay un filtro de rengo de precio aplicado, ordena el vector que devuelve este filtrado
+            ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
+        } else { // sino opera sobre el vector que recoje el resto del los filtros, excepto el de rango de precio
+            ordenarProductos(productosFiltradosCliente);
+        }
+    });
+   
+
+    // Función principal de inicio del simulador******************************
+    // ***********************************************************************
     iniciar();
 }
 

@@ -1,6 +1,11 @@
-// Codigo asociado a elementos básicos comunes a todas las páginas
+// **************************************************************************//
+// ****Código asociado a elementos básicos comunes a todas las páginas*******//
+// **************************************************************************//
 
 $(document).ready(function () {
+
+    // Asociaciones de eventos relacionados al botón fijo para ir al principio
+    // o final de la página. Con transición de scroll suave
     $("#botonMenu .botonMenu__link").click(() => {
         $("#botonMenu").toggleClass("active");
     });
@@ -19,6 +24,7 @@ $(document).ready(function () {
         }, 2000);
     });
 
+    // Eventos para el acordeón del sitemap que se ve en versión mobile 
     $(".mapaSitioAccordion .card-header").click(function (e) {
         $(this).toggleClass("desplegado");
     })
