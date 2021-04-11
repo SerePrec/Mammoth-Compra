@@ -8,7 +8,38 @@ final.
 
 
 Planteo:
-TODO:
+Para esta 3er entrega tomé de base todo el desarrollo anterior e incorporé
+una nueva llamada AJAX, aparte de algunos cambios menores como el reemplazo de
+eventos mouse por pointer para que sean compatibles con pantallas touch, ya
+pensando más en el responsive.
+También algunas modificaciones al CSS para que se vaya adaptando mejor a las
+distintas medidas de pantalla.
+
+Esta nueva llamada AJAX, se hace simulando un POST a un servidor en el momento
+confirmar el pago. Aparece un modal indicando que se están enviando los datos.
+Una vez que obtenemos una respuesta exitosa del servidor, cambio el mensaje a 
+"validando pago" y quito ese mensaje con un setTimeOut luego de un par de 
+segundos. Esto como para simular el efecto de tiempo que demora la transacción.
+Finalmemte aparece la pantalla con el detalle de la compra realizada.
+Para lo anterior capturo toda la información del formulario, incluyendo datos
+del cliente, de la tarjeta de crédito y de la fomra de pago. Con estos genero
+un objeto de la clase "Compra" (la cual tuve que crear) y es lo que envío al
+servidor con el método POST.
+También organicé un poco más el código, agregando comentarios, agrupando la 
+declaración de funciones según su finalidad y dividiendo el código  común en 
+distintos JS, que son llamados en el orden necesario.
+Los archivos JS son:
+- clase.js: contiene la definición de todas las clases.
+- data.js: contiene las funciones AJAX que solicitan los datos con los que voy 
+a trabajar en el simulador.
+- productos.js: contiene los scripts de la página productos.html.
+- compra.js: contiene los scripts de la página compra.html.
+- base.js: contiene scripts básicos comunes a todas las páginas (no relacionados
+a la funcionalidad del simulador sino a elementos de diseño, como por ejemplo
+el botón fijo de scroll).
+
+
+
 */
 // **************************************************************************//
 // ************************ Uso de archivos externos ************************//
@@ -983,7 +1014,7 @@ function cargaOk() {
         ordenarProductos(productosFiltradosCliente);
         seteoRangoPrecios(productosFiltradosCliente);
     });
-    
+
     $btnCarritoCerrar.click((e) => { // Evento para indicar que se cerro el carrito y hacer luego animación slidedown en mostrarCarrito
         carritoAbierto = false;
     })
@@ -1054,7 +1085,7 @@ function cargaOk() {
                 break;
         }
     });
-    
+
     $filtroBuscar.click(function (e) { // Este evento se dispara, al clickear el botón que aparece luego de hacer una búsqueda por descripción
         $(this).addClass("ocultar"); // vuelve a ocultar el botón
         // Acá se vuelven a mostrar todos los productos y ordenados según la selección del select, reseteando el campo del input de búsqueda
@@ -1070,11 +1101,15 @@ function cargaOk() {
         //de búsqueda de productos, se llama a la función. Por lo que al instante se van mostrando las coincidencias. Esto hace
         //redundante al evento anterior sobre el botón buscar, pero lo dejo porque hay eventos como el copiado con el mouse o
         //el dictado por voz que no activan este evento y sería necesario el boton para aceptar el input
-        buscarProductos();
-        filtrarCategoria(productosFiltradosCliente);
-        filtrarDestacados(productosFiltradosCliente);
-        ordenarProductos(productosFiltradosCliente);
-        seteoRangoPrecios(productosFiltradosCliente);
+        //Evito se dispare al hacer foco con Tab  o tocar teclas que no me interesan
+        if (e.key != "Tab" && e.key != "ArrowLeft" && e.key != "ArrowRight" && e.key != "Shift" && e.key != "Control" && e.key != "Alt") { 
+            console.log(e.ctrlKey, e.metaKey)
+            buscarProductos();
+            filtrarCategoria(productosFiltradosCliente);
+            filtrarDestacados(productosFiltradosCliente);
+            ordenarProductos(productosFiltradosCliente);
+            seteoRangoPrecios(productosFiltradosCliente);
+        }
     });
 
     $inputUsuario.keypress(function (e) { // Llama a la funcion loguearUsuario al presionar la tecla Enter en el input del logueo
@@ -1082,7 +1117,7 @@ function cargaOk() {
             loguearUsuario();
         }
     });
-    
+
     $listadoFitros.find(":radio, :checkbox").change(function (e) { //Agrego evento change a los radios y el checkbox para disparar el filtrado 
         if (busqueda) { // Si esta activa un búsqueda, la vuelve a hacer como punto de partida para aplicar los posteriores filtros 
             buscarProductos();
@@ -1100,21 +1135,41 @@ function cargaOk() {
     $listadoFitros.find(":input[type='range']").change(function (e) { // Agrego enevto a los dos input "range" para que al cambiar su valor, muestre los productos con el orden seleccionado
         ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
     });
-    
-    $rangoPrecioMaximo.mousedown(function (e) { // Agrego eventos del mouse a los input "range" para generar la actualización en tiempo real del precio máximo
-        $(this).on("mousemove", actFiltroPrecioMax);
-        $(this).one("mouseup", function (e) {
-            $(e.target).off("mousemove", actFiltroPrecioMax);
+
+    $rangoPrecioMaximo.on("pointerdown", function (e) { // Agrego eventos del pointer a los input "range" para generar la actualización en tiempo real del precio máximo
+        $(this).on("pointermove", actFiltroPrecioMax);
+        $(this).one("pointerup", function (e) {
+            $(e.target).off("pointermove", actFiltroPrecioMax); // al soltar puntero quita el evento pointermove
             if (precioMinSel >= precioMaxSel) { // si el precio esta fuera del rango lógico devuelve la posición del selector donde corresponde en relación al precio mínimo
                 $(e.target).val($rangoPrecioMinimo.val());
             }
         });
     });
 
-    $rangoPrecioMinimo.mousedown(function (e) { // Agrego eventos del mouse a los input "range" para generar la actualización en tiempo real del precio mínimo
-        $(this).on("mousemove", actFiltroPrecioMin);
-        $(this).one("mouseup", function (e) {
-            $(e.target).off("mousemove", actFiltroPrecioMin); // al soltar el boton del mouse quita el evento mousemove
+    $rangoPrecioMaximo.on("focusin", function (e) { // Variante anterior para selección con Tab y flechitas
+        $(this).on("keydown", actFiltroPrecioMax);
+        $(this).one("focusout", function (e) {
+            $(e.target).off("keydown", actFiltroPrecioMax); // al salir de foco quita el evento keydown
+            if (precioMinSel >= precioMaxSel) { // si el precio esta fuera del rango lógico devuelve la posición del selector donde corresponde en relación al precio mínimo
+                $(e.target).val($rangoPrecioMinimo.val());
+            }
+        });
+    });
+
+    $rangoPrecioMinimo.on("pointerdown", function (e) { // Agrego eventos del pointer a los input "range" para generar la actualización en tiempo real del precio mínimo
+        $(this).on("pointermove", actFiltroPrecioMin);
+        $(this).one("pointerup", function (e) {
+            $(e.target).off("pointermove", actFiltroPrecioMin); // al soltar puntero quita el evento pointermove
+            if (precioMinSel >= precioMaxSel) { // si el precio esta fuera del rango lógico devuelve la posición del selector donde corresponde en relación al precio máximo
+                $(e.target).val($rangoPrecioMaximo.val());
+            }
+        });
+    });
+
+    $rangoPrecioMinimo.on("focusin", function (e) { // Variante anterior para selección con Tab y flechitas
+        $(this).on("keydown", actFiltroPrecioMin);
+        $(this).one("focusout", function (e) {
+            $(e.target).off("keydown", actFiltroPrecioMin); // al salir de foco quita el evento keydown
             if (precioMinSel >= precioMaxSel) { // si el precio esta fuera del rango lógico devuelve la posición del selector donde corresponde en relación al precio máximo
                 $(e.target).val($rangoPrecioMaximo.val());
             }
@@ -1128,7 +1183,7 @@ function cargaOk() {
             ordenarProductos(productosFiltradosCliente);
         }
     });
-   
+
 
     // Función principal de inicio del simulador******************************
     // ***********************************************************************

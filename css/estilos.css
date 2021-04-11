@@ -361,11 +361,13 @@ main.productos {
 .colProductos #contenedorProductos {
   max-height: 75vh;
   overflow-y: scroll;
+  overflow-x: hidden;
   background-color: #e9ecef;
   margin: 1rem 0 1.5rem 0;
   padding-top: .5rem;
   border: 3px solid #e9ecef;
-  border-radius: .25rem; }
+  border-radius: .25rem;
+  min-height: 31rem; }
   .colProductos #contenedorProductos .loader {
     height: 31rem;
     background-image: url("../img/puff.svg");
@@ -448,14 +450,19 @@ main.productos {
     background-color: #e9ecef;
     border-radius: .25rem;
     margin: 1.5rem 0;
-    padding: 2rem;
     text-align: center;
     margin: auto;
     flex: 0 0 80%;
-    max-width: none; }
+    max-width: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center; }
     .colProductos #contenedorProductos .errorResultadoBuscar p {
       color: red;
       font-size: 1.5rem; }
+    .colProductos #contenedorProductos .errorResultadoBuscar h3, .colProductos #contenedorProductos .errorResultadoBuscar p {
+      width: 100%; }
 
 @media only screen and (max-width: 575px) {
   .colProductos {
