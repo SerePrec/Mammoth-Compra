@@ -1,46 +1,17 @@
 /* 
-Proyecto Final - 3er Entrega
+TODO:
 
 Consigna: 
-Deberás incorporar jQuery para controlar elementos, sumar efectos y animaciones,
-así como optimizar diseño HTML y CSS, en función de la tercera entrega de tu proyecto
-final.
+TODO:
 
 
 Planteo:
-Para esta 3er entrega tomé de base todo el desarrollo anterior e incorporé
-una nueva llamada AJAX, aparte de algunos cambios menores como el reemplazo de
-eventos mouse por pointer para que sean compatibles con pantallas touch, ya
-pensando más en el responsive.
-También algunas modificaciones al CSS para que se vaya adaptando mejor a las
-distintas medidas de pantalla.
-
-Esta nueva llamada AJAX, se hace simulando un POST a un servidor en el momento
-confirmar el pago. Aparece un modal indicando que se están enviando los datos.
-Una vez que obtenemos una respuesta exitosa del servidor, cambio el mensaje a 
-"validando pago" y quito ese mensaje con un setTimeOut luego de un par de 
-segundos. Esto como para simular el efecto de tiempo que demora la transacción.
-Finalmemte aparece la pantalla con el detalle de la compra realizada.
-Para lo anterior capturo toda la información del formulario, incluyendo datos
-del cliente, de la tarjeta de crédito y de la fomra de pago. Con estos genero
-un objeto de la clase "Compra" (la cual tuve que crear) y es lo que envío al
-servidor con el método POST.
-También organicé un poco más el código, agregando comentarios, agrupando la 
-declaración de funciones según su finalidad y dividiendo el código  común en 
-distintos JS, que son llamados en el orden necesario.
-Los archivos JS son:
-- clase.js: contiene la definición de todas las clases.
-- data.js: contiene las funciones AJAX que solicitan los datos con los que voy 
-a trabajar en el simulador.
-- productos.js: contiene los scripts de la página productos.html.
-- compra.js: contiene los scripts de la página compra.html.
-- base.js: contiene scripts básicos comunes a todas las páginas (no relacionados
-a la funcionalidad del simulador sino a elementos de diseño, como por ejemplo
-el botón fijo de scroll).
+TODO:
 
 
 
 */
+
 // **************************************************************************//
 // ************************ Uso de archivos externos ************************//
 // **************************************************************************//
@@ -414,23 +385,28 @@ function seteoRangoPrecios(vectorAProcesar) { // Controla la selección del rang
 }
 
 
-function actFiltroPrecioMin(e) { // Se encarga de ir actualizando el valor del input precio mínimo según el desplazamiento del control "range"
-    // opto por una escala no lineal porque se hace dificil seleccionar con tanto rango de precio
-    precioMinSel = (precioMinimo + (precioMaximo - precioMinimo) * ($(e.target).val()) ** 2 / 10000);
-    $(e.target).next().val(`$${Math.ceil(precioMinSel)}`);
-    if (precioMinSel >= precioMaxSel) { // Si quiere sellecionar un rango ilógico, se fija el valor compatible según la selección del otro control
-        $(e.target).next().val($inputPrecioMaximo.val());
-        precioMinSel = precioMaxSel;
-    }
-}
-
 function actFiltroPrecioMax(e) { // Se encarga de ir actualizando el valor del input precio máximo según el desplazamiento del control "range"
     // opto por una escala no lineal porque se hace dificil seleccionar con tanto rango de precio
     precioMaxSel = (precioMinimo + (precioMaximo - precioMinimo) * ($(e.target).val()) ** 2 / 10000);
-    $(e.target).next().val(`$${Math.ceil(precioMaxSel)}`);
+    
     if (precioMinSel >= precioMaxSel) { // Si quiere sellecionar un rango ilógico, se fija el valor compatible según la selección del otro control
         $(e.target).next().val($inputPrecioMinimo.val());
         precioMaxSel = precioMinSel;
+    } else {
+        $(e.target).next().val(`$${Math.ceil(precioMaxSel)}`);
+    }
+}
+
+
+function actFiltroPrecioMin(e) { // Se encarga de ir actualizando el valor del input precio mínimo según el desplazamiento del control "range"
+    // opto por una escala no lineal porque se hace dificil seleccionar con tanto rango de precio
+    precioMinSel = (precioMinimo + (precioMaximo - precioMinimo) * ($(e.target).val()) ** 2 / 10000);
+
+    if (precioMinSel >= precioMaxSel) { // Si quiere sellecionar un rango ilógico, se fija el valor compatible según la selección del otro control
+        $(e.target).next().val($inputPrecioMaximo.val());
+        precioMinSel = precioMaxSel;
+    } else {
+        $(e.target).next().val(`$${Math.ceil(precioMinSel)}`);
     }
 }
 
@@ -1102,7 +1078,7 @@ function cargaOk() {
         //redundante al evento anterior sobre el botón buscar, pero lo dejo porque hay eventos como el copiado con el mouse o
         //el dictado por voz que no activan este evento y sería necesario el boton para aceptar el input
         //Evito se dispare al hacer foco con Tab  o tocar teclas que no me interesan
-        if (e.key != "Tab" && e.key != "ArrowLeft" && e.key != "ArrowRight" && e.key != "Shift" && e.key != "Control" && e.key != "Alt") { 
+        if (e.key != "Tab" && e.key != "ArrowLeft" && e.key != "ArrowRight" && e.key != "Shift" && e.key != "Control" && e.key != "Alt") {
             console.log(e.ctrlKey, e.metaKey)
             buscarProductos();
             filtrarCategoria(productosFiltradosCliente);
@@ -1137,15 +1113,21 @@ function cargaOk() {
     });
 
     $rangoPrecioMaximo.on("pointerdown", function (e) { // Agrego eventos del pointer a los input "range" para generar la actualización en tiempo real del precio máximo
+        // Canelo el evento focusout del otro range, porque puede dar en algunos casos mal comportamiento. 
+        // Ej con valores coincidentes de ambos input al clickear de uno en otro sin arrastrar el mouse,
+        // arrastra el valor del input range hermano 
+        $rangoPrecioMinimo.off("focusout");
+        
         $(this).on("pointermove", actFiltroPrecioMax);
         $(this).one("pointerup", function (e) {
             $(e.target).off("pointermove", actFiltroPrecioMax); // al soltar puntero quita el evento pointermove
+            actFiltroPrecioMax(e); // Se agrega este llamado por las dudas que se haga un click solamente (sin movimiento de mouse)
             if (precioMinSel >= precioMaxSel) { // si el precio esta fuera del rango lógico devuelve la posición del selector donde corresponde en relación al precio mínimo
                 $(e.target).val($rangoPrecioMinimo.val());
             }
         });
     });
-
+    
     $rangoPrecioMaximo.on("focusin", function (e) { // Variante anterior para selección con Tab y flechitas
         $(this).on("keydown", actFiltroPrecioMax);
         $(this).one("focusout", function (e) {
@@ -1157,15 +1139,21 @@ function cargaOk() {
     });
 
     $rangoPrecioMinimo.on("pointerdown", function (e) { // Agrego eventos del pointer a los input "range" para generar la actualización en tiempo real del precio mínimo
+        // Canelo el evento focusout del otro range, porque puede dar en algunos casos mal comportamiento. 
+        // Ej con valores coincidentes de ambos input al clickear de uno en otro sin arrastrar el mouse,
+        // arrastra el valor del input range hermano 
+        $rangoPrecioMaximo.off("focusout");
+        
         $(this).on("pointermove", actFiltroPrecioMin);
         $(this).one("pointerup", function (e) {
             $(e.target).off("pointermove", actFiltroPrecioMin); // al soltar puntero quita el evento pointermove
+            actFiltroPrecioMin(e); // Se agrega este llamado por las dudas que se haga un click solamente (sin movimiento de mouse)
             if (precioMinSel >= precioMaxSel) { // si el precio esta fuera del rango lógico devuelve la posición del selector donde corresponde en relación al precio máximo
                 $(e.target).val($rangoPrecioMaximo.val());
             }
         });
     });
-
+    
     $rangoPrecioMinimo.on("focusin", function (e) { // Variante anterior para selección con Tab y flechitas
         $(this).on("keydown", actFiltroPrecioMin);
         $(this).one("focusout", function (e) {
@@ -1198,3 +1186,4 @@ function cargaError() { // si no se cumple alguna de las solicitudes, genero un 
                 <p>Disculpe las molestias.</p>
                 `);
 }
+
