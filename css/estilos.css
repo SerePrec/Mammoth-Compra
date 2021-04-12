@@ -292,7 +292,7 @@ main.productos {
       border-radius: .25rem;
       min-width: 8.5rem; }
       main.productos nav div img {
-        width: .9rem;
+        width: 1rem;
         margin: 0 .5rem; }
   main.productos #filtros {
     background-color: #e9ecef;
