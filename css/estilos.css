@@ -1032,7 +1032,9 @@ nav.navbar {
     padding-top: 0;
     padding-bottom: 0; }
     nav.navbar .navbar-brand img {
-      height: 45px; } }
+      height: 45px; }
+  nav.navbar .carritoIcon {
+    margin-bottom: -.75rem; } }
 
 /************************* Navbar - Fin ***********************/
 /**************************************************************/

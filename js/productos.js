@@ -388,7 +388,7 @@ function seteoRangoPrecios(vectorAProcesar) { // Controla la selección del rang
 function actFiltroPrecioMax(e) { // Se encarga de ir actualizando el valor del input precio máximo según el desplazamiento del control "range"
     // opto por una escala no lineal porque se hace dificil seleccionar con tanto rango de precio
     precioMaxSel = (precioMinimo + (precioMaximo - precioMinimo) * ($(e.target).val()) ** 2 / 10000);
-    
+
     if (precioMinSel >= precioMaxSel) { // Si quiere sellecionar un rango ilógico, se fija el valor compatible según la selección del otro control
         $(e.target).next().val($inputPrecioMinimo.val());
         precioMaxSel = precioMinSel;
@@ -961,6 +961,19 @@ let clickear = new MouseEvent("click", { // defino un evento "click" para simula
     cancelable: true
 });
 
+$(window).resize(function () { // Evento por si el usuario cambia posición de dispositivo
+    // para que siempre los filtros en vista xs empiecen ocultos y en mayores anchos
+    // empiecen visibles. Esto se da por defecto al cargar la página, pero si el usuario
+    // interactua con el toggle de filtros y lo oculta, puede llegar a verse vacio si pasa
+    // a una vista de ancho mayor en donde los filtros van en una columna izquierda  
+    if ($("#contenedorFiltros").css("display") == "none" && window.innerWidth >= 576) {
+        $("#contenedorFiltros").css("display", "block");
+    }
+    if ($("#contenedorFiltros").css("display") == "block" && window.innerWidth < 576) {
+        $("#contenedorFiltros").css("display", "none");
+    }
+});
+
 
 // **************************************************************************//
 // ******************************* Ejecución ********************************//
@@ -1117,7 +1130,7 @@ function cargaOk() {
         // Ej con valores coincidentes de ambos input al clickear de uno en otro sin arrastrar el mouse,
         // arrastra el valor del input range hermano 
         $rangoPrecioMinimo.off("focusout");
-        
+
         $(this).on("pointermove", actFiltroPrecioMax);
         $(this).one("pointerup", function (e) {
             $(e.target).off("pointermove", actFiltroPrecioMax); // al soltar puntero quita el evento pointermove
@@ -1127,7 +1140,7 @@ function cargaOk() {
             }
         });
     });
-    
+
     $rangoPrecioMaximo.on("focusin", function (e) { // Variante anterior para selección con Tab y flechitas
         $(this).on("keydown", actFiltroPrecioMax);
         $(this).one("focusout", function (e) {
@@ -1143,7 +1156,7 @@ function cargaOk() {
         // Ej con valores coincidentes de ambos input al clickear de uno en otro sin arrastrar el mouse,
         // arrastra el valor del input range hermano 
         $rangoPrecioMaximo.off("focusout");
-        
+
         $(this).on("pointermove", actFiltroPrecioMin);
         $(this).one("pointerup", function (e) {
             $(e.target).off("pointermove", actFiltroPrecioMin); // al soltar puntero quita el evento pointermove
@@ -1153,7 +1166,7 @@ function cargaOk() {
             }
         });
     });
-    
+
     $rangoPrecioMinimo.on("focusin", function (e) { // Variante anterior para selección con Tab y flechitas
         $(this).on("keydown", actFiltroPrecioMin);
         $(this).one("focusout", function (e) {
@@ -1165,7 +1178,7 @@ function cargaOk() {
     });
 
     $listadoFitros.children("h3").click(function () {
-        if (window.innerWidth <576) {
+        if (window.innerWidth < 576) {
             $("#contenedorFiltros").slideToggle("slow");
         }
     })
@@ -1192,4 +1205,3 @@ function cargaError() { // si no se cumple alguna de las solicitudes, genero un 
                 <p>Disculpe las molestias.</p>
                 `);
 }
-
