@@ -1205,3 +1205,43 @@ function cargaError() { // si no se cumple alguna de las solicitudes, genero un 
                 <p>Disculpe las molestias.</p>
                 `);
 }
+
+
+class ItemMarca {
+    constructor(marca, cant) {
+        this.marca = marca;
+        this.cant = cant;
+    }
+}
+
+
+
+function listadoMarcas(vectorAProcesar) {
+    let marca;
+    let listadoMarcas = [];
+    for (const producto of vectorAProcesar) {
+        marca = producto.marca;
+        console.log(marca);
+        let coincidencia = listadoMarcas.find(prod => prod.marca == marca);
+        if (coincidencia) { // si ya existía el producto en el carrito, le suma la cantidad ingresada
+            coincidencia.cant++;
+        } else { // sino, agrega el item completo
+            listadoMarcas.push(new ItemMarca(marca, 1));
+        }
+    }
+    return listadoMarcas;
+}
+
+function mostrarListadoMarcas(vectorMarcas) {
+    let codigoHTML = "";
+    for (const item of vectorMarcas) {
+        codigoHTML += `
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="${item.marca}">
+                <label class="form-check-label" for="${item.marca}">${item.marca} (${item.cant})</label>
+            </div>`
+    }
+
+    $("#contenedorMarcas").html(codigoHTML);
+
+}

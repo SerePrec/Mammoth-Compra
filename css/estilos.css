@@ -337,6 +337,23 @@ main.productos {
       font-weight: 500; }
     main.productos #filtros #aplicarFiltros {
       background-color: #b30404; }
+    main.productos #filtros #contenedorMarcas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 1rem .5rem;
+      background-color: #545454;
+      color: white;
+      font-size: .9rem;
+      height: 100%;
+      width: 100%;
+      border-radius: .25rem;
+      border: 3px solid #545454;
+      z-index: 1000;
+      display: none;
+      overflow-y: auto; }
+      main.productos #filtros #contenedorMarcas .form-check {
+        margin-bottom: .5rem; }
     @media only screen and (max-width: 575px) {
       main.productos #filtros h3 {
         justify-content: center; }
