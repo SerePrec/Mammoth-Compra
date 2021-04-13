@@ -147,81 +147,84 @@
             <div class="row mx-0 mr-sm-n3 showRoom">
                 <div id="filtros" class="col-sm-3 col-xl-2 mb-4">
                     <h3>Filtros <span><img src="./img/filtros.png" alt=""></span></h3>
-                    <div id="cantProductosEncontrados">() producto/s</div>
+                    <div id="contenedorFiltros">
+                        <div id="cantProductosEncontrados">() producto/s</div>
 
-                    <button type="button" id="filtroBuscar"
-                        class="btn btn-sm btn-outline-secondary ocultar mb-2">BUSQUEDA
-                        <span>[&times;]</span></button>
+                        <button type="button" id="filtroBuscar"
+                            class="btn btn-sm btn-outline-secondary ocultar mb-2">BUSQUEDA
+                            <span>[&times;]</span></button>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h4>Categorías</h4>
-                            <div class="form-check mb-2 seleccionado">
-                                <input class="form-check-input" type="radio" name="categoria" id="catTodas"
-                                    value="todas" checked>
-                                <label class="form-check-label" for="catTodas">
-                                    TODAS
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="categoria" id="catBicicletas"
-                                    value="bicicletas">
-                                <label class="form-check-label" for="catBicicletas">
-                                    Bicicletas
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="categoria" id="catComponentes"
-                                    value="componentes">
-                                <label class="form-check-label" for="catComponentes">
-                                    Componentes
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="categoria" id="catAccesorios"
-                                    value="accesorios">
-                                <label class="form-check-label" for="catAccesorios">
-                                    Accesorios
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="categoria" id="catEquipamiento"
-                                    value="equipamiento">
-                                <label class="form-check-label" for="catEquipamiento">
-                                    Equipamiento
-                                </label>
-                            </div>
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="radio" name="categoria" id="catIndumentaria"
-                                    value="indumentaria">
-                                <label class="form-check-label" for="catIndumentaria">
-                                    Indumentaria
-                                </label>
-                            </div>
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="checkDestacados">
-                                <label class="form-check-label" for="checkDestacados">
-                                    Solo Destacados
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPrecioMin">Precio Mínimo $</label>
-                                <input type="range" class="form-control-range" id="rangoPrecioMin" min="0" max="100"
-                                    step=".5">
-                                <input type="text" id="inputPrecioMin" class="form-control form-control-sm text-center"
-                                    placeholder="$ Min" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPrecioMax">Precio Máximo $</label>
-                                <input type="range" class="form-control-range" id="rangoPrecioMax" min="0" max="100"
-                                    step=".5">
-                                <input type="text" id="inputPrecioMax" class="form-control form-control-sm text-center"
-                                    placeholder="$ Máx" disabled>
-                            </div>
-                            <!-- <button type="button" id="aplicarFiltros"
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4>Categorías</h4>
+                                <div class="form-check mb-2 seleccionado">
+                                    <input class="form-check-input" type="radio" name="categoria" id="catTodas"
+                                        value="todas" checked>
+                                    <label class="form-check-label" for="catTodas">
+                                        TODAS
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="categoria" id="catBicicletas"
+                                        value="bicicletas">
+                                    <label class="form-check-label" for="catBicicletas">
+                                        Bicicletas
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="categoria" id="catComponentes"
+                                        value="componentes">
+                                    <label class="form-check-label" for="catComponentes">
+                                        Componentes
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="categoria" id="catAccesorios"
+                                        value="accesorios">
+                                    <label class="form-check-label" for="catAccesorios">
+                                        Accesorios
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="categoria" id="catEquipamiento"
+                                        value="equipamiento">
+                                    <label class="form-check-label" for="catEquipamiento">
+                                        Equipamiento
+                                    </label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="categoria" id="catIndumentaria"
+                                        value="indumentaria">
+                                    <label class="form-check-label" for="catIndumentaria">
+                                        Indumentaria
+                                    </label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="checkDestacados">
+                                    <label class="form-check-label" for="checkDestacados">
+                                        Solo Destacados
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPrecioMin">Precio Mínimo $</label>
+                                    <input type="range" class="form-control-range" id="rangoPrecioMin" min="0" max="100"
+                                        step=".5">
+                                    <input type="text" id="inputPrecioMin"
+                                        class="form-control form-control-sm text-center" placeholder="$ Min" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPrecioMax">Precio Máximo $</label>
+                                    <input type="range" class="form-control-range" id="rangoPrecioMax" min="0" max="100"
+                                        step=".5">
+                                    <input type="text" id="inputPrecioMax"
+                                        class="form-control form-control-sm text-center" placeholder="$ Máx" disabled>
+                                </div>
+                                <!-- <button type="button" id="aplicarFiltros"
                                 class="btn btn-sm btn-danger mb-3 w-100">APLICAR</button> -->
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
                 <div class="col-sm-9 col-xl-10 colProductos">
@@ -607,7 +610,7 @@
 
     <!---------------- Modal para mensajes ---------------->
     <div id="modalMensajes" class="modal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" aria-label="Close">
@@ -616,7 +619,7 @@
                 </div>
                 <div class="modal-body p-0 pt-1">
                     <div>
-                        <h4 class="text-center p-5">Texto a mostrar</h4>
+                        <h4 class="text-center py-5 px-2">Texto a mostrar</h4>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -132,7 +132,7 @@ function asignarCarrito(user) { // Si esta logueado, carga el carrito de compra 
             let carritoGuardado;
             // si hay un carrito guardado con el nombre del usuario, pregunta si lo desea cargar
             if (carritosGuardados && (carritoGuardado = carritosGuardados.find(carr => carr.usuario == user)) && carritoGuardado.miSeleccion.length != 0) {
-                mostrarModalConfirm((user + ", tienes un carrito guardado.\n¿Deseas cargarlo?"), "siCargarCarrito", "noCargarCarrito");
+                mostrarModalConfirm((user + ", tienes un carrito guardado.<br>¿Deseas cargarlo?"), "siCargarCarrito", "noCargarCarrito");
                 auxCarritosGuardados = carritosGuardados;
                 auxCarritoGuardado = carritoGuardado;
                 return;
@@ -825,7 +825,7 @@ function logOutUsuario() { // hace el logOut del usuario
     // si el carrito actual contiene productos, pregunto si quiere guardarlos
     if (carritoUsuario.miSeleccion && carritoUsuario.miSeleccion.length != 0) {
         mostrarModalConfirm(`
-            Has salido de tu usuario y tienes productos seleccionados en tu carrito!\n
+            Has salido de tu usuario y tienes productos seleccionados en tu carrito!<br>
             ¿Deseas guardarlos para poderlos recuperar más adelante?`, "siGuardarCarrito", "noGuardarCarrito"); // genero modal de confirmación preguntando si gurada carrito
     } else {
         carritoUsuario.usuario = "";
@@ -1163,6 +1163,12 @@ function cargaOk() {
             }
         });
     });
+
+    $listadoFitros.children("h3").click(function () {
+        if (window.innerWidth <576) {
+            $("#contenedorFiltros").slideToggle("slow");
+        }
+    })
 
     $selectOrdenar.change(function (e) { // Al cambiar la opción del select para ordenar, se llama a la función respectiva
         if (filtroPrecioAplicado) { // Si hay un filtro de rengo de precio aplicado, ordena el vector que devuelve este filtrado

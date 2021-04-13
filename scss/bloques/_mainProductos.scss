@@ -4,34 +4,35 @@ main.productos {
 	@extend %mainComun;
 	overflow: hidden;
 
-	nav{
+	nav {
 		position: relative;
+
 		.breadcrumb {
 			margin-top: 1rem;
 			margin-bottom: 1rem;
 			font-weight: 600;
 			padding: 0.5rem 1rem;
-	
+
 			li {
 				color: #545454;
-	
+
 				a {
 					color: #b30404;
 					font-weight: 500;
 				}
 			}
 		}
-	
+
 		div {
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			position: absolute;
-			top:.5rem;
+			top: .5rem;
 			right: 1.25rem;
 			font-weight: 500;
 			background-color: white;
-			padding-right:1rem;
+			padding-right: 1rem;
 			padding-left: .25rem;
 			border-radius: .25rem;
 			min-width: 8.5rem;
@@ -41,8 +42,14 @@ main.productos {
 				margin: 0 .5rem;
 			}
 		}
-	}
 
+		@include responsive(xs) {
+			div {
+				padding-right: .5rem;
+			}
+
+		}
+	}
 
 	#filtros {
 		background-color: #e9ecef;
@@ -55,6 +62,7 @@ main.productos {
 			height: 2.4rem;
 			display: flex;
 			align-items: center;
+			cursor: pointer;
 
 			span {
 				padding-left: 1rem;
@@ -77,18 +85,22 @@ main.productos {
 
 		.row .form-check {
 			transition: all .4s;
+
 			label {
+				width: 100%;
 				padding-left: .25rem;
 			}
+
 			&.seleccionado {
 				background-color: #b30404a3;
 				color: white;
 				border-radius: .25rem;
 				padding-left: 2rem;
 			}
+
 			&:not(.seleccionado):not(:nth-of-type(7)):hover {
 				padding-left: 2rem;
-				color:#b30404;
+				color: #b30404;
 			}
 		}
 
@@ -100,6 +112,32 @@ main.productos {
 			background-color: #b30404;
 		}
 
+		@include responsive(xs) {
+			h3 {
+				justify-content: center;
+			}
+
+			#contenedorFiltros {
+				display: none;
+
+				h4 {
+					text-align: center;
+				}
+
+				.form-check {
+					width: 70%;
+					margin: auto;
+
+					label {
+						padding-left: .5rem;
+					}
+				}
+
+				.form-group {
+					text-align: center;
+				}
+			}
+		}
 	}
 }
 

@@ -144,17 +144,36 @@
 
 // Modal parar mensajes info y confirm
 #modalMensajes {
-	padding-right: 17px;
 	display: block;
+	padding-top: 8rem;
 	transition: opacity 1S;
 	opacity: 0;
 	z-index: -1000;
 
-	.modal-content.info {
-		background-color: #70806fd1;
-		color: white;
-		text-shadow: 1px 1px #212121;
+	.modal-content {
+		h4 {
+			font-size: 1.25rem;
+		}
 
+		&.info {
+			background-color: #70806fd1;
+			color: white;
+			text-shadow: 1px 1px #212121;
+
+			.modal-header {
+				padding: 0.25rem 1rem;
+				border-bottom-color: transparent;
+
+				button {
+					color: white;
+				}
+			}
+
+			.modal-footer {
+				border-top-color: transparent;
+			}
+
+		}
 	}
 
 	&.show {

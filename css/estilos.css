@@ -294,6 +294,9 @@ main.productos {
       main.productos nav div img {
         width: 1rem;
         margin: 0 .5rem; }
+    @media only screen and (max-width: 575px) {
+      main.productos nav div {
+        padding-right: .5rem; } }
   main.productos #filtros {
     background-color: #e9ecef;
     border-radius: .25rem;
@@ -303,7 +306,8 @@ main.productos {
       margin-bottom: 0;
       height: 2.4rem;
       display: flex;
-      align-items: center; }
+      align-items: center;
+      cursor: pointer; }
       main.productos #filtros h3 span {
         padding-left: 1rem; }
     main.productos #filtros #cantProductosEncontrados {
@@ -319,6 +323,7 @@ main.productos {
     main.productos #filtros .row .form-check {
       transition: all .4s; }
       main.productos #filtros .row .form-check label {
+        width: 100%;
         padding-left: .25rem; }
       main.productos #filtros .row .form-check.seleccionado {
         background-color: #b30404a3;
@@ -332,6 +337,20 @@ main.productos {
       font-weight: 500; }
     main.productos #filtros #aplicarFiltros {
       background-color: #b30404; }
+    @media only screen and (max-width: 575px) {
+      main.productos #filtros h3 {
+        justify-content: center; }
+      main.productos #filtros #contenedorFiltros {
+        display: none; }
+        main.productos #filtros #contenedorFiltros h4 {
+          text-align: center; }
+        main.productos #filtros #contenedorFiltros .form-check {
+          width: 70%;
+          margin: auto; }
+          main.productos #filtros #contenedorFiltros .form-check label {
+            padding-left: .5rem; }
+        main.productos #filtros #contenedorFiltros .form-group {
+          text-align: center; } }
 
 .ocultar {
   display: none; }
@@ -2178,15 +2197,24 @@ article:hover .servicios__imagen .servicios__link {
   font-size: 2rem; }
 
 #modalMensajes {
-  padding-right: 17px;
   display: block;
+  padding-top: 8rem;
   transition: opacity 1S;
   opacity: 0;
   z-index: -1000; }
+  #modalMensajes .modal-content h4 {
+    font-size: 1.25rem; }
   #modalMensajes .modal-content.info {
     background-color: #70806fd1;
     color: white;
     text-shadow: 1px 1px #212121; }
+    #modalMensajes .modal-content.info .modal-header {
+      padding: 0.25rem 1rem;
+      border-bottom-color: transparent; }
+      #modalMensajes .modal-content.info .modal-header button {
+        color: white; }
+    #modalMensajes .modal-content.info .modal-footer {
+      border-top-color: transparent; }
   #modalMensajes.show {
     opacity: 1;
     z-index: 1050; }
