@@ -1007,6 +1007,7 @@ function cargaOk() {
         ordenarProductos(productosFiltradosCliente);
         seteoRangoPrecios(productosFiltradosCliente);
         filtroMarcaAplicado = false;
+        $("#verMarcas i").removeClass("fa-toggle-on").addClass("fa-toggle-off");
         if ($("#marcas").css("display") == "block") {
             $("#marcas").slideUp(1250, function() {
                 $("#marcas").stop();
@@ -1095,6 +1096,7 @@ function cargaOk() {
         ordenarProductos(productosFiltradosCliente);
         seteoRangoPrecios(productosFiltradosCliente);
         filtroMarcaAplicado = false;
+        $("#verMarcas i").removeClass("fa-toggle-on").addClass("fa-toggle-off");
         $inputBuscar.val("");
     });
 
@@ -1108,6 +1110,7 @@ function cargaOk() {
             ordenarProductos(productosFiltradosCliente);
             seteoRangoPrecios(productosFiltradosCliente);
             filtroMarcaAplicado = false;
+            $("#verMarcas i").removeClass("fa-toggle-on").addClass("fa-toggle-off");
             if ($("#marcas").css("display") == "block") {
                 $("#marcas").stop();
                 $("#marcas").slideUp(1250, function() {
@@ -1133,6 +1136,7 @@ function cargaOk() {
         ordenarProductos(productosFiltradosCliente);
         seteoRangoPrecios(productosFiltradosCliente);
         filtroMarcaAplicado = false;
+        $("#verMarcas i").removeClass("fa-toggle-on").addClass("fa-toggle-off");
         $listadoFitros.find(":radio:checked").parent().addClass("seleccionado");
         $listadoFitros.find(":radio:not(:checked)").parent().removeClass("seleccionado");
     });
@@ -1299,6 +1303,12 @@ $("#contenedorMarcas").change(function (e) {
     $(this).find(":checked").each(function () {
         marcasElegidas.push($(this).data("marca"));
     });
+
+    if(marcasElegidas.length == 0) {
+        $("#verMarcas i").removeClass("fa-toggle-on").addClass("fa-toggle-off");
+    } else {
+        $("#verMarcas i").removeClass("fa-toggle-off").addClass("fa-toggle-on");
+    }
 
     marcasAFiltrar = marcasElegidas;
 

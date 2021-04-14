@@ -330,6 +330,11 @@ main.productos {
     main.productos #filtros #verMarcas,
     main.productos #filtros #volverMarcas {
       background-color: #b30404; }
+      main.productos #filtros #verMarcas i,
+      main.productos #filtros #volverMarcas i {
+        font-size: 1.15rem;
+        margin-left: .5rem;
+        vertical-align: text-bottom; }
     main.productos #filtros .row label {
       font-weight: 500; }
     main.productos #filtros .row .form-check {

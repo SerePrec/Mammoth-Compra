@@ -97,7 +97,11 @@ main.productos {
 		#verMarcas,
 		#volverMarcas {
 			background-color: #b30404;
-
+			i {
+				font-size: 1.15rem;
+				margin-left: .5rem;
+				vertical-align: text-bottom;
+			}
 		}
 
 		.row {
