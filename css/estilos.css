@@ -307,7 +307,6 @@ main.productos {
       height: 2.4rem;
       display: flex;
       align-items: center;
-      cursor: pointer;
       justify-content: center; }
       main.productos #filtros h3 span {
         padding-left: 1rem; }
@@ -374,6 +373,8 @@ main.productos {
       main.productos #filtros #marcas .form-check {
         margin-bottom: .5rem; }
     @media only screen and (max-width: 575px) {
+      main.productos #filtros h3 {
+        cursor: pointer; }
       main.productos #filtros #contenedorFiltros {
         display: none; }
         main.productos #filtros #contenedorFiltros .form-check {

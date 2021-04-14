@@ -330,6 +330,9 @@ function buscarProductos(e) { //procesa el valor de búsqueda que el usario intr
 
         $filtroBuscar.removeClass("ocultar"); // Hace visible un botón para luego quitar esté filtrado por búsqueda. Este boton esta oculto al inicio
         busqueda = true;
+    } else if(!$filtroBuscar.hasClass("ocultar")) {
+        $filtroBuscar.trigger("click");
+
     }
 }
 
@@ -439,7 +442,7 @@ function mostrarProductos(vectorProductos) { // Carga los productos en la págin
         $contenedorProductos.html(`
             <div class="errorResultadoBuscar">
                 <i class="fa fa-search grayscale fa-3x"></i>
-                <h2>¡Opss!</h2>  
+                <h2>¡Oops!</h2>  
                 <h3>No existe ningún producto con estos criterios de búsqueda.</h3>
                 <h3>Prueba modificando alguno.</h3>
             </div>`);
@@ -1004,6 +1007,12 @@ function cargaOk() {
         ordenarProductos(productosFiltradosCliente);
         seteoRangoPrecios(productosFiltradosCliente);
         filtroMarcaAplicado = false;
+        if ($("#marcas").css("display") == "block") {
+            $("#marcas").slideUp(1250, function() {
+                $("#marcas").stop();
+                $("#verMarcas").trigger("click");
+            });
+        }
     });
 
     $btnCarritoCerrar.click((e) => { // Evento para indicar que se cerro el carrito y hacer luego animación slidedown en mostrarCarrito
@@ -1089,20 +1098,22 @@ function cargaOk() {
         $inputBuscar.val("");
     });
 
-    $inputBuscar.keyup(function (e) { // Luego introduje este evento asociado a que a medida que se teclea en el input
+    $inputBuscar.on("input", function (e) { // Luego introduje este evento asociado a que a medida que cambia el input
         //de búsqueda de productos, se llama a la función. Por lo que al instante se van mostrando las coincidencias. Esto hace
-        //redundante al evento anterior sobre el botón buscar, pero lo dejo porque hay eventos como el copiado con el mouse o
-        //el dictado por voz que no activan este evento y sería necesario el boton para aceptar el input
+        //redundante al evento anterior sobre el botón buscar, pero lo dejo por si en algún caso el evento input  no funciona
         //Evito se dispare al hacer foco con Tab  o tocar teclas que no me interesan
-        if (e.key != "Tab" && e.key != "ArrowLeft" && e.key != "ArrowRight" && e.key != "Shift" && e.key != "Control" && e.key != "Alt") {
-            console.log(e.ctrlKey, e.metaKey)
             buscarProductos();
             filtrarCategoria(productosFiltradosCliente);
             filtrarDestacados(productosFiltradosCliente);
             ordenarProductos(productosFiltradosCliente);
             seteoRangoPrecios(productosFiltradosCliente);
             filtroMarcaAplicado = false;
-        }
+            if ($("#marcas").css("display") == "block") {
+                $("#marcas").stop();
+                $("#marcas").slideUp(1250, function() {
+                    $("#verMarcas").trigger("click");
+                });
+            }
     });
 
     $inputUsuario.keypress(function (e) { // Llama a la funcion loguearUsuario al presionar la tecla Enter en el input del logueo

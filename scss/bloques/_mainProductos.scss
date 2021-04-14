@@ -62,7 +62,6 @@ main.productos {
 			height: 2.4rem;
 			display: flex;
 			align-items: center;
-			cursor: pointer;
 			justify-content: center;
 
 			span {
@@ -89,11 +88,12 @@ main.productos {
 			display: block;
 			width: 100%;
 			margin: auto;
-			&.ocultar{
+
+			&.ocultar {
 				display: none;
 			}
 		}
-		
+
 		#verMarcas,
 		#volverMarcas {
 			background-color: #b30404;
@@ -165,8 +165,13 @@ main.productos {
 		}
 
 		@include responsive(xs) {
+			h3 {
+				cursor: pointer;
+			}
+
 			#contenedorFiltros {
 				display: none;
+
 
 				.form-check {
 					width: 70%;
