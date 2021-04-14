@@ -307,7 +307,8 @@ main.productos {
       height: 2.4rem;
       display: flex;
       align-items: center;
-      cursor: pointer; }
+      cursor: pointer;
+      justify-content: center; }
       main.productos #filtros h3 span {
         padding-left: 1rem; }
     main.productos #filtros #cantProductosEncontrados {
@@ -319,7 +320,19 @@ main.productos {
       background-color: #545454;
       color: white; }
     main.productos #filtros h4 {
+      text-align: center;
       font-size: 1.1rem; }
+    main.productos #filtros .btn {
+      display: block;
+      width: 100%;
+      margin: auto; }
+      main.productos #filtros .btn.ocultar {
+        display: none; }
+    main.productos #filtros #verMarcas,
+    main.productos #filtros #volverMarcas {
+      background-color: #b30404; }
+    main.productos #filtros .row label {
+      font-weight: 500; }
     main.productos #filtros .row .form-check {
       transition: all .4s; }
       main.productos #filtros .row .form-check label {
@@ -333,11 +346,17 @@ main.productos {
       main.productos #filtros .row .form-check:not(.seleccionado):not(:nth-of-type(7)):hover {
         padding-left: 2rem;
         color: #b30404; }
-    main.productos #filtros label {
-      font-weight: 500; }
-    main.productos #filtros #aplicarFiltros {
-      background-color: #b30404; }
-    main.productos #filtros #contenedorMarcas {
+    main.productos #filtros .row .form-group {
+      text-align: center; }
+      main.productos #filtros .row .form-group label {
+        margin-bottom: 0; }
+      main.productos #filtros .row .form-group input[type=text] {
+        height: 1.7rem;
+        max-width: 8rem;
+        margin: auto;
+        background-color: #545454;
+        color: white; }
+    main.productos #filtros #marcas {
       position: absolute;
       top: 0;
       left: 0;
@@ -352,25 +371,18 @@ main.productos {
       z-index: 1000;
       display: none;
       overflow-y: auto; }
-      main.productos #filtros #contenedorMarcas .form-check {
+      main.productos #filtros #marcas .form-check {
         margin-bottom: .5rem; }
     @media only screen and (max-width: 575px) {
-      main.productos #filtros h3 {
-        justify-content: center; }
       main.productos #filtros #contenedorFiltros {
         display: none; }
-        main.productos #filtros #contenedorFiltros h4 {
-          text-align: center; }
         main.productos #filtros #contenedorFiltros .form-check {
           width: 70%;
           margin: auto; }
           main.productos #filtros #contenedorFiltros .form-check label {
             padding-left: .5rem; }
-        main.productos #filtros #contenedorFiltros .form-group {
-          text-align: center; } }
-
-.ocultar {
-  display: none; }
+        main.productos #filtros #contenedorFiltros .btn {
+          width: 70%; } }
 
 /******************* Main de productos.html - Fin **************/
 /***************************************************************/
@@ -403,9 +415,9 @@ main.productos {
   padding-top: .5rem;
   border: 3px solid #e9ecef;
   border-radius: .25rem;
-  min-height: 31rem; }
+  min-height: 33rem; }
   .colProductos #contenedorProductos .loader {
-    height: 31rem;
+    height: 33rem;
     background-image: url("../img/puff.svg");
     background-size: 50%;
     background-repeat: no-repeat;
@@ -494,10 +506,11 @@ main.productos {
     flex-wrap: wrap;
     justify-content: center;
     align-content: center; }
-    .colProductos #contenedorProductos .errorResultadoBuscar p {
+    .colProductos #contenedorProductos .errorResultadoBuscar i {
       color: red;
-      font-size: 1.5rem; }
-    .colProductos #contenedorProductos .errorResultadoBuscar h3, .colProductos #contenedorProductos .errorResultadoBuscar p {
+      display: block;
+      margin-bottom: 1rem; }
+    .colProductos #contenedorProductos .errorResultadoBuscar i, .colProductos #contenedorProductos .errorResultadoBuscar h3, .colProductos #contenedorProductos .errorResultadoBuscar p {
       width: 100%; }
 
 @media only screen and (max-width: 575px) {

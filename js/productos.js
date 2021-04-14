@@ -80,7 +80,7 @@ const $totalCarrito = $("#totalCarrito");
 //*****************************************************************************
 
 const iniciar = () => { // Ejecuta el inicio del simulador
-    productosFiltradosCliente = productos;
+    productosFiltradosCliente = [...productos];
 
     // Carga inicial de productos en la página
     ordenarProductos(productosFiltradosCliente);
@@ -411,7 +411,7 @@ function actFiltroPrecioMin(e) { // Se encarga de ir actualizando el valor del i
 }
 
 function filtrarRangoPrecio(vectorAFiltrar) { // filtra el vector pasado según el rango de precio elegido. No sobreescribe el vector, sino que devuelve otro
-    filtroPrecioAplicado = "true";
+    filtroPrecioAplicado = true;
     // se crea y se devuelve un vector auxiliar, para no sobreescribir el vector pasado
     // y poder seguir operando posteriormente con el mismo si se van cambiando solo los rangos de precio
     let vectorAuxiliar = vectorAFiltrar.filter(
@@ -438,9 +438,10 @@ function mostrarProductos(vectorProductos) { // Carga los productos en la págin
     if (vectorProductos.length == 0) { // Si no hay productos que mostrar lo avisa
         $contenedorProductos.html(`
             <div class="errorResultadoBuscar">
-                <h3>No se encontraron productos con las características elegidas.</h3>
-                <h3>Descripción:</h3>
-                <p><b>${$inputBuscar.val()}</b></p>
+                <i class="fa fa-search grayscale fa-3x"></i>
+                <h2>¡Opss!</h2>  
+                <h3>No existe ningún producto con estos criterios de búsqueda.</h3>
+                <h3>Prueba modificando alguno.</h3>
             </div>`);
 
     } else { // si ha productos genera el HTML norrespondiente a las tarjetas de los mismos
@@ -1002,6 +1003,7 @@ function cargaOk() {
         filtrarDestacados(productosFiltradosCliente);
         ordenarProductos(productosFiltradosCliente);
         seteoRangoPrecios(productosFiltradosCliente);
+        filtroMarcaAplicado = false;
     });
 
     $btnCarritoCerrar.click((e) => { // Evento para indicar que se cerro el carrito y hacer luego animación slidedown en mostrarCarrito
@@ -1083,6 +1085,7 @@ function cargaOk() {
         filtrarDestacados(productosFiltradosCliente);
         ordenarProductos(productosFiltradosCliente);
         seteoRangoPrecios(productosFiltradosCliente);
+        filtroMarcaAplicado = false;
         $inputBuscar.val("");
     });
 
@@ -1098,6 +1101,7 @@ function cargaOk() {
             filtrarDestacados(productosFiltradosCliente);
             ordenarProductos(productosFiltradosCliente);
             seteoRangoPrecios(productosFiltradosCliente);
+            filtroMarcaAplicado = false;
         }
     });
 
@@ -1117,12 +1121,18 @@ function cargaOk() {
         filtrarDestacados(productosFiltradosCliente);
         ordenarProductos(productosFiltradosCliente);
         seteoRangoPrecios(productosFiltradosCliente);
+        filtroMarcaAplicado = false;
         $listadoFitros.find(":radio:checked").parent().addClass("seleccionado");
         $listadoFitros.find(":radio:not(:checked)").parent().removeClass("seleccionado");
     });
 
     $listadoFitros.find(":input[type='range']").change(function (e) { // Agrego enevto a los dos input "range" para que al cambiar su valor, muestre los productos con el orden seleccionado
-        ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
+        let vectorAFiltrar = [...productosFiltradosCliente];
+        if(filtroMarcaAplicado) {
+            vectorAFiltrar =  filtrarMarcas(vectorAFiltrar, marcasAFiltrar);
+            }
+                        
+        ordenarProductos(filtrarRangoPrecio(vectorAFiltrar));
     });
 
     $rangoPrecioMaximo.on("pointerdown", function (e) { // Agrego eventos del pointer a los input "range" para generar la actualización en tiempo real del precio máximo
@@ -1184,11 +1194,18 @@ function cargaOk() {
     })
 
     $selectOrdenar.change(function (e) { // Al cambiar la opción del select para ordenar, se llama a la función respectiva
-        if (filtroPrecioAplicado) { // Si hay un filtro de rengo de precio aplicado, ordena el vector que devuelve este filtrado
-            ordenarProductos(filtrarRangoPrecio(productosFiltradosCliente));
-        } else { // sino opera sobre el vector que recoje el resto del los filtros, excepto el de rango de precio
-            ordenarProductos(productosFiltradosCliente);
+        let vectorAOrdenar = [...productosFiltradosCliente];
+
+        if (filtroMarcaAplicado) {
+            vectorAOrdenar = filtrarMarcas(vectorAOrdenar, marcasAFiltrar);
         }
+
+        if (filtroPrecioAplicado) { // Si hay un filtro de rengo de precio aplicado, ordena el vector que devuelve este filtrado
+
+            vectorAOrdenar = filtrarRangoPrecio(vectorAOrdenar);
+        }
+
+        ordenarProductos(vectorAOrdenar);
     });
 
 
@@ -1207,6 +1224,11 @@ function cargaError() { // si no se cumple alguna de las solicitudes, genero un 
 }
 
 
+
+// pruebas marcas**************
+
+let filtroMarcaAplicado = false;
+
 class ItemMarca {
     constructor(marca, cant) {
         this.marca = marca;
@@ -1216,12 +1238,11 @@ class ItemMarca {
 
 
 
-function listadoMarcas(vectorAProcesar) {
-    let marca;
+function listarMarcas(vectorAProcesar) {
     let listadoMarcas = [];
+    let marca;
     for (const producto of vectorAProcesar) {
         marca = producto.marca;
-        console.log(marca);
         let coincidencia = listadoMarcas.find(prod => prod.marca == marca);
         if (coincidencia) { // si ya existía el producto en el carrito, le suma la cantidad ingresada
             coincidencia.cant++;
@@ -1229,6 +1250,7 @@ function listadoMarcas(vectorAProcesar) {
             listadoMarcas.push(new ItemMarca(marca, 1));
         }
     }
+    listadoMarcas.sort((a, b) => a.marca.localeCompare(b.marca));
     return listadoMarcas;
 }
 
@@ -1237,11 +1259,70 @@ function mostrarListadoMarcas(vectorMarcas) {
     for (const item of vectorMarcas) {
         codigoHTML += `
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="${item.marca}">
-                <label class="form-check-label" for="${item.marca}">${item.marca} (${item.cant})</label>
+                <input class="form-check-input" type="checkbox" data-marca="${item.marca}" id="marca${vectorMarcas.indexOf(item)}">
+                <label class="form-check-label" for="marca${vectorMarcas.indexOf(item)}">${item.marca} (${item.cant})</label>
             </div>`
     }
 
     $("#contenedorMarcas").html(codigoHTML);
+}
 
+$("#verMarcas").click(function () {
+    if (productosFiltradosCliente.length == 0) return;
+    if (!filtroMarcaAplicado) {
+        mostrarListadoMarcas(listarMarcas(productosFiltradosCliente));
+    }
+    $("#marcas").slideDown();
+})
+
+$("#volverMarcas").click(function () {
+    $("#marcas").slideUp();
+})
+
+let marcasAFiltrar = [];
+
+$("#contenedorMarcas").change(function (e) {
+    const marcasElegidas = [];
+    filtroMarcaAplicado = true;
+    let prodFiltradosMarca;
+    $(this).find(":checked").each(function () {
+        marcasElegidas.push($(this).data("marca"));
+    });
+
+    marcasAFiltrar = marcasElegidas;
+
+    if (busqueda) { // Si esta activa un búsqueda, la vuelve a hacer como punto de partida para aplicar los posteriores filtros 
+        buscarProductos();
+        filtrarCategoria(productosFiltradosCliente);
+    } else {
+        filtrarCategoria(productos);
+    }
+    filtrarDestacados(productosFiltradosCliente);
+
+    if (filtroPrecioAplicado) {
+        prodFiltradosMarca = filtrarMarcas(filtrarRangoPrecio(productosFiltradosCliente), marcasElegidas);
+    } else {
+
+        prodFiltradosMarca = filtrarMarcas(productosFiltradosCliente, marcasElegidas);
+    }
+
+    ordenarProductos(prodFiltradosMarca);
+
+})
+
+function filtrarMarcas(vectorAFiltrar, vectorMarcas) {
+    let productosFiltradosMarca = [];
+    if (vectorMarcas.length == 0) {
+        productosFiltradosMarca = vectorAFiltrar;
+    } else {
+        productosFiltradosMarca = vectorAFiltrar.filter(elem => {
+            for (const marcaElegida of vectorMarcas) {
+                if (elem.marca == marcaElegida) {
+                    return true;
+                }
+            }
+        })
+
+    }
+    return productosFiltradosMarca;
 }

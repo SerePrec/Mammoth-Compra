@@ -43,10 +43,10 @@
         padding-top: .5rem;
         border: 3px solid #e9ecef;
         border-radius: .25rem;
-        min-height: 31rem;
+        min-height: 33rem;
 
         .loader {
-            height: 31rem;
+            height: 33rem;
             background-image: url("../img/puff.svg");
             background-size: 50%;
             background-repeat: no-repeat;
@@ -171,13 +171,15 @@
             flex-wrap: wrap;
             justify-content: center;
             align-content: center;
-            
-            p {
+
+            i {
                 color: red;
-                font-size: 1.5rem;
+                display: block;
+                margin-bottom: 1rem;
+
             }
 
-            h3, p {
+            i, h3, p {
                 width: 100%;
             }
         }
