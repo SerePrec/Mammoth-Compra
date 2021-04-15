@@ -152,28 +152,28 @@ function mostrarResumenCompra() { //genera el HTML para la zona de resumen de co
                 <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio2"
                     value="3">
                 <label class="form-check-label" for="inputRadio2">
-                <span>3 Cuotas de $${importeC3.toFixed(2)}</span> (Int.: ${interes3Cuotas}%) Total: $${(importeC3*3).toFixed(2)}
+                <span>3 Cuotas de $${importeC3.toFixed(2)}</span><i> (Int.: ${interes3Cuotas}%) Total: $${(importeC3*3).toFixed(2)}</i>
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio3"
                     value="6">
                 <label class="form-check-label" for="inputRadio3">
-                <span>6 Cuotas de $${importeC6.toFixed(2)}</span> (Int.: ${interes6Cuotas}%) Total: $${(importeC6*6).toFixed(2)}
+                <span>6 Cuotas de $${importeC6.toFixed(2)}</span><i> (Int.: ${interes6Cuotas}%) Total: $${(importeC6*6).toFixed(2)}</i>
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio4"
                     value="12">
                 <label class="form-check-label" for="inputRadio4">
-                <span>12 Cuotas de $${importeC12.toFixed(2)}</span> (Int.: ${interes12Cuotas}%) Total: $${(importeC12*12).toFixed(2)}
+                <span>12 Cuotas de $${importeC12.toFixed(2)}</span><i> (Int.: ${interes12Cuotas}%) Total: $${(importeC12*12).toFixed(2)}</i>
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio5"
                     value="18">
                 <label class="form-check-label" for="inputRadio5">
-                <span>18 Cuotas de $${importeC18.toFixed(2)}</span> (Int.: ${interes18Cuotas}%) Total: $${(importeC18*18).toFixed(2)}
+                <span>18 Cuotas de $${importeC18.toFixed(2)}</span><i> (Int.: ${interes18Cuotas}%) Total: $${(importeC18*18).toFixed(2)}</i>
                 </label>
             </div>`);
 }
@@ -327,7 +327,7 @@ function cargarDetalleCompra(vectorComprado) { // carga el detalle final de la c
                         <th scope="col">#</th>
                         <th scope="col" colspan="2">PRODUCTO</th>
                         <th class="text-center" scope="col">CANTIDAD</th>
-                        <th class="text-right" scope="col">SUBTOTAL</th>
+                        <th class="" scope="col">SUBTOTAL</th>
                     </tr>
                 </thead>
                 <tbody>`;

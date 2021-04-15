@@ -583,7 +583,9 @@ main.compra {
   main.compra #checkOutCompra form fieldset:nth-of-type(1) {
     background: linear-gradient(134deg, #212121 15%, #545454 50%, #b9b8b8 100%);
     padding: 1rem 1rem;
-    border-radius: 1rem; }
+    border-radius: 1rem;
+    width: 80%;
+    margin: auto; }
     main.compra #checkOutCompra form fieldset:nth-of-type(1) legend {
       margin-left: 1rem;
       background-color: #b3040494;
@@ -600,7 +602,10 @@ main.compra {
       color: white; }
   main.compra #checkOutCompra form #contenedorCuotas label span {
     font-weight: bold;
-    padding-right: 1rem; }
+    padding-right: 1rem;
+    padding-left: .25rem; }
+  main.compra #checkOutCompra form #contenedorCuotas label i {
+    white-space: nowrap; }
   main.compra #checkOutCompra form #btnAceptaCompra {
     background-color: #b30404; }
     main.compra #checkOutCompra form #btnAceptaCompra:hover {
@@ -634,7 +639,8 @@ main.compra {
     main.compra #detalleCompra .table thead th:first-child {
       border-top-left-radius: 10px; }
     main.compra #detalleCompra .table thead th:last-child {
-      border-top-right-radius: 10px; }
+      border-top-right-radius: 10px;
+      text-align: right; }
     main.compra #detalleCompra .formaPago {
       width: 50%;
       margin-right: 0;
@@ -653,6 +659,18 @@ main.compra {
       text-align: right;
       padding: .5rem 1rem;
       margin-bottom: 2rem; }
+  @media only screen and (max-width: 1300px) {
+    main.compra #checkOutCompra form fieldset:nth-of-type(1) {
+      width: 70%; } }
+  @media only screen and (max-width: 1000px) {
+    main.compra #checkOutCompra form fieldset:nth-of-type(1) {
+      width: 85%; } }
+  @media only screen and (max-width: 850px) {
+    main.compra #checkOutCompra form fieldset:nth-of-type(1) {
+      width: 100%; } }
+  @media only screen and (max-width: 767px) {
+    main.compra #checkOutCompra form fieldset:nth-of-type(1) {
+      width: 75%; } }
   @media only screen and (max-width: 575px) {
     main.compra #checkOutCompra form fieldset:nth-of-type(1) label {
       font-size: .9rem; }
@@ -660,6 +678,19 @@ main.compra {
       font-size: .75rem; }
     main.compra #detalleCompra .table tbody td:nth-child(2) {
       padding: 0; } }
+  @media only screen and (max-width: 500px) {
+    main.compra #checkOutCompra form fieldset:nth-of-type(1) {
+      width: 100%;
+      padding: .5rem; }
+    main.compra #detalleCompra .table thead th {
+      text-align: center;
+      font-size: .8rem;
+      padding-left: 0;
+      padding-right: 0; }
+      main.compra #detalleCompra .table thead th:last-child {
+        text-align: center; }
+    main.compra #detalleCompra .table tbody td:nth-of-type(2) {
+      padding-right: 0; } }
 
 /******************** Main de compra.html - Fin ****************/
 /***************************************************************/

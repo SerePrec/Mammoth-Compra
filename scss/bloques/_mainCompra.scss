@@ -89,6 +89,8 @@ main.compra {
                 background: linear-gradient(134deg, #212121 15%, #545454 50%, #b9b8b8 100%);
                 padding: 1rem 1rem;
                 border-radius: 1rem;
+                width: 80%;
+                margin: auto;
 
                 legend {
                     margin-left: 1rem;
@@ -109,10 +111,19 @@ main.compra {
                 }
             }
 
-            #contenedorCuotas label span {
-                font-weight: bold;
-                padding-right: 1rem;
+            #contenedorCuotas label {
+                span {
+                    font-weight: bold;
+                    padding-right: 1rem;
+                    padding-left: .25rem;
+                }
+
+                i {
+                    white-space: nowrap;
+                }
+
             }
+
 
             #btnAceptaCompra {
                 background-color: #b30404;
@@ -183,6 +194,7 @@ main.compra {
 
                 th:last-child {
                     border-top-right-radius: 10px;
+                    text-align: right;
                 }
             }
         }
@@ -214,6 +226,46 @@ main.compra {
         }
     }
 
+    @include responsive(1300px) {
+        #checkOutCompra {
+            form {
+                fieldset:nth-of-type(1) {
+                    width: 70%;
+                }
+            }
+        }
+    }
+
+    @include responsive(1000px) {
+        #checkOutCompra {
+            form {
+                fieldset:nth-of-type(1) {
+                    width: 85%;
+                }
+            }
+        }
+    }
+
+    @include responsive(850px) {
+        #checkOutCompra {
+            form {
+                fieldset:nth-of-type(1) {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    @include responsive(sm) {
+        #checkOutCompra {
+            form {
+                fieldset:nth-of-type(1) {
+                    width: 75%;
+                }
+            }
+        }
+    }
+
     @include responsive(xs) {
         #checkOutCompra {
             form {
@@ -236,6 +288,38 @@ main.compra {
                 tbody {
                     td:nth-child(2) {
                         padding: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    @include responsive(500px) {
+        #checkOutCompra {
+            form {
+                fieldset:nth-of-type(1) {
+                    width: 100%;
+                    padding: .5rem;
+                }
+            }
+        }
+
+        #detalleCompra {
+            .table {
+                thead {
+                    th {
+                        text-align: center;
+                        font-size: .8rem;
+                        padding-left: 0;
+                        padding-right: 0;
+                        &:last-child{
+                            text-align: center;
+                        }
+                    }
+                }
+                tbody {
+                    td:nth-of-type(2) {
+                        padding-right: 0;
                     }
                 }
             }
