@@ -218,7 +218,7 @@ function enviarPago() {
         url: URLPAGAR,
         data: dataCompra,
         success: function (respuesta) {
-            //console.log(respuesta)
+            //console.log(respuesta) //control interno para verificar respuesta
             console.log("%c----- PAGO ACEPTADO -----",
                 "color:white; background-color: green; padding: 3px"); // Infomación de control interno
 
@@ -257,6 +257,8 @@ function generarDataCompra() {
         $("#tarjetaCredito input").eq(2).val() +
         $("#tarjetaCredito input").eq(3).val();
     const tarjetaCreditoNombre = $("#inputNomTarjeta").val();
+    const tarjetaCreditoVtoMes = $("#inputMM").val();
+    const tarjetaCreditoVtoAnio = $("#inputAA").val();
     const tarjetaCreditoCVV = $("#inputCVV").val();
 
     cuotas = parseInt($inputRadios.filter(":checked").val()); // Capturo que input del tipo radio esta seleccionado
@@ -289,6 +291,8 @@ function generarDataCompra() {
         direccion,
         tarjetaCreditoNum,
         tarjetaCreditoNombre,
+        tarjetaCreditoVtoMes,
+        tarjetaCreditoVtoAnio,
         tarjetaCreditoCVV,
         carritoUsuario,
         cuotas,
@@ -397,9 +401,8 @@ function verificarReposicion() { // verifica si es necesario reponer productos a
 $formularioCompra.submit(function (e) { // Evento "submit" del formulario de compra
     e.preventDefault(); // freno su acción por defecto
 
-    //Llamo a las funciones que capturan los valores ingresados y simulan el
+    //Llamo a la función que capturan los valores ingresados y simulan el
     //envío al servidor
-    generarDataCompra();
     enviarPago();
 });
 

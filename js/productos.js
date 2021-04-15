@@ -37,11 +37,14 @@ let carritoAbierto = false;
 let carritoUsuario = {};
 let checkDestacado = false;
 let filtroPrecioAplicado = false;
+let filtroMarcaAplicado = false;
+let marcasAFiltrar = [];
 let load = false;
 let precioMinimo, precioMaximo, precioMinSel, precioMaxSel;
 let productosFiltradosCliente;
 let tempEmergente; // Variable que almacena el temporizador de los mensajes emergentes para poder quitarlos antes de que se ejecuten
 let usuario = "";
+let outerWidthPrevio = window.outerWidth;
 
 
 //DOM *********************************
@@ -336,6 +339,7 @@ function buscarProductos(e) { //procesa el valor de búsqueda que el usario intr
     }
 }
 
+
 function filtrarCategoria(vectorAFiltrar) { // Filtra al vector pasado por la categoría seleccionada por el usuario
     let categoria = $listadoFitros.find(":radio:checked").val().toLowerCase();
     if (categoria == "todas") {
@@ -344,7 +348,9 @@ function filtrarCategoria(vectorAFiltrar) { // Filtra al vector pasado por la ca
         productosFiltradosCliente = vectorAFiltrar.filter(
             prod => prod.categoria.toLowerCase() == categoria);
     }
+
 }
+
 
 function filtrarDestacados(vectorAFiltrar) { // Filtra al vector pasado por si es o no un producto destacado
     checkDestacado = $listadoFitros.find(":checkbox").prop("checked");
@@ -353,6 +359,57 @@ function filtrarDestacados(vectorAFiltrar) { // Filtra al vector pasado por si e
             prod => prod.destacado);
     }
 }
+
+
+function listarMarcas(vectorAProcesar) { // Encuentra las marcas y los productos dentro de cada una de ellas que
+    //corresponden a la selección madre (Filtro de Busqueda por palabra, categoria o destacado) del usuario 
+    let listadoMarcas = [];
+    let marca;
+    for (const producto of vectorAProcesar) {
+        marca = producto.marca;
+        let coincidencia = listadoMarcas.find(prod => prod.marca == marca);
+        if (coincidencia) { // si ya existía la marca en el array, le suma una unidad
+            coincidencia.cant++;
+        } else { // sino, agrega la marca al carrito
+            listadoMarcas.push(new ItemMarca(marca, 1));
+        }
+    }
+    listadoMarcas.sort((a, b) => a.marca.localeCompare(b.marca));
+    return listadoMarcas;
+}
+
+
+function mostrarListadoMarcas(vectorMarcas) { // Genera el HTML del array de marcas enconrtradas
+    let codigoHTML = "";
+    for (const item of vectorMarcas) {
+        codigoHTML += `
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" data-marca="${item.marca}" id="marca${vectorMarcas.indexOf(item)}">
+                <label class="form-check-label" for="marca${vectorMarcas.indexOf(item)}">${item.marca} (${item.cant})</label>
+            </div>`
+    }
+
+    $("#contenedorMarcas").html(codigoHTML);
+}
+
+
+function filtrarMarcas(vectorAFiltrar, vectorMarcas) { // filtra los productos del array pasado en funcion de un array de marcas
+    let productosFiltradosMarca = [];
+    if (vectorMarcas.length == 0) {
+        productosFiltradosMarca = vectorAFiltrar;
+    } else {
+        productosFiltradosMarca = vectorAFiltrar.filter(elem => {
+            for (const marcaElegida of vectorMarcas) {
+                if (elem.marca == marcaElegida) {
+                    return true;
+                }
+            }
+        })
+
+    }
+    return productosFiltradosMarca;
+}
+
 
 function seteoRangoPrecios(vectorAProcesar) { // Controla la selección del rango de precios por el usuario y colocar su valor en los input respectivos
     // esta bandera es para que luego cuando se ordena/muestra los productos,
@@ -413,6 +470,7 @@ function actFiltroPrecioMin(e) { // Se encarga de ir actualizando el valor del i
     }
 }
 
+
 function filtrarRangoPrecio(vectorAFiltrar) { // filtra el vector pasado según el rango de precio elegido. No sobreescribe el vector, sino que devuelve otro
     filtroPrecioAplicado = true;
     // se crea y se devuelve un vector auxiliar, para no sobreescribir el vector pasado
@@ -421,6 +479,7 @@ function filtrarRangoPrecio(vectorAFiltrar) { // filtra el vector pasado según 
         prod => Boolean(prod.precioVF() >= precioMinSel && prod.precioVF() <= precioMaxSel));
     return vectorAuxiliar;
 }
+
 
 function actCantProductosEncontrados(vectorAContar) { // Actualiza el contador de prodcutos encontrados según los criterios
     let encontrados = vectorAContar.length;
@@ -970,11 +1029,17 @@ $(window).resize(function () { // Evento por si el usuario cambia posición de d
     // empiecen visibles. Esto se da por defecto al cargar la página, pero si el usuario
     // interactua con el toggle de filtros y lo oculta, puede llegar a verse vacio si pasa
     // a una vista de ancho mayor en donde los filtros van en una columna izquierda  
-    if ($("#contenedorFiltros").css("display") == "none" && window.innerWidth >= 576) {
-        $("#contenedorFiltros").css("display", "block");
-    }
-    if ($("#contenedorFiltros").css("display") == "block" && window.innerWidth < 576) {
-        $("#contenedorFiltros").css("display", "none");
+    if (window.outerWidth != outerWidthPrevio){ // Esta comparación la hago porque en los celulares
+        //al hacer scroll, se reacomoda el ALTO de la ventana y dispara el evento resize, cerrando el
+        //desplegable. entonces de esta maner pregunto si el outerwidth es el mismo y no hago nada 
+        //de lo contrario ejecuto el código y almaceno el nuevo valor como previo
+        if ($("#contenedorFiltros").css("display") == "none" && window.innerWidth >= 576) {
+            $("#contenedorFiltros").css("display", "block");
+        }
+        if ($("#contenedorFiltros").css("display") == "block" && window.innerWidth < 576) {
+            $("#contenedorFiltros").css("display", "none");
+        }
+        outerWidthPrevio = window.outerWidth;
     }
 });
 
@@ -1141,6 +1206,53 @@ function cargaOk() {
         $listadoFitros.find(":radio:not(:checked)").parent().removeClass("seleccionado");
     });
 
+    $("#verMarcas").click(function () {
+        if (productosFiltradosCliente.length == 0) return;
+        if (!filtroMarcaAplicado) {
+            mostrarListadoMarcas(listarMarcas(productosFiltradosCliente));
+        }
+        $("#marcas").slideDown();
+    })
+    
+    $("#volverMarcas").click(function () {
+        $("#marcas").slideUp();
+    })
+    
+    $("#contenedorMarcas").change(function (e) {
+        const marcasElegidas = [];
+        filtroMarcaAplicado = true;
+        let prodFiltradosMarca;
+        $(this).find(":checked").each(function () {
+            marcasElegidas.push($(this).data("marca"));
+        });
+    
+        if(marcasElegidas.length == 0) {
+            $("#verMarcas i").removeClass("fa-toggle-on").addClass("fa-toggle-off");
+        } else {
+            $("#verMarcas i").removeClass("fa-toggle-off").addClass("fa-toggle-on");
+        }
+    
+        marcasAFiltrar = marcasElegidas;
+    
+        if (busqueda) { // Si esta activa un búsqueda, la vuelve a hacer como punto de partida para aplicar los posteriores filtros 
+            buscarProductos();
+            filtrarCategoria(productosFiltradosCliente);
+        } else {
+            filtrarCategoria(productos);
+        }
+        filtrarDestacados(productosFiltradosCliente);
+    
+        if (filtroPrecioAplicado) {
+            prodFiltradosMarca = filtrarMarcas(filtrarRangoPrecio(productosFiltradosCliente), marcasElegidas);
+        } else {
+    
+            prodFiltradosMarca = filtrarMarcas(productosFiltradosCliente, marcasElegidas);
+        }
+    
+        ordenarProductos(prodFiltradosMarca);
+    
+    })
+
     $listadoFitros.find(":input[type='range']").change(function (e) { // Agrego enevto a los dos input "range" para que al cambiar su valor, muestre los productos con el orden seleccionado
         let vectorAFiltrar = [...productosFiltradosCliente];
         if(filtroMarcaAplicado) {
@@ -1236,114 +1348,4 @@ function cargaError() { // si no se cumple alguna de las solicitudes, genero un 
                 <p>Intenta recargar la página o regresa más tarde.</p>
                 <p>Disculpe las molestias.</p>
                 `);
-}
-
-
-
-// pruebas marcas**************
-
-let filtroMarcaAplicado = false;
-
-class ItemMarca {
-    constructor(marca, cant) {
-        this.marca = marca;
-        this.cant = cant;
-    }
-}
-
-
-
-function listarMarcas(vectorAProcesar) {
-    let listadoMarcas = [];
-    let marca;
-    for (const producto of vectorAProcesar) {
-        marca = producto.marca;
-        let coincidencia = listadoMarcas.find(prod => prod.marca == marca);
-        if (coincidencia) { // si ya existía el producto en el carrito, le suma la cantidad ingresada
-            coincidencia.cant++;
-        } else { // sino, agrega el item completo
-            listadoMarcas.push(new ItemMarca(marca, 1));
-        }
-    }
-    listadoMarcas.sort((a, b) => a.marca.localeCompare(b.marca));
-    return listadoMarcas;
-}
-
-function mostrarListadoMarcas(vectorMarcas) {
-    let codigoHTML = "";
-    for (const item of vectorMarcas) {
-        codigoHTML += `
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" data-marca="${item.marca}" id="marca${vectorMarcas.indexOf(item)}">
-                <label class="form-check-label" for="marca${vectorMarcas.indexOf(item)}">${item.marca} (${item.cant})</label>
-            </div>`
-    }
-
-    $("#contenedorMarcas").html(codigoHTML);
-}
-
-$("#verMarcas").click(function () {
-    if (productosFiltradosCliente.length == 0) return;
-    if (!filtroMarcaAplicado) {
-        mostrarListadoMarcas(listarMarcas(productosFiltradosCliente));
-    }
-    $("#marcas").slideDown();
-})
-
-$("#volverMarcas").click(function () {
-    $("#marcas").slideUp();
-})
-
-let marcasAFiltrar = [];
-
-$("#contenedorMarcas").change(function (e) {
-    const marcasElegidas = [];
-    filtroMarcaAplicado = true;
-    let prodFiltradosMarca;
-    $(this).find(":checked").each(function () {
-        marcasElegidas.push($(this).data("marca"));
-    });
-
-    if(marcasElegidas.length == 0) {
-        $("#verMarcas i").removeClass("fa-toggle-on").addClass("fa-toggle-off");
-    } else {
-        $("#verMarcas i").removeClass("fa-toggle-off").addClass("fa-toggle-on");
-    }
-
-    marcasAFiltrar = marcasElegidas;
-
-    if (busqueda) { // Si esta activa un búsqueda, la vuelve a hacer como punto de partida para aplicar los posteriores filtros 
-        buscarProductos();
-        filtrarCategoria(productosFiltradosCliente);
-    } else {
-        filtrarCategoria(productos);
-    }
-    filtrarDestacados(productosFiltradosCliente);
-
-    if (filtroPrecioAplicado) {
-        prodFiltradosMarca = filtrarMarcas(filtrarRangoPrecio(productosFiltradosCliente), marcasElegidas);
-    } else {
-
-        prodFiltradosMarca = filtrarMarcas(productosFiltradosCliente, marcasElegidas);
-    }
-
-    ordenarProductos(prodFiltradosMarca);
-
-})
-
-function filtrarMarcas(vectorAFiltrar, vectorMarcas) {
-    let productosFiltradosMarca = [];
-    if (vectorMarcas.length == 0) {
-        productosFiltradosMarca = vectorAFiltrar;
-    } else {
-        productosFiltradosMarca = vectorAFiltrar.filter(elem => {
-            for (const marcaElegida of vectorMarcas) {
-                if (elem.marca == marcaElegida) {
-                    return true;
-                }
-            }
-        })
-
-    }
-    return productosFiltradosMarca;
 }

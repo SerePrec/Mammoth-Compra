@@ -580,6 +580,24 @@ main.compra {
   main.compra #checkOutCompra form fieldset legend {
     font-weight: bold;
     font-size: 1.2rem; }
+  main.compra #checkOutCompra form fieldset:nth-of-type(1) {
+    background-color: #545454;
+    padding: 1rem 1rem;
+    border-radius: 1rem; }
+    main.compra #checkOutCompra form fieldset:nth-of-type(1) legend {
+      margin-left: 1rem;
+      background-color: #b3040494;
+      width: 10rem;
+      color: white;
+      border-radius: .25rem;
+      padding: .5rem;
+      font-weight: 500;
+      font-size: 1rem;
+      display: flex;
+      justify-content: center; }
+    main.compra #checkOutCompra form fieldset:nth-of-type(1) label {
+      font-weight: 500;
+      color: white; }
   main.compra #checkOutCompra form #contenedorCuotas label span {
     font-weight: bold;
     padding-right: 1rem; }
@@ -636,6 +654,10 @@ main.compra {
       padding: .5rem 1rem;
       margin-bottom: 2rem; }
   @media only screen and (max-width: 575px) {
+    main.compra #checkOutCompra form fieldset:nth-of-type(1) label {
+      font-size: .9rem; }
+    main.compra #checkOutCompra form fieldset:nth-of-type(1) input {
+      font-size: .75rem; }
     main.compra #detalleCompra .table tbody td:nth-child(2) {
       padding: 0; } }
 

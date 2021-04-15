@@ -85,6 +85,30 @@ main.compra {
                 font-size: 1.2rem;
             }
 
+            fieldset:nth-of-type(1) {
+                background-color: #545454;
+                padding: 1rem 1rem;
+                border-radius: 1rem;
+
+                legend {
+                    margin-left: 1rem;
+                    background-color: #b3040494;
+                    width: 10rem;
+                    color: white;
+                    border-radius: .25rem;
+                    padding: .5rem;
+                    font-weight: 500;
+                    font-size: 1rem;
+                    display: flex;
+                    justify-content: center;
+                }
+
+                label {
+                    font-weight: 500;
+                    color: white
+                }
+            }
+
             #contenedorCuotas label span {
                 font-weight: bold;
                 padding-right: 1rem;
@@ -191,6 +215,22 @@ main.compra {
     }
 
     @include responsive(xs) {
+        #checkOutCompra {
+            form {
+                fieldset:nth-of-type(1) {
+
+                    label {
+                        font-size: .9rem;
+                    }
+
+                    input {
+                        font-size: .75rem;
+
+                    }
+                }
+            }
+        }
+
         #detalleCompra {
             .table {
                 tbody {
