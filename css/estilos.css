@@ -581,7 +581,7 @@ main.compra {
     font-weight: bold;
     font-size: 1.2rem; }
   main.compra #checkOutCompra form fieldset:nth-of-type(1) {
-    background-color: #545454;
+    background: linear-gradient(134deg, #212121 15%, #545454 50%, #b9b8b8 100%);
     padding: 1rem 1rem;
     border-radius: 1rem; }
     main.compra #checkOutCompra form fieldset:nth-of-type(1) legend {
