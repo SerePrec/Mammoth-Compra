@@ -45,6 +45,31 @@ let productosFiltradosCliente;
 let tempEmergente; // Variable que almacena el temporizador de los mensajes emergentes para poder quitarlos antes de que se ejecuten
 let usuario = "";
 let outerWidthPrevio = window.outerWidth;
+const links = [{
+        path: '/',
+        categoria: 'Todas'
+    },
+    {
+        path: 'bi',
+        categoria: 'Bicicletas'
+    },
+    {
+        path: 'co',
+        categoria: 'Componentes'
+    },
+    {
+        path: 'ac',
+        categoria: 'Accesorios'
+    },
+    {
+        path: 'eq',
+        categoria: 'Equipamiento'
+    },
+    {
+        path: 'in',
+        categoria: 'Indumentaria'
+    },
+];
 
 
 //DOM *********************************
@@ -86,6 +111,7 @@ const iniciar = () => { // Ejecuta el inicio del simulador
     productosFiltradosCliente = [...productos];
 
     // Carga inicial de productos en la página
+    direccionarCategoria(); // cada vez que se da inicio al simulador direcciona a la categoría según el # de la url
     ordenarProductos(productosFiltradosCliente);
     seteoRangoPrecios(productosFiltradosCliente);
 
@@ -333,7 +359,7 @@ function buscarProductos(e) { //procesa el valor de búsqueda que el usario intr
 
         $filtroBuscar.removeClass("ocultar"); // Hace visible un botón para luego quitar esté filtrado por búsqueda. Este boton esta oculto al inicio
         busqueda = true;
-    } else if(!$filtroBuscar.hasClass("ocultar")) {
+    } else if (!$filtroBuscar.hasClass("ocultar")) {
         $filtroBuscar.trigger("click");
 
     }
@@ -1010,6 +1036,32 @@ function cerrarModalMensaje() { // Funcion para cerrar las ventanas modales de I
     $divModalMensajes.find(".modal-footer").html("");
 }
 
+// Funciones para procesar la url por el cambio de linkeo # *******************
+//*****************************************************************************
+
+//Obtener el linkeo actual (Se usa el objeto Location y su propiedad hash)
+const parseLocation = () => location.hash.slice(1).toLowerCase() || '/';
+
+//Busca la categoría en el array links que corresponde al linkeo actual 
+const buscarCategoriaLinkeo = (path, links) => {
+    const linkeo = links.find(l => l.path == path);
+    if(linkeo) {
+        return linkeo.categoria;
+    } else {
+        return false;
+    }
+};
+
+function direccionarCategoria() { // direcciona ala categoría de producto según el linkeo actual de la url
+    const path = parseLocation(); //Obtiene linkeo actual
+    const categoria = buscarCategoriaLinkeo(path, links);
+
+    if (categoria) { // si encuentra una categoría válida, simula un click en la misma
+        $(`#cat${categoria}`).trigger("click");
+    }
+};
+
+
 
 // **************************************************************************//
 // ******************************** Eventos *********************************//
@@ -1029,7 +1081,7 @@ $(window).resize(function () { // Evento por si el usuario cambia posición de d
     // empiecen visibles. Esto se da por defecto al cargar la página, pero si el usuario
     // interactua con el toggle de filtros y lo oculta, puede llegar a verse vacio si pasa
     // a una vista de ancho mayor en donde los filtros van en una columna izquierda  
-    if (window.outerWidth != outerWidthPrevio){ // Esta comparación la hago porque en los celulares
+    if (window.outerWidth != outerWidthPrevio) { // Esta comparación la hago porque en los celulares
         //al hacer scroll, se reacomoda el ALTO de la ventana y dispara el evento resize, cerrando el
         //desplegable. entonces de esta maner pregunto si el outerwidth es el mismo y no hago nada 
         //de lo contrario ejecuto el código y almaceno el nuevo valor como previo
@@ -1042,6 +1094,7 @@ $(window).resize(function () { // Evento por si el usuario cambia posición de d
         outerWidthPrevio = window.outerWidth;
     }
 });
+
 
 
 // **************************************************************************//
@@ -1074,7 +1127,7 @@ function cargaOk() {
         filtroMarcaAplicado = false;
         $("#verMarcas i").removeClass("fa-toggle-on").addClass("fa-toggle-off");
         if ($("#marcas").css("display") == "block") {
-            $("#marcas").slideUp(1250, function() {
+            $("#marcas").slideUp(1250, function () {
                 $("#marcas").stop();
                 $("#verMarcas").trigger("click");
             });
@@ -1169,19 +1222,19 @@ function cargaOk() {
         //de búsqueda de productos, se llama a la función. Por lo que al instante se van mostrando las coincidencias. Esto hace
         //redundante al evento anterior sobre el botón buscar, pero lo dejo por si en algún caso el evento input  no funciona
         //Evito se dispare al hacer foco con Tab  o tocar teclas que no me interesan
-            buscarProductos();
-            filtrarCategoria(productosFiltradosCliente);
-            filtrarDestacados(productosFiltradosCliente);
-            ordenarProductos(productosFiltradosCliente);
-            seteoRangoPrecios(productosFiltradosCliente);
-            filtroMarcaAplicado = false;
-            $("#verMarcas i").removeClass("fa-toggle-on").addClass("fa-toggle-off");
-            if ($("#marcas").css("display") == "block") {
-                $("#marcas").stop();
-                $("#marcas").slideUp(1250, function() {
-                    $("#verMarcas").trigger("click");
-                });
-            }
+        buscarProductos();
+        filtrarCategoria(productosFiltradosCliente);
+        filtrarDestacados(productosFiltradosCliente);
+        ordenarProductos(productosFiltradosCliente);
+        seteoRangoPrecios(productosFiltradosCliente);
+        filtroMarcaAplicado = false;
+        $("#verMarcas i").removeClass("fa-toggle-on").addClass("fa-toggle-off");
+        if ($("#marcas").css("display") == "block") {
+            $("#marcas").stop();
+            $("#marcas").slideUp(1250, function () {
+                $("#verMarcas").trigger("click");
+            });
+        }
     });
 
     $inputUsuario.keypress(function (e) { // Llama a la funcion loguearUsuario al presionar la tecla Enter en el input del logueo
@@ -1213,11 +1266,11 @@ function cargaOk() {
         }
         $("#marcas").slideDown();
     })
-    
+
     $("#volverMarcas").click(function () {
         $("#marcas").slideUp();
     })
-    
+
     $("#contenedorMarcas").change(function (e) {
         const marcasElegidas = [];
         filtroMarcaAplicado = true;
@@ -1225,15 +1278,15 @@ function cargaOk() {
         $(this).find(":checked").each(function () {
             marcasElegidas.push($(this).data("marca"));
         });
-    
-        if(marcasElegidas.length == 0) {
+
+        if (marcasElegidas.length == 0) {
             $("#verMarcas i").removeClass("fa-toggle-on").addClass("fa-toggle-off");
         } else {
             $("#verMarcas i").removeClass("fa-toggle-off").addClass("fa-toggle-on");
         }
-    
+
         marcasAFiltrar = marcasElegidas;
-    
+
         if (busqueda) { // Si esta activa un búsqueda, la vuelve a hacer como punto de partida para aplicar los posteriores filtros 
             buscarProductos();
             filtrarCategoria(productosFiltradosCliente);
@@ -1241,24 +1294,24 @@ function cargaOk() {
             filtrarCategoria(productos);
         }
         filtrarDestacados(productosFiltradosCliente);
-    
+
         if (filtroPrecioAplicado) {
             prodFiltradosMarca = filtrarMarcas(filtrarRangoPrecio(productosFiltradosCliente), marcasElegidas);
         } else {
-    
+
             prodFiltradosMarca = filtrarMarcas(productosFiltradosCliente, marcasElegidas);
         }
-    
+
         ordenarProductos(prodFiltradosMarca);
-    
+
     })
 
     $listadoFitros.find(":input[type='range']").change(function (e) { // Agrego enevto a los dos input "range" para que al cambiar su valor, muestre los productos con el orden seleccionado
         let vectorAFiltrar = [...productosFiltradosCliente];
-        if(filtroMarcaAplicado) {
-            vectorAFiltrar =  filtrarMarcas(vectorAFiltrar, marcasAFiltrar);
-            }
-                        
+        if (filtroMarcaAplicado) {
+            vectorAFiltrar = filtrarMarcas(vectorAFiltrar, marcasAFiltrar);
+        }
+
         ordenarProductos(filtrarRangoPrecio(vectorAFiltrar));
     });
 
@@ -1335,6 +1388,9 @@ function cargaOk() {
         ordenarProductos(vectorAOrdenar);
     });
 
+    $(window).on('hashchange', function () { //Cada vez que se detecta un cambio en el # de la URL llama a la función direccionarCategoria
+        direccionarCategoria();
+    });
 
     // Función principal de inicio del simulador******************************
     // ***********************************************************************
@@ -1349,3 +1405,4 @@ function cargaError() { // si no se cumple alguna de las solicitudes, genero un 
                 <p>Disculpe las molestias.</p>
                 `);
 }
+
