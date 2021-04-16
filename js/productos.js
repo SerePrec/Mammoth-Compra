@@ -1237,7 +1237,7 @@ function cargaOk() {
         }
     });
 
-    $inputUsuario.keypress(function (e) { // Llama a la funcion loguearUsuario al presionar la tecla Enter en el input del logueo
+    $inputUsuario.keyup(function (e) { // Llama a la funcion loguearUsuario al presionar la tecla Enter en el input del logueo
         if (e.key == "Enter") {
             loguearUsuario();
         }

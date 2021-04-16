@@ -97,6 +97,7 @@ main.productos {
 		#verMarcas,
 		#volverMarcas {
 			background-color: #b30404;
+
 			i {
 				font-size: 1.15rem;
 				margin-left: .5rem;
@@ -165,6 +166,10 @@ main.productos {
 
 			.form-check {
 				margin-bottom: .5rem;
+
+				label {
+					vertical-align: middle;
+				}
 			}
 		}
 
@@ -188,6 +193,16 @@ main.productos {
 
 				.btn {
 					width: 70%;
+				}
+			}
+
+			#marcas {
+				.form-check {
+					margin-bottom: .5rem;
+
+					label {
+						vertical-align: sub;
+					}
 				}
 			}
 		}

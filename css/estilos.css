@@ -293,6 +293,8 @@ main.productos {
       overflow-y: auto; }
       main.productos #filtros #marcas .form-check {
         margin-bottom: .5rem; }
+        main.productos #filtros #marcas .form-check label {
+          vertical-align: middle; }
     @media only screen and (max-width: 575px) {
       main.productos #filtros h3 {
         cursor: pointer; }
@@ -304,7 +306,11 @@ main.productos {
           main.productos #filtros #contenedorFiltros .form-check label {
             padding-left: .5rem; }
         main.productos #filtros #contenedorFiltros .btn {
-          width: 70%; } }
+          width: 70%; }
+      main.productos #filtros #marcas .form-check {
+        margin-bottom: .5rem; }
+        main.productos #filtros #marcas .form-check label {
+          vertical-align: sub; } }
 
 /******************* Main de productos.html - Fin **************/
 /***************************************************************/
@@ -507,7 +513,7 @@ main.compra {
     main.compra #checkOutCompra form fieldset:nth-of-type(1) legend {
       margin-left: 1rem;
       background-color: #b3040494;
-      width: 10rem;
+      width: 11rem;
       color: white;
       border-radius: .25rem;
       padding: .5rem;
@@ -533,6 +539,8 @@ main.compra {
     main.compra #detalleCompra > h2 {
       color: white;
       text-shadow: 2px 2px #545454; }
+    main.compra #detalleCompra > h4 {
+      margin-top: 2rem; }
     main.compra #detalleCompra .table tbody {
       background-color: white; }
       main.compra #detalleCompra .table tbody th,
@@ -600,6 +608,8 @@ main.compra {
     main.compra #checkOutCompra form fieldset:nth-of-type(1) {
       width: 100%;
       padding: .5rem; }
+    main.compra #detalleCompra > h2 {
+      font-size: 1.5rem; }
     main.compra #detalleCompra .table thead th {
       text-align: center;
       font-size: .8rem;

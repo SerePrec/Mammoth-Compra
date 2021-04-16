@@ -95,7 +95,7 @@ main.compra {
                 legend {
                     margin-left: 1rem;
                     background-color: #b3040494;
-                    width: 10rem;
+                    width: 11rem;
                     color: white;
                     border-radius: .25rem;
                     padding: .5rem;
@@ -141,6 +141,10 @@ main.compra {
         &>h2 {
             color: white;
             text-shadow: 2px 2px #545454;
+        }
+
+        &>h4 {
+            margin-top: 2rem;
         }
 
         .table {
@@ -305,6 +309,10 @@ main.compra {
         }
 
         #detalleCompra {
+            &>h2 {
+                font-size: 1.5rem;
+            }
+
             .table {
                 thead {
                     th {
@@ -312,11 +320,13 @@ main.compra {
                         font-size: .8rem;
                         padding-left: 0;
                         padding-right: 0;
-                        &:last-child{
+
+                        &:last-child {
                             text-align: center;
                         }
                     }
                 }
+
                 tbody {
                     td:nth-of-type(2) {
                         padding-right: 0;
