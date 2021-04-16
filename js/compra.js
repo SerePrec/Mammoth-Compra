@@ -43,7 +43,7 @@ let productosJSON = sessionStorage.getItem("productos");
 let productosServidor;
 let productos = [];
 
-if (productosJSON) { // Esta verificación evita dar error si la pagina se abre independiente de la sesion. SOLO es útil proviniendo de productos.html
+if (productosJSON) { // Esta verificación evita dar error si la pagina se abre independiente de la sesion. SOLO es útil proviniendo de index.html
     productosServidor = JSON.parse(productosJSON);
 
     // Ahora tengo un listado de objetos y al instanciarlos con la clase Productos, obtengo
@@ -70,8 +70,8 @@ const inicioCompra = () => { // Inicializa la página
         // redirige a la página anterior del proceso. Ej: Esto puede pasar al recargar la página una vez terminada
         // la compra o si la pagina se abre independiente de la sesion.
 
-        console.log("No hay carrito que procesar, se redirige a productos.html"); // para control interno
-        location.assign("productos.html");
+        console.log("No hay carrito que procesar, se redirige a index.html"); // para control interno
+        location.assign("index.html");
         return;
     }
 
