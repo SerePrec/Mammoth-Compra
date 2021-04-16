@@ -43,7 +43,7 @@ let productosJSON = sessionStorage.getItem("productos");
 let productosServidor;
 let productos = [];
 
-if (productosJSON) { // Esta verificación evita dar error si la pagina se abre independiente de la sesion. SOLO es útil proviniendo de productos.html
+if (productosJSON) { // Esta verificación evita dar error si la pagina se abre independiente de la sesion. SOLO es útil proviniendo de index.html
     productosServidor = JSON.parse(productosJSON);
 
     // Ahora tengo un listado de objetos y al instanciarlos con la clase Productos, obtengo
@@ -70,8 +70,8 @@ const inicioCompra = () => { // Inicializa la página
         // redirige a la página anterior del proceso. Ej: Esto puede pasar al recargar la página una vez terminada
         // la compra o si la pagina se abre independiente de la sesion.
 
-        console.log("No hay carrito que procesar, se redirige a productos.html"); // para control interno
-        location.assign("productos.html");
+        console.log("No hay carrito que procesar, se redirige a index.html"); // para control interno
+        location.assign("index.html");
         return;
     }
 
@@ -152,28 +152,28 @@ function mostrarResumenCompra() { //genera el HTML para la zona de resumen de co
                 <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio2"
                     value="3">
                 <label class="form-check-label" for="inputRadio2">
-                <span>3 Cuotas de $${importeC3.toFixed(2)}</span> (Int.: ${interes3Cuotas}%) Total: $${(importeC3*3).toFixed(2)}
+                <span>3 Cuotas de $${importeC3.toFixed(2)}</span><i> (Int.: ${interes3Cuotas}%) Total: $${(importeC3*3).toFixed(2)}</i>
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio3"
                     value="6">
                 <label class="form-check-label" for="inputRadio3">
-                <span>6 Cuotas de $${importeC6.toFixed(2)}</span> (Int.: ${interes6Cuotas}%) Total: $${(importeC6*6).toFixed(2)}
+                <span>6 Cuotas de $${importeC6.toFixed(2)}</span><i> (Int.: ${interes6Cuotas}%) Total: $${(importeC6*6).toFixed(2)}</i>
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio4"
                     value="12">
                 <label class="form-check-label" for="inputRadio4">
-                <span>12 Cuotas de $${importeC12.toFixed(2)}</span> (Int.: ${interes12Cuotas}%) Total: $${(importeC12*12).toFixed(2)}
+                <span>12 Cuotas de $${importeC12.toFixed(2)}</span><i> (Int.: ${interes12Cuotas}%) Total: $${(importeC12*12).toFixed(2)}</i>
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio5"
                     value="18">
                 <label class="form-check-label" for="inputRadio5">
-                <span>18 Cuotas de $${importeC18.toFixed(2)}</span> (Int.: ${interes18Cuotas}%) Total: $${(importeC18*18).toFixed(2)}
+                <span>18 Cuotas de $${importeC18.toFixed(2)}</span><i> (Int.: ${interes18Cuotas}%) Total: $${(importeC18*18).toFixed(2)}</i>
                 </label>
             </div>`);
 }
@@ -218,7 +218,7 @@ function enviarPago() {
         url: URLPAGAR,
         data: dataCompra,
         success: function (respuesta) {
-            //console.log(respuesta)
+            //console.log(respuesta) //control interno para verificar respuesta
             console.log("%c----- PAGO ACEPTADO -----",
                 "color:white; background-color: green; padding: 3px"); // Infomación de control interno
 
@@ -257,6 +257,8 @@ function generarDataCompra() {
         $("#tarjetaCredito input").eq(2).val() +
         $("#tarjetaCredito input").eq(3).val();
     const tarjetaCreditoNombre = $("#inputNomTarjeta").val();
+    const tarjetaCreditoVtoMes = $("#inputMM").val();
+    const tarjetaCreditoVtoAnio = $("#inputAA").val();
     const tarjetaCreditoCVV = $("#inputCVV").val();
 
     cuotas = parseInt($inputRadios.filter(":checked").val()); // Capturo que input del tipo radio esta seleccionado
@@ -289,6 +291,8 @@ function generarDataCompra() {
         direccion,
         tarjetaCreditoNum,
         tarjetaCreditoNombre,
+        tarjetaCreditoVtoMes,
+        tarjetaCreditoVtoAnio,
         tarjetaCreditoCVV,
         carritoUsuario,
         cuotas,
@@ -323,7 +327,7 @@ function cargarDetalleCompra(vectorComprado) { // carga el detalle final de la c
                         <th scope="col">#</th>
                         <th scope="col" colspan="2">PRODUCTO</th>
                         <th class="text-center" scope="col">CANTIDAD</th>
-                        <th class="text-right" scope="col">SUBTOTAL</th>
+                        <th class="" scope="col">SUBTOTAL</th>
                     </tr>
                 </thead>
                 <tbody>`;
@@ -397,9 +401,8 @@ function verificarReposicion() { // verifica si es necesario reponer productos a
 $formularioCompra.submit(function (e) { // Evento "submit" del formulario de compra
     e.preventDefault(); // freno su acción por defecto
 
-    //Llamo a las funciones que capturan los valores ingresados y simulan el
+    //Llamo a la función que capturan los valores ingresados y simulan el
     //envío al servidor
-    generarDataCompra();
     enviarPago();
 });
 

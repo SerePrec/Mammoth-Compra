@@ -54,37 +54,37 @@
             <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">INICIO</a>
+                        <a class="nav-link" href="#">INICIO</a>
                     </li>
                     <li class="nav-item dropdown activo">
-                        <a class="nav-link activo dropdown-toggle" href="productos.html" id="navbarDropdownProductos"
+                        <a class="nav-link activo dropdown-toggle" href="index.html" id="navbarDropdownProductos"
                             role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">PRODUCTOS
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownProductos">
-                            <a class="dropdown-item" href="productos.html">BICICLETAS</a>
-                            <a class="dropdown-item" href="productos.html#linkCompInt">COMPONENTES</a>
-                            <a class="dropdown-item" href="productos.html#linkAccInt">ACCESORIOS</a>
-                            <a class="dropdown-item" href="productos.html#linkEquipInt">EQUIPAMIENTO</a>
-                            <a class="dropdown-item" href="productos.html#linkInduInt">INDUMENTARIA</a>
+                            <a class="dropdown-item" href="index.html#bi">BICICLETAS</a>
+                            <a class="dropdown-item" href="index.html#co">COMPONENTES</a>
+                            <a class="dropdown-item" href="index.html#ac">ACCESORIOS</a>
+                            <a class="dropdown-item" href="index.html#eq">EQUIPAMIENTO</a>
+                            <a class="dropdown-item" href="index.html#in">INDUMENTARIA</a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="servicios.html">SERVICIOS</a>
+                        <a class="nav-link" href="#">SERVICIOS</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="noticias.html" id="navbarDropdownNoticias"
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownNoticias"
                             role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">NOTICIAS
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownNoticias">
-                            <a class="dropdown-item" href="noticias.html">VIDEOS</a>
-                            <a class="dropdown-item" href="noticias.html#linkEventos">EVENTOS</a>
-                            <a class="dropdown-item" href="noticias.html#linkCompe">COMPETENCIAS</a>
-                            <a class="dropdown-item" href="noticias.html#linkApp">APP</a>
-                            <a class="dropdown-item" href="noticias.html#linkSorteo">SORTEO ANUAL</a>
+                            <a class="dropdown-item" href="#">VIDEOS</a>
+                            <a class="dropdown-item" href="#">EVENTOS</a>
+                            <a class="dropdown-item" href="#">COMPETENCIAS</a>
+                            <a class="dropdown-item" href="#">APP</a>
+                            <a class="dropdown-item" href="#">SORTEO ANUAL</a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contacto.html">CONTACTO</a>
+                        <a class="nav-link" href="">CONTACTO</a>
                     </li>
                 </ul>
             </div>
@@ -122,7 +122,7 @@
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                    <li class="breadcrumb-item"><a href="#">Productos</a></li>
+                    <li class="breadcrumb-item"><a href="index.html">Productos</a></li>
                     <li class="breadcrumb-item"><a href="#">Compras</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Checkout</li>
                 </ol>
@@ -176,9 +176,9 @@
                                     placeholder="Ingrese su dirección COMPLETA" required>
                             </div>
                         </div>
-                        <fieldset class="form-group py-3">
+                        <fieldset class="form-group">
                             <legend class="col-form-label">Datos de su tarjeta</legend>
-                            <div id ="tarjetaCredito" class="form-group row">
+                            <div id ="tarjetaCredito" class="form-group row justify-content-center py-2">
                                 <label class="col-2 col-form-label">Número</label>
                                 <div class="col-2 px-1">
                                     <input type="text" class="form-control text-center" placeholder="XXXX" maxlength="4"
@@ -197,15 +197,24 @@
                                         pattern="[0-9]{4}" title="4 números" required>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputNomTarjeta"
+                            <div class="form-group row justify-content-center py-2">
+                                <div class="col-10 px-1">
+                                    <input type="text" class="form-control text-center" id="inputNomTarjeta"
                                         placeholder="Ingrese su nombre tal cual figura en su tarjeta" required>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control w-25 text-center" id="inputCVV"
+                            <div class="form-group row justify-content-center py-2">
+                                <label class="col-2 col-form-label">Vto</label>
+                                <div class="col-2 px-1">
+                                    <input type="text" class="form-control text-center" id="inputMM"
+                                        placeholder="MM" maxlength="2" pattern="(0[0-9]|1[0-2])" title="Mes Formato MM" required>
+                                </div>
+                                <div class="col-2 px-1">
+                                    <input type="text" class="form-control text-center" id="inputAA"
+                                        placeholder="AA" maxlength="2" pattern="(2[1-9]|[3-9][0-9])" title="Año Formato AA" required>
+                                </div>
+                                <div class="offset-1 col-3 px-1">
+                                    <input type="password" class="form-control text-center" id="inputCVV"
                                         placeholder="CVV" maxlength="3" pattern="[0-9]{3}" title="3 números" required>
                                 </div>
                             </div>
@@ -220,7 +229,7 @@
 
                         <div class="form-group row text-right">
                             <div class="col-sm-12">
-                                <a href="productos.html" class="btn btn-dark">Volver a ShowRoom</a>
+                                <a href="index.html" class="btn btn-dark">Volver a ShowRoom</a>
                                 <button id="btnAceptaCompra" type="submit" class="btn btn-danger">Aceptar la
                                     compra</button>
                             </div>
@@ -252,7 +261,7 @@
             <section class="newsletter">
                 <p class="newsletter__titulo">Suscribite a nuestro newsletter</p>
                 <p>Recibe nuestras novedades, promociones y eventos.</p>
-                <p>Además participás de nuestro <a href="noticias.html#sorteo">SORTEO ANUAL</a> y sorteos mensuales.</p>
+                <p>Además participás de nuestro <a href="#">SORTEO ANUAL</a> y sorteos mensuales.</p>
                 <form action="#">
                     <div class="input-group">
                         <input type="email" class="form-control" name="email" placeholder="Ingresa tu e-mail" required>
@@ -287,44 +296,44 @@
                 <div>
                     <h5>INICIO</h5>
                     <ul>
-                        <li><a href="index.html#linkDestacados">Destacados</a></li>
-                        <li><a href="index.html#linkDifusion">Difusión</a></li>
+                        <li><a href="#">Destacados</a></li>
+                        <li><a href="#">Difusión</a></li>
 
                     </ul>
                 </div>
                 <div>
                     <h5>PRODUCTOS</h5>
                     <ul>
-                        <li><a href="productos.html">Bicicletas</a></li>
-                        <li><a href="productos.html#linkComp">Componentes</a></li>
-                        <li><a href="productos.html#linkAcc">Accesorios</a></li>
-                        <li><a href="productos.html#linkEquip">Equipamiento</a></li>
-                        <li><a href="productos.html#linkIndu">Indumentaria</a></li>
+                        <li><a href="index.html#bi">Bicicletas</a></li>
+                        <li><a href="index.html#co">Componentes</a></li>
+                        <li><a href="index.html#ac">Accesorios</a></li>
+                        <li><a href="index.html#eq">Equipamiento</a></li>
+                        <li><a href="index.html#in">Indumentaria</a></li>
                     </ul>
                 </div>
                 <div>
                     <h5>SERVICIOS</h5>
                     <ul>
-                        <li><a href="servicios.html">Reparaciones</a></li>
-                        <li><a href="servicios.html#linkBodyGeometry">Body Geometry</a></li>
-                        <li><a href="servicios.html#linkCapacitacion">Capacitación</a></li>
+                        <li><a href="#">Reparaciones</a></li>
+                        <li><a href="#">Body Geometry</a></li>
+                        <li><a href="#">Capacitación</a></li>
                     </ul>
                 </div>
                 <div>
                     <h5>NOTICIAS</h5>
                     <ul>
-                        <li><a href="noticias.html">Videos</a></li>
-                        <li><a href="noticias.html#linkEventos">Eventos</a></li>
-                        <li><a href="noticias.html#linkCompe">Competencias</a></li>
-                        <li><a href="noticias.html#linkApp">App</a></li>
-                        <li><a href="noticias.html#linkSorteo">Sorteo Anual</a></li>
+                        <li><a href="#">Videos</a></li>
+                        <li><a href="#">Eventos</a></li>
+                        <li><a href="#">Competencias</a></li>
+                        <li><a href="#">App</a></li>
+                        <li><a href="#">Sorteo Anual</a></li>
                     </ul>
                 </div>
                 <div>
                     <h5>CONTACTO</h5>
                     <ul>
-                        <li><a href="contacto.html">Formulario</a></li>
-                        <li><a href="contacto.html#linkSucursales">Sucursales</a></li>
+                        <li><a href="#">Formulario</a></li>
+                        <li><a href="#">Sucursales</a></li>
                     </ul>
                 </div>
             </section>
@@ -343,8 +352,8 @@
                         <div id="collapseInicio" class="collapse" aria-labelledby="tituloUno">
                             <div class="card-body pt-0">
                                 <ul>
-                                    <li><a href="index.html#linkDestacados">Destacados</a></li>
-                                    <li><a href="index.html#linkDifusion">Difusión</a></li>
+                                    <li><a href="#">Destacados</a></li>
+                                    <li><a href="#">Difusión</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -359,11 +368,11 @@
                         <div id="collapseProductos" class="collapse" aria-labelledby="tituloProductos">
                             <div class="card-body pt-0">
                                 <ul>
-                                    <li><a href="productos.html">Bicicletas</a></li>
-                                    <li><a href="productos.html#linkComp">Componentes</a></li>
-                                    <li><a href="productos.html#linkAcc">Accesorios</a></li>
-                                    <li><a href="productos.html#linkEquip">Equipamiento</a></li>
-                                    <li><a href="productos.html#linkIndu">Indumentaria</a></li>
+                                    <li><a href="index.html#bi">Bicicletas</a></li>
+                                    <li><a href="index.html#co">Componentes</a></li>
+                                    <li><a href="index.html#ac">Accesorios</a></li>
+                                    <li><a href="index.html#eq">Equipamiento</a></li>
+                                    <li><a href="index.html#in">Indumentaria</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -378,9 +387,9 @@
                         <div id="collapseServicios" class="collapse" aria-labelledby="tituloServicios">
                             <div class="card-body pt-0">
                                 <ul>
-                                    <li><a href="servicios.html">Reparaciones</a></li>
-                                    <li><a href="servicios.html#linkBodyGeometry">Body Geometry</a></li>
-                                    <li><a href="servicios.html#linkCapacitacion">Capacitación</a></li>
+                                    <li><a href="#">Reparaciones</a></li>
+                                    <li><a href="#">Body Geometry</a></li>
+                                    <li><a href="#">Capacitación</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -395,11 +404,11 @@
                         <div id="collapseNoticias" class="collapse" aria-labelledby="tituloNoticias">
                             <div class="card-body pt-0">
                                 <ul>
-                                    <li><a href="noticias.html">Videos</a></li>
-                                    <li><a href="noticias.html#linkEventos">Eventos</a></li>
-                                    <li><a href="noticias.html#linkCompe">Competencias</a></li>
-                                    <li><a href="noticias.html#linkApp">App</a></li>
-                                    <li><a href="noticias.html#linkSorteo">Sorteo Anual</a></li>
+                                    <li><a href="#">Videos</a></li>
+                                    <li><a href="#">Eventos</a></li>
+                                    <li><a href="#">Competencias</a></li>
+                                    <li><a href="#">App</a></li>
+                                    <li><a href="#">Sorteo Anual</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -414,8 +423,8 @@
                         <div id="collapseContacto" class="collapse" aria-labelledby="tituloContacto">
                             <div class="card-body pt-0">
                                 <ul>
-                                    <li><a href="contacto.html">Formulario</a></li>
-                                    <li><a href="contacto.html#linkSucursales">Sucursales</a></li>
+                                    <li><a href="#">Formulario</a></li>
+                                    <li><a href="#">Sucursales</a></li>
                                 </ul>
                             </div>
                         </div>

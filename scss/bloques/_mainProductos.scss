@@ -62,7 +62,7 @@ main.productos {
 			height: 2.4rem;
 			display: flex;
 			align-items: center;
-			cursor: pointer;
+			justify-content: center;
 
 			span {
 				padding-left: 1rem;
@@ -80,49 +80,107 @@ main.productos {
 		}
 
 		h4 {
+			text-align: center;
 			font-size: 1.1rem;
 		}
 
-		.row .form-check {
-			transition: all .4s;
+		.btn {
+			display: block;
+			width: 100%;
+			margin: auto;
 
-			label {
-				width: 100%;
-				padding-left: .25rem;
-			}
-
-			&.seleccionado {
-				background-color: #b30404a3;
-				color: white;
-				border-radius: .25rem;
-				padding-left: 2rem;
-			}
-
-			&:not(.seleccionado):not(:nth-of-type(7)):hover {
-				padding-left: 2rem;
-				color: #b30404;
+			&.ocultar {
+				display: none;
 			}
 		}
 
-		label {
-			font-weight: 500;
-		}
-
-		#aplicarFiltros {
+		#verMarcas,
+		#volverMarcas {
 			background-color: #b30404;
+
+			i {
+				font-size: 1.15rem;
+				margin-left: .5rem;
+				vertical-align: text-bottom;
+			}
+		}
+
+		.row {
+			label {
+				font-weight: 500;
+			}
+
+			.form-check {
+				transition: all .4s;
+
+				label {
+					width: 100%;
+					padding-left: .25rem;
+				}
+
+				&.seleccionado {
+					background-color: #b30404a3;
+					color: white;
+					border-radius: .25rem;
+					padding-left: 2rem;
+				}
+
+				&:not(.seleccionado):not(:nth-of-type(7)):hover {
+					padding-left: 2rem;
+					color: #b30404;
+				}
+			}
+
+			.form-group {
+				text-align: center;
+
+				label {
+					margin-bottom: 0;
+				}
+
+				input[type=text] {
+					height: 1.7rem;
+					max-width: 8rem;
+					margin: auto;
+					background-color: #545454;
+					color: white;
+				}
+			}
+		}
+
+		#marcas {
+			position: absolute;
+			top: 0;
+			left: 0;
+			padding: 1rem .5rem;
+			background-color: #545454;
+			color: white;
+			font-size: .9rem;
+			height: 100%;
+			width: 100%;
+			border-radius: .25rem;
+			border: 3px solid #545454;
+			z-index: 1000;
+			display: none;
+			overflow-y: auto;
+
+			.form-check {
+				margin-bottom: .5rem;
+
+				label {
+					vertical-align: middle;
+				}
+			}
 		}
 
 		@include responsive(xs) {
 			h3 {
-				justify-content: center;
+				cursor: pointer;
 			}
 
 			#contenedorFiltros {
 				display: none;
 
-				h4 {
-					text-align: center;
-				}
 
 				.form-check {
 					width: 70%;
@@ -133,17 +191,22 @@ main.productos {
 					}
 				}
 
-				.form-group {
-					text-align: center;
+				.btn {
+					width: 70%;
+				}
+			}
+
+			#marcas {
+				.form-check {
+					margin-bottom: .5rem;
+
+					label {
+						vertical-align: sub;
+					}
 				}
 			}
 		}
 	}
-}
-
-
-.ocultar {
-	display: none;
 }
 
 /******************* Main de productos.html - Fin **************/

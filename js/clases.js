@@ -74,16 +74,27 @@ class CarritoUsuario {
     }
 }
 
+// Clase para los objetos marcas presentes en la selección madre
+// (Filtro de Busqueda por palabra, categoria o destacado) del usuario 
+class ItemMarca {
+    constructor(marca, cant) {
+        this.marca = marca;
+        this.cant = cant;
+    }
+}
+
 
 // Clase para el objeto representativo de la compra, que guarda info del cliente, carrito y pago  
 class Compra {
-    constructor(nombre, apellido, email, direcc, tarjNum, tarjNom, tarjCVV, carrito, cuotas, total) {
+    constructor(nombre, apellido, email, direcc, tarjNum, tarjNom, vtoM, vtoA, tarjCVV, carrito, cuotas, total) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.direcc = direcc;
         this.tarjetaNumero = tarjNum;
         this.tarjetaNombre = tarjNom;
+        this.vencimientoMes = vtoM;
+        this.vencimientoAnio = vtoA;
         this.tarjetaCVV = tarjCVV;
         this.carrito = carrito;
         this.cuotas = cuotas;
