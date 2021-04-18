@@ -604,11 +604,15 @@ main.compra {
     main.compra #checkOutCompra form fieldset:nth-of-type(1) input {
       font-size: .75rem; }
     main.compra #detalleCompra .table tbody td:nth-child(2) {
-      padding: 0; } }
+      padding: 0; }
+    main.compra #detalleCompra .formaPago {
+      width: 65%; } }
   @media only screen and (max-width: 500px) {
     main.compra #checkOutCompra form fieldset:nth-of-type(1) {
       width: 100%;
       padding: .5rem; }
+    main.compra #checkOutCompra form #contenedorCuotas label span {
+      padding-right: .5rem; }
     main.compra #detalleCompra > h2 {
       font-size: 1.5rem; }
     main.compra #detalleCompra .table thead th {
@@ -1058,6 +1062,12 @@ nav.navbar {
 
 #modalCarrito #totalCarrito {
   font-size: 2rem; }
+
+@media only screen and (max-width: 500px) {
+  #modalCarrito .table td:nth-child(5) button {
+    margin-right: 5px;
+    margin-top: 2px;
+    width: 1.5rem; } }
 
 #modalMensajes {
   display: block;

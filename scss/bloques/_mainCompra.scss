@@ -295,6 +295,10 @@ main.compra {
                     }
                 }
             }
+
+            .formaPago {
+                width: 65%;
+            }
         }
     }
 
@@ -304,6 +308,12 @@ main.compra {
                 fieldset:nth-of-type(1) {
                     width: 100%;
                     padding: .5rem;
+                }
+
+                #contenedorCuotas label {
+                    span {
+                        padding-right: .5rem;
+                    }
                 }
             }
         }

@@ -105,6 +105,18 @@
 	#totalCarrito {
 		font-size: 2rem;
 	}
+
+	@include responsive(500px) {
+		.table td {
+			&:nth-child(5) {
+				button {
+					margin-right: 5px;
+					margin-top: 2px;
+					width: 1.5rem;
+				}
+			}
+		}
+	}
 }
 
 // Modal parar mensajes info y confirm
