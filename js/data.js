@@ -57,7 +57,7 @@ function dolarAjax() {
     });
 }
 
-// Recorre el array devuelto por el servidor y obtiene la cotización del Dolar Oficial
+// Recorre el array devuelto por el sitio dolarsi.com y obtiene la cotización del Dolar Oficial
 function dolarOficial(vectorDolar) { 
     for (const valor of vectorDolar) {
         if (valor.casa.nombre == "Dolar Oficial") {

@@ -52,7 +52,7 @@ function formatoPrecio(num) { // Función para dar formato de precio con separad
     return num;
 }
 
-function quitarDecimales(string) { // quita los decimales del string pasado por formatoPrecio
+function quitarDecimales(string) { // Quita los decimales del string pasado por formatoPrecio
     string = string.slice(0, string.indexOf(","));
     return string;
 }

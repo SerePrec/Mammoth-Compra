@@ -72,8 +72,8 @@
                         <a class="nav-link" href="#">SERVICIOS</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownNoticias"
-                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">NOTICIAS
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownNoticias" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">NOTICIAS
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownNoticias">
                             <a class="dropdown-item" href="#">VIDEOS</a>
@@ -119,6 +119,7 @@
         <!-- Sección de compras -->
         <div class="container-xl">
 
+            <!---------------------- Breadcrumb ------------------------>
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Inicio</a></li>
@@ -129,9 +130,10 @@
             </nav>
 
 
-
+            <!---------------------- Checkout - inicio ------------------------>
             <div id="checkOutCompra" class="row mx-0 mr-md-n3">
 
+                <!----------------- Columna de resumen de compra ------------------->
                 <div class="col-md-5 mb-4 resumenCompra">
                     <h3>Resumen de compra</h3>
                     <table class="table">
@@ -141,12 +143,10 @@
                     <div class="importe">
                         <p></p>
                     </div>
-
-
                 </div>
 
+                <!----------------- Columna de formulario ------------------->
                 <div class="col-md-7">
-
                     <form id="formularioCompra">
                         <div class="form-group row">
                             <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
@@ -176,9 +176,11 @@
                                     placeholder="Ingrese su dirección COMPLETA" required>
                             </div>
                         </div>
+
+                        <!----------------- Datos de tarjeta de crédito ------------------->
                         <fieldset class="form-group">
                             <legend class="col-form-label">Datos de su tarjeta</legend>
-                            <div id ="tarjetaCredito" class="form-group row justify-content-center py-2">
+                            <div id="tarjetaCredito" class="form-group row justify-content-center py-2">
                                 <label class="col-2 col-form-label">Número</label>
                                 <div class="col-2 px-1">
                                     <input type="text" class="form-control text-center" placeholder="XXXX" maxlength="4"
@@ -206,12 +208,12 @@
                             <div class="form-group row justify-content-center py-2">
                                 <label class="col-2 col-form-label">Vto</label>
                                 <div class="col-2 px-1">
-                                    <input type="text" class="form-control text-center" id="inputMM"
-                                        placeholder="MM" maxlength="2" pattern="(0[0-9]|1[0-2])" title="Mes Formato MM" required>
+                                    <input type="text" class="form-control text-center" id="inputMM" placeholder="MM"
+                                        maxlength="2" pattern="(0[0-9]|1[0-2])" title="Mes Formato MM" required>
                                 </div>
                                 <div class="col-2 px-1">
-                                    <input type="text" class="form-control text-center" id="inputAA"
-                                        placeholder="AA" maxlength="2" pattern="(2[1-9]|[3-9][0-9])" title="Año Formato AA" required>
+                                    <input type="text" class="form-control text-center" id="inputAA" placeholder="AA"
+                                        maxlength="2" pattern="(2[1-9]|[3-9][0-9])" title="Año Formato AA" required>
                                 </div>
                                 <div class="offset-1 col-3 px-1">
                                     <input type="password" class="form-control text-center" id="inputCVV"
@@ -219,6 +221,8 @@
                                 </div>
                             </div>
                         </fieldset>
+
+                        <!----------------- cuotas ------------------->
                         <fieldset class="form-group py-3 cuotas">
                             <div class="row" style="display:none">
                                 <legend class="col-form-label col-sm-2 pt-0 pr-0">Cuotas</legend>
@@ -235,10 +239,10 @@
                             </div>
                         </div>
                     </form>
-
                 </div>
 
             </div>
+            <!---------------------- Checkout - Fin ------------------------>
         </div>
 
     </main>
@@ -556,7 +560,7 @@
     </div>
     <!--------------- Botón Fijo - Fin -------------------->
 
-    <!---------------- Modal para mensajes ---------------->
+    <!---------------- Modal para mensajes - inicio ---------------->
     <div id="modalMensajes" class="modal" tabindex="-1">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content loader">
@@ -569,7 +573,7 @@
         </div>
     </div>
     <div id="modalMensajesFondo" class="modal-backdrop"></div>
-    <!---------------- Modal para mensajes ---------------->
+    <!---------------- Modal para mensajes - Fin ---------------->
 
 
     <!--------------------------->

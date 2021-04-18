@@ -225,7 +225,7 @@ function enviarPago() {
         },
         complete: function () {
             $divModalMensajes.find(".modal-body h4").text("Validando Pago...");
-            // Simulo un tienpo de unos segundos de validación del pago una vez
+            // Simulo un tiempo de unos segundos de validación del pago una vez
             // que obtengo la respuesta del servidor y completo sucess
             setTimeout(function () {
                 $divModalMensajes.removeClass("show");

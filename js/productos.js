@@ -1,20 +1,9 @@
-/* 
-TODO:
-
-Consigna: 
-TODO:
-
-
-Planteo:
-TODO:
-
-
-
-*/
-
 // **************************************************************************//
 // ************************ Uso de archivos externos ************************//
 // **************************************************************************//
+
+// Funciones para formateo de los precios**************************************
+// Ver archivo base.js **************
 
 // Definición de clases *******************************************************
 // Ver archivo clases.js **************
@@ -120,8 +109,8 @@ const iniciar = () => { // Ejecuta el inicio del simulador
 
     // esto lo hago para que no se pierda el carrito si el usuario anónimo vuelve hacia atrás en el porceso.
     // comp definí que los carritos no se cargan automáticamente si no hay usuario cargado, al volver y
-    // recargarse la página no lo cragaría y se perdería la selección. De esta manera al almacenar en el sessionStorage
-    // esta clave, doy por entendido que ya estuvo en esa página y está regresando al sector de showroom.
+    // recargarse la página no lo cargaría y se perdería la selección. De esta manera al almacenar en el sessionStorage
+    // esta clave, doy por entendido que ya estuvo en esta página y está regresando al sector de showroom.
     sessionStorage.setItem("estuvoEnCompra", true);
 
     console.log(carritoUsuario); // Información de control interno
@@ -396,7 +385,7 @@ function listarMarcas(vectorAProcesar) { // Encuentra las marcas y los productos
         let coincidencia = listadoMarcas.find(prod => prod.marca == marca);
         if (coincidencia) { // si ya existía la marca en el array, le suma una unidad
             coincidencia.cant++;
-        } else { // sino, agrega la marca al carrito
+        } else { // sino, agrega la marca al listado
             listadoMarcas.push(new ItemMarca(marca, 1));
         }
     }
@@ -405,7 +394,7 @@ function listarMarcas(vectorAProcesar) { // Encuentra las marcas y los productos
 }
 
 
-function mostrarListadoMarcas(vectorMarcas) { // Genera el HTML del array de marcas enconrtradas
+function mostrarListadoMarcas(vectorMarcas) { // Genera el HTML del array de marcas encontradas
     let codigoHTML = "";
     for (const item of vectorMarcas) {
         codigoHTML += `
@@ -457,7 +446,7 @@ function seteoRangoPrecios(vectorAProcesar) { // Controla la selección del rang
         if (precio > precioMaximo) precioMaximo = precioMaxSel = precio;
         if (precio < precioMinimo) precioMinimo = precioMinSel = precio;
     }
-    // esos valores extremos se muestran el los input
+    // esos valores extremos se muestran el los inputs
     $inputPrecioMinimo.val(`$${quitarDecimales(formatoPrecio(Math.ceil(precioMinimo)))}`);
     $inputPrecioMaximo.val(`$${quitarDecimales(formatoPrecio(Math.ceil(precioMaximo)))}`);
     if (vectorAProcesar.length == 1) { // si hay un solo producto, se bloquean los controles "range" ya que no tiene sentido seleccionar un rango de precios 
@@ -475,7 +464,7 @@ function actFiltroPrecioMax(e) { // Se encarga de ir actualizando el valor del i
     // opto por una escala no lineal porque se hace dificil seleccionar con tanto rango de precio
     precioMaxSel = (precioMinimo + (precioMaximo - precioMinimo) * ($(e.target).val()) ** 2 / 10000);
 
-    if (precioMinSel >= precioMaxSel) { // Si quiere sellecionar un rango ilógico, se fija el valor compatible según la selección del otro control
+    if (precioMinSel >= precioMaxSel) { // Si quiere selecionar un rango ilógico, se fija el valor compatible según la selección del otro control
         $(e.target).next().val($inputPrecioMinimo.val());
         precioMaxSel = precioMinSel;
     } else {
@@ -488,7 +477,7 @@ function actFiltroPrecioMin(e) { // Se encarga de ir actualizando el valor del i
     // opto por una escala no lineal porque se hace dificil seleccionar con tanto rango de precio
     precioMinSel = (precioMinimo + (precioMaximo - precioMinimo) * ($(e.target).val()) ** 2 / 10000);
 
-    if (precioMinSel >= precioMaxSel) { // Si quiere sellecionar un rango ilógico, se fija el valor compatible según la selección del otro control
+    if (precioMinSel >= precioMaxSel) { // Si quiere selecionar un rango ilógico, se fija el valor compatible según la selección del otro control
         $(e.target).next().val($inputPrecioMaximo.val());
         precioMinSel = precioMaxSel;
     } else {
@@ -507,7 +496,7 @@ function filtrarRangoPrecio(vectorAFiltrar) { // filtra el vector pasado según 
 }
 
 
-function actCantProductosEncontrados(vectorAContar) { // Actualiza el contador de prodcutos encontrados según los criterios
+function actCantProductosEncontrados(vectorAContar) { // Actualiza el contador de productos encontrados según los criterios
     let encontrados = vectorAContar.length;
     if (encontrados == 1) {
         $("#cantProductosEncontrados").text(`${encontrados} producto`);
@@ -598,7 +587,7 @@ function mostrarProductos(vectorProductos) { // Carga los productos en la págin
 
 function actualizarInfoTarjetas() { // en lugar de cambiar la cantidad de la tarjeta asociada al evento agregar, eliminar prodcuto, etc, se
     // actualiza el conjuto de información mostrada en ese momento por si a futuro desde un servidor vienen los datos actualizados y hay otros
-    //productos distintos al que interactuamos que cambiaron su disponibilidad por acciones de otros usuarios
+    // productos distintos al que interactuamos que cambiaron su disponibilidad por acciones de otros usuarios
 
     let $botonesTarjetas = $("#contenedorProductos .card-body button");
 
@@ -684,7 +673,7 @@ function agregarCarrito(prodId, cant) { //agrega los productos al carrito y los 
     // hago las actualizaciones correspondientes
     animarIconoCarritoIn();
     actualizarCarritoEnStorage();
-    actualizarInfoTarjetas(productosFiltradosCliente);
+    actualizarInfoTarjetas();
 }
 
 
@@ -777,9 +766,9 @@ function mostrarCarrito() { //genera el HTML para la ventana modal del carrito
     if (carritoUsuario.miSeleccion.length == 0) { // si el carrito esta vacio, manejo display:none para mostrar la sección correspondiente
         $htmlCarritoNoVacio.hide();
         $htmlCarritoVacio.show();
-    } else { // Si tiene productos, manejo display:node para mostrar la sección correspondinte
+    } else { // Si tiene productos, manejo display:none para mostrar la sección correspondinte
         // si esta abierto no lo oculto para no generar una nueva animación. De lo contrario,
-        // lo oculto para habilitar la animacón finaldel slideDown
+        // lo oculto para habilitar la animación final del slideDown
         if (!carritoAbierto) $htmlCarritoNoVacio.hide();
         $htmlCarritoVacio.hide();
 

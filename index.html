@@ -72,8 +72,8 @@
                         <a class="nav-link" href="#">SERVICIOS</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownNoticias"
-                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">NOTICIAS
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownNoticias" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">NOTICIAS
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownNoticias">
                             <a class="dropdown-item" href="#">VIDEOS</a>
@@ -131,6 +131,7 @@
         <!-- Sección de compras -->
         <div class="container-xl">
 
+            <!---------------------- Breadcrumb ------------------------>
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Inicio</a></li>
@@ -143,8 +144,10 @@
                 </div>
             </nav>
 
-
+            <!---------------------- Show Room - Inicio ------------------------>
             <div class="row mx-0 mr-sm-n3 showRoom">
+
+                <!---------------------- Columna filtros - Inicio ------------------------>
                 <div id="filtros" class="col-sm-3 col-xl-2 mb-4">
                     <h3>Filtros <span><img src="./img/filtros.png" alt=""></span></h3>
                     <div id="contenedorFiltros">
@@ -152,7 +155,8 @@
 
                         <button type="button" id="filtroBuscar"
                             class="btn btn-sm btn-outline-secondary ocultar mb-2">BUSQUEDA
-                            <span>[&times;]</span></button>
+                            <span>[&times;]</span>
+                        </button>
 
                         <div class="row">
                             <div class="col-sm-12">
@@ -205,7 +209,8 @@
                                         Solo Destacados
                                     </label>
                                 </div>
-                                <button type="button" id="verMarcas" class="btn btn-sm btn-danger mb-3">MARCAS<i class="fa fa-toggle-off"></i></button>
+                                <button type="button" id="verMarcas" class="btn btn-sm btn-danger mb-3">MARCAS<i
+                                        class="fa fa-toggle-off"></i></button>
                                 <div class="form-group">
                                     <label for="inputPrecioMin">Precio Mínimo $</label>
                                     <input type="range" class="form-control-range" id="rangoPrecioMin" min="0" max="100"
@@ -223,18 +228,17 @@
                             </div>
                         </div>
                         <div id="marcas">
-                            <button type="button" id="volverMarcas"
-                                class="btn btn-sm btn-danger mb-3">Volver</button>
+                            <button type="button" id="volverMarcas" class="btn btn-sm btn-danger mb-3">Volver</button>
                             <div id="contenedorMarcas"></div>
-
-
                         </div>
                     </div>
-
                 </div>
+                <!---------------------- Columna filtros - Fin ------------------------>
 
+                <!---------------------- Columna Productos - inicio ------------------------>
                 <div class="col-sm-9 col-xl-10 colProductos">
 
+                    <!---------------------- Zona buscar / ordenar ------------------------>
                     <div class="col-12 mb-3 buscarOrdenar">
                         <div class="form-inline">
                             <input type="search" id="inputBuscar" class="form-control mr-0 w-50"
@@ -253,15 +257,18 @@
                         </div>
                     </div>
 
+                    <!---------------------- Contenedor de tarjeta productos ------------------------>
                     <div id="contenedorProductos" class="row row-cols-1 row-cols-md-2 row-cols-xl-3">
                         <div class="loader">Cargando ...</div>
                     </div>
                 </div>
+                <!---------------------- Columna Productos - Fin ------------------------>
 
             </div>
+            <!---------------------- Show Room - Fin ------------------------>
         </div>
 
-        <!-- Modal Carrito -->
+        <!-- Modal Carrito - inicio -->
         <div class="modal fade" id="modalCarrito" data-backdrop="static" data-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable">
@@ -296,8 +303,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
+        <!-- Modal Carrito - Fin -->
 
     </main>
     <!---------------------- MAIN - Fin ------------------------>
@@ -614,7 +621,7 @@
     </div>
     <!--------------- Botón Fijo - Fin -------------------->
 
-    <!---------------- Modal para mensajes ---------------->
+    <!---------------- Modal para mensajes - inicio ---------------->
     <div id="modalMensajes" class="modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -634,7 +641,7 @@
         </div>
     </div>
     <div id="modalMensajesFondo" class="modal-backdrop"></div>
-    <!---------------- Modal para mensajes ---------------->
+    <!---------------- Modal para mensajes - Fin ---------------->
 
     <!--------------------------->
     <!--------- SCRIPTS --------->
@@ -662,7 +669,7 @@
 
     <!--------- SCRIPTS --------->
     <!--------------------------->
-    
+
 </body>
 <!----------------------------------------->
 <!-----------------BODY ------------------->

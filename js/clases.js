@@ -20,11 +20,11 @@ class Producto {
         this.destacado = objeto.destacado;
     }
 
-    precioLF() { // devuelve precio de venta final
+    precioLF() { // devuelve precio de lista final
         return this.precioLista * 1.21 * dolarVenta;
     }
 
-    precioVF() { // devuelve precio de venta final
+    precioVF() { // devuelve precio de venta final (con descuentos si tiene)
         return (this.precioLista * (1 - (this.descuento / 100)) * 1.21) * dolarVenta;
     }
 
