@@ -37,7 +37,6 @@ function formatoPrecio(num) { // Función para dar formato de precio con separad
         entero = num.slice(0, num.indexOf("."));
         decimales = (num.slice(num.indexOf("."))).replace(".", ",");
     }
-    console.log(entero, decimales)
     let enteroFormateado = "";
     for (let i = 1; i <= entero.length; i++) {
         if (i % 3 == 0) {

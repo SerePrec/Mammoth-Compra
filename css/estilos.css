@@ -398,7 +398,8 @@ main.productos {
       color: #b30404; }
     .colProductos #contenedorProductos .card .card-body p:nth-of-type(2) del {
       color: #545454;
-      margin-left: .25rem; }
+      margin-left: .1rem;
+      font-size: 0.95rem; }
   .colProductos #contenedorProductos .card .card-body p:nth-of-type(3) {
     position: absolute;
     width: 100%;
