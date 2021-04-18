@@ -122,7 +122,7 @@ function mostrarResumenCompra() { //genera el HTML para la zona de resumen de co
                 <td><img src="img/productos/${productoItem.imagen}" class="card-img-top" alt=""></td>
                 <td>${productoItem.descripcion}</td>
                 <td class="text-center">${item.cant}x</td>
-                <td class="text-right font-weight-bold">$${productoItem.precioVF().toFixed(2)}</td>
+                <td class="text-right font-weight-bold">$${formatoPrecio(productoItem.precioVF())}</td>
             </tr>`;
 
         arrayFilas.push(fila);
@@ -131,7 +131,7 @@ function mostrarResumenCompra() { //genera el HTML para la zona de resumen de co
 
     $contenedorResumenCompra.append(arrayFilas); // inserto el HTML de la tabla en el contenedor por medio de un array
     acumulado = total
-    $importe.html("Total de compra $" + total.toFixed(2)); // inserto el HTML del total en el elemento predefinido correspondiente
+    $importe.html("Total de compra $" + formatoPrecio(total)); // inserto el HTML del total en el elemento predefinido correspondiente
 
     // finalmente calculo el importe de cada cuota según su interés y genero dinámicamente el HTML
     // del interior del contenedor de cuotas
@@ -145,35 +145,35 @@ function mostrarResumenCompra() { //genera el HTML para la zona de resumen de co
                 <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio1"
                     value="1" checked>
                 <label class="form-check-label" for="inputRadio1">
-                    <span>1 Cuota de $${acumulado.toFixed(2)}</span>
+                    <span>1 Cuota de $${formatoPrecio(acumulado)}</span>
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio2"
                     value="3">
                 <label class="form-check-label" for="inputRadio2">
-                <span>3 Cuotas de $${importeC3.toFixed(2)}</span><i> (Int.: ${interes3Cuotas}%) Total: $${(importeC3*3).toFixed(2)}</i>
+                <span>3 Cuotas de $${formatoPrecio(importeC3)}</span><i> (Int.: ${interes3Cuotas}%) Total: $${formatoPrecio(importeC3*3)}</i>
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio3"
                     value="6">
                 <label class="form-check-label" for="inputRadio3">
-                <span>6 Cuotas de $${importeC6.toFixed(2)}</span><i> (Int.: ${interes6Cuotas}%) Total: $${(importeC6*6).toFixed(2)}</i>
+                <span>6 Cuotas de $${formatoPrecio(importeC6)}</span><i> (Int.: ${interes6Cuotas}%) Total: $${formatoPrecio(importeC6*6)}</i>
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio4"
                     value="12">
                 <label class="form-check-label" for="inputRadio4">
-                <span>12 Cuotas de $${importeC12.toFixed(2)}</span><i> (Int.: ${interes12Cuotas}%) Total: $${(importeC12*12).toFixed(2)}</i>
+                <span>12 Cuotas de $${formatoPrecio(importeC12)}</span><i> (Int.: ${interes12Cuotas}%) Total: $${formatoPrecio(importeC12*12)}</i>
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="numCuotas" id="inputRadio5"
                     value="18">
                 <label class="form-check-label" for="inputRadio5">
-                <span>18 Cuotas de $${importeC18.toFixed(2)}</span><i> (Int.: ${interes18Cuotas}%) Total: $${(importeC18*18).toFixed(2)}</i>
+                <span>18 Cuotas de $${formatoPrecio(importeC18)}</span><i> (Int.: ${interes18Cuotas}%) Total: $${formatoPrecio(importeC18*18)}</i>
                 </label>
             </div>`);
 }
@@ -340,7 +340,7 @@ function cargarDetalleCompra(vectorComprado) { // carga el detalle final de la c
                         <td><img src="img/productos/${productoItem.imagen}" class="card-img-top" alt=""></td>
                         <td>${productoItem.descripcion}</td>
                         <td class="text-center">${item.cant}</td>
-                        <td class="text-right font-weight-bold">$${(productoItem.precioVF() * item.cant).toFixed(2)}</td>
+                        <td class="text-right font-weight-bold">$${formatoPrecio(productoItem.precioVF() * item.cant)}</td>
                     </tr>`;
     }
 
@@ -350,14 +350,14 @@ function cargarDetalleCompra(vectorComprado) { // carga el detalle final de la c
                         <td></td>
                         <td></td>
                         <td class="text-center font-weight-bold" >TOTAL</td>
-                        <td class="text-right font-weight-bold" >$${acumulado.toFixed(2)}</td>
+                        <td class="text-right font-weight-bold" >$${formatoPrecio(acumulado)}</td>
                     </tr>
                 </tbody>
             </table>
             <div class="formaPago">
                 <h4>Forma De Pago</h4>
-                <p>${cuotas} Cuota/s de: $${importeCuota.toFixed(2)}</p>
-                <p>Total a pagar (*): $${(cuotas*importeCuota).toFixed(2)}</p>
+                <p>${cuotas} Cuota/s de: $${formatoPrecio(importeCuota)}</p>
+                <p>Total a pagar (*): $${formatoPrecio(cuotas*importeCuota)}</p>
             </div>
             <p class="leyenda">(*)Incluye impuestos y financiación</p>`;
 

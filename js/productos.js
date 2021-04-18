@@ -458,8 +458,8 @@ function seteoRangoPrecios(vectorAProcesar) { // Controla la selección del rang
         if (precio < precioMinimo) precioMinimo = precioMinSel = precio;
     }
     // esos valores extremos se muestran el los input
-    $inputPrecioMinimo.val(`$${Math.ceil(precioMinimo)}`);
-    $inputPrecioMaximo.val(`$${Math.ceil(precioMaximo)}`);
+    $inputPrecioMinimo.val(`$${quitarDecimales(formatoPrecio(Math.ceil(precioMinimo)))}`);
+    $inputPrecioMaximo.val(`$${quitarDecimales(formatoPrecio(Math.ceil(precioMaximo)))}`);
     if (vectorAProcesar.length == 1) { // si hay un solo producto, se bloquean los controles "range" ya que no tiene sentido seleccionar un rango de precios 
         $rangoPrecioMinimo.val(50).attr("disabled", true);
         $rangoPrecioMaximo.val(50).attr("disabled", true);
@@ -479,7 +479,7 @@ function actFiltroPrecioMax(e) { // Se encarga de ir actualizando el valor del i
         $(e.target).next().val($inputPrecioMinimo.val());
         precioMaxSel = precioMinSel;
     } else {
-        $(e.target).next().val(`$${Math.ceil(precioMaxSel)}`);
+        $(e.target).next().val(`$${quitarDecimales(formatoPrecio(Math.ceil(precioMaxSel)))}`);
     }
 }
 
@@ -492,7 +492,7 @@ function actFiltroPrecioMin(e) { // Se encarga de ir actualizando el valor del i
         $(e.target).next().val($inputPrecioMaximo.val());
         precioMinSel = precioMaxSel;
     } else {
-        $(e.target).next().val(`$${Math.ceil(precioMinSel)}`);
+        $(e.target).next().val(`$${quitarDecimales(formatoPrecio(Math.ceil(precioMinSel)))}`);
     }
 }
 
@@ -544,7 +544,7 @@ function mostrarProductos(vectorProductos) { // Carga los productos en la págin
             if (producto.descuento > 0) {
                 codigoHTML += `
                     <div class="descuento">-${producto.descuento}%</div>`;
-                precioSinDescuento = `<del>$${producto.precioLF().toFixed(2)}<del>`;
+                precioSinDescuento = `<del>$${formatoPrecio(producto.precioLF())}<del>`;
             }
 
             codigoHTML += `
@@ -552,7 +552,7 @@ function mostrarProductos(vectorProductos) { // Carga los productos en la págin
                     <div class="card-body">
                         <h5 class="card-title">${producto.marca}</h5>
                         <p class="card-text">${producto.descripcion}</p>
-                        <p class="my-2"><b>Precio: $${producto.precioVF().toFixed(2)}</b> ${precioSinDescuento}</p>
+                        <p class="my-2"><b>Precio: $${formatoPrecio(producto.precioVF())}</b> ${precioSinDescuento}</p>
                         <p class="my-2">Disponible: ${producto.stock}u</p>`;
 
             if (producto.stock > 0) { // Si se puede vender genera los botones de agregar y el input de cantidad
@@ -793,7 +793,7 @@ function mostrarCarrito() { //genera el HTML para la ventana modal del carrito
                     <td><img src="img/productos/${productoItem.imagen}" class="card-img-top" alt=""></td>
                     <td>${productoItem.descripcion}</td>
                     <td class="text-center">${item.cant}x</td>
-                    <td class="text-right font-weight-bold">$${productoItem.precioVF().toFixed(2)}</td>
+                    <td class="text-right font-weight-bold">$${formatoPrecio(productoItem.precioVF())}</td>
                     <td class="text-right font-weight-bold">
                         <button class="menos" type="button" data-producto-id="${productoItem.id}">-</button>
                         <button class="eliminar" type="button" data-producto-id="${productoItem.id}">x</button>
@@ -806,7 +806,7 @@ function mostrarCarrito() { //genera el HTML para la ventana modal del carrito
         $contenedorItemsCarrito.append(arrayFilas);
 
         acumulado = total;
-        $totalCarrito.text("$" + total.toFixed(2)); // inserto el importe total acumulado en la respectiva seccion del HTML
+        $totalCarrito.text("$" + formatoPrecio(total)); // inserto el importe total acumulado en la respectiva seccion del HTML
         $htmlCarritoNoVacio.delay(500).slideDown(1200); // Genero la animación desplegable con un delay previo para dar lugar a que el html generado este cargado
         carritoAbierto = true;
     }

@@ -50,7 +50,7 @@ function dolarAjax() {
             $(".dolar")
                 .slideUp("slow", function () {
                     $(this)
-                        .children("p").text(`${dolarCompra.toFixed(2)} / ${dolarVenta.toFixed(2)}`)
+                        .children("p").text(`${formatoPrecio(dolarCompra)} / ${formatoPrecio(dolarVenta)}`)
                         .parent().slideDown("slow");
                 })
         },
